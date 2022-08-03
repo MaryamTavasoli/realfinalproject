@@ -17,36 +17,34 @@ public class DatabaseInitializer {
     private void initUserTable(Statement statement) throws SQLException {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "User(id varchar(20) PRIMARY KEY," +
                 "password varchar(20),entered boolean,nationalCode varchar(20),businessAccount varchar(20)," +
-                "followerIds varchar(100),followingIds varchar(100),postIds varchar(100),messageIds varchar(100)," +
-                "allFriendIds varchar(100),ImageAddress varchar(100),backGround varchar(100))");
+                "followers varchar(100),followings varchar(100),posts varchar(100),messages varchar(100)," +
+                "allFriends varchar(100))");
     }
 
     private void initPostTable(Statement statement) throws SQLException {
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Post(id varchar(20) PRIMARY KEY,userId varchar(20),postText varchar(100)," +
-                "likeUsers varchar(20),comments varchar(100),image varchar(100))");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Post(id varchar(20) PRIMARY KEY,postText varchar(20)," +
+                "postUser varchar(20),likeUsers varchar(20),comments varchar(20))");
     }
 
     private void initMessageTable(Statement statement) throws SQLException {
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Message(id int PRIMARY KEY,messageText varchar(100)," +
-                "forwarded boolean,localDate varchar(20),sender varchar(20),receiver varchar(20),seen boolean,time varchar(20))");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Message(id int PRIMARY KEY,messageText varchar(20)," +
+                "forwarded boolean,localDate varchar(20),sender varchar(20),receiver varchar(20))");
     }
     private void initGroupMessageTable(Statement statement) throws SQLException {
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "GroupMessage(id varchar(20) PRIMARY KEY,groupText varchar(100)," +
-                "localDate varchar(20),groupId varchar(20),sender varchar(20),seen varchar(100),time varchar(20))");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "GroupMessage(id varchar(20) PRIMARY KEY,groupText varchar(20)," +
+                "localDate varchar(20),grp varchar(20),sender varchar(20))");
     }
     private void initGroupTable(Statement statement) throws SQLException {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Grp(id varchar(20) PRIMARY KEY,name varchar(20),admin varchar(20)," +
-                "users varchar(100),banned varchar(100),groupMessage varchar(100),image varchar(100))");
+                "users varchar(20),banned varchar(20),groupMessage varchar(20))");
     }
     private void initBlock(Statement statement) throws SQLException{
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "BlockUser(id " +
                 "int PRIMARY KEY,blocker varchar(20),blocked varchar(20))");
     }
     private void initBusinessPost(Statement statement) throws SQLException{
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "businessPost(id varchar(20) PRIMARY KEY" +
-                ",userId varchar(20),postText varchar(100)," +
-                "likeUsers varchar(20),comments varchar(100),viewers varchar(100),releasedTime varchar(20)," +
-                "likesUsersForTable varchar(100),likesLocalDateForTable varchar(100),viewUsersForTable varchar(100)" +
-                ",viewLocalDatesForTable varchar(100),favoriteNumberUser varchar(100),favoriteNumberDouble varchar(100),image varchar(100))");
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "businessPost(id varchar(20) PRIMARY KEY,postText varchar(20)," +
+                "postUser varchar(20),likeUsers varchar(20),comments varchar(20),viewers varchar(20),releasedTime varchar(20)," +
+                "likes varchar(20),views varchar(20),favoriteNumbers varchar(20))");
     }
 }

@@ -1,19 +1,18 @@
 package com.example.realfinalproject;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Manager {
-    public static ArrayList<User> users=new ArrayList<>(0);
-    public static ArrayList<BusinessUser>businessUsers=new ArrayList<>(0);
-    public static ArrayList<Post> posts=new ArrayList<>(0);
-    public static ArrayList<BusinessPost> businessPosts=new ArrayList<>(0);
-    public static ArrayList<Message>messages=new ArrayList<>(0);
-    public static ArrayList<Block>blocks=new ArrayList<>(0);
-    public static ArrayList<Group> groups=new ArrayList<>(0);
-    public static ArrayList<GroupMessage>groupMessages=new ArrayList<>(0);
+    public static ArrayList<User> users=new ArrayList<>();
+    public static ArrayList<BusinessUser>businessUsers=new ArrayList<>();
+    public static ArrayList<Post> posts=new ArrayList<>();
+    public static ArrayList<BusinessPost> businessPosts=new ArrayList<>();
+    public static ArrayList<Message>messages=new ArrayList<>();
+    public static ArrayList<Block>blocks=new ArrayList<>();
+    public static ArrayList<Group> groups=new ArrayList<>();
+    public static ArrayList<GroupMessage>groupMessages=new ArrayList<>();
     public Scanner sc=new Scanner(System.in);
     public boolean searchIds(String id)
     {
@@ -90,8 +89,7 @@ public class Manager {
         for (int i = 0; i < posts.size(); i++) {
             if(posts.get(i).Id.equals(postId))
             {
-                User user = findId(posts.get(i).userId);
-                return user;
+                return posts.get(i).user;
             }
         }
         return null;
@@ -124,31 +122,13 @@ public class Manager {
         }
         return null;
     }
-    public Message findMessageByTime(String time){
-        for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i).getTime().equals(time)){
-                return messages.get(i);
-            }
-        }
-        return null;
-    }
-    public GroupMessage findGroupMessageByTime(String time){
-        for (int i = 0; i < groupMessages.size(); i++) {
-            if (groupMessages.get(i).getTime().equals(time)){
-                return groupMessages.get(i);
-            }
-        }
-        return null;
-    }
     //main functions
     public void register(String[] splitInput)
     {
-        if (searchIds(splitInput[1]))
-        {
+        if (searchIds(splitInput[1])){
             System.out.println("this id has been selected choose another id...");
         }
-        else
-        {
+        else{
             if (splitInput[2].length()<8){
                 System.out.println("choose another password...");
             }
@@ -173,41 +153,38 @@ public class Manager {
                         users.add(businessUser);
                         System.out.println("registered successfully");
                     }
-                    else
-                    {
+                    else{
                         System.out.println("this id had been chosen before...");
                     }
                 }
             }
         }
     }
-    public String login(String[] splitInput)
+    public void login(String[] splitInput)
     {
-        String str="";
         if (searchIds(splitInput[1])){
             if (splitInput[2].equals("forgot")){
                 if (checkNationalCode(splitInput[1],splitInput[3] )!=null){
-                    str="logged in successfully";
+                    System.out.println("logged in successfully");
                     checkNationalCode(splitInput[1],splitInput[3] ).setEntered(true);
                 }
                 else{
-                    str="invalid national code...";
+                    System.out.println("invalid national code...");
                 }
             }
             else{
                 if (matchIdAndPassword(splitInput[1], splitInput[2]) != null) {
                     matchIdAndPassword(splitInput[1], splitInput[2]).setEntered(true);
-                    str="logged in successfully";
+                    System.out.println("logged in successfully");
                 }
                 else {
-                    str="Id and password not matched";
+                    System.out.println("Id and password not matched");
                 }
             }
         }
         else{
-            str="invalid Id";
+            System.out.println("invalid Id");
         }
-        return str;
     }
     public void showProfile(String[] splitInput)
     {
@@ -219,93 +196,97 @@ public class Manager {
         {
             User user=findId(splitInput[1]);
             System.out.println("Id: " + user.getId());
-            System.out.println("followers numbers: " + user.getFollowerIds().size());
-            System.out.println("following numbers: " + user.getFollowingIds().size());
-            System.out.println("post numbers: " + user.getPostIds().size());
-            if (!user.getFollowerIds().contains(checkLogin().getId())) {
+            System.out.println("followers numbers: " + user.getFollowers().size());
+            System.out.println("following numbers: " + user.getFollowings().size());
+            System.out.println("post numbers: " + user.getPosts().size());
+            if (!user.getFollowers().contains(checkLogin())) {
                 System.out.println("Do you want to follow this account?");
                 String answer = sc.nextLine();
                 if (answer.equals("Yes")) {
-                    user.getFollowerIds().add(checkLogin().getId());
-                    checkLogin().getFollowingIds().add(user.getId());
+                    user.getFollowers().add(checkLogin());
+                    checkLogin().getFollowings().add(user);
                     System.out.println("you are following " + user.getId());
                 }
             }
         }
     }
-    public void createPost(String answer)
+    public void createPost()
     {
         boolean exist=true;
         if (checkLogin()==null){
             System.out.println("no one logged in...");
             exist=false;
         }
-        if (exist)
-        {
+        if (exist){
             User user1=checkLogin();
-            if (user1.getBusinessAccount().equals("business")){
+            if (user1 instanceof BusinessUser){
                 BusinessUser businessUser=(BusinessUser) checkLogin();
-                Integer num=Integer.parseInt(String.valueOf(businessUser.getPostIds().size()+1));
+                Integer num=Integer.parseInt(String.valueOf(businessUser.getPosts().size()+1));
                 String Id= businessUser.getId();
                 Id+=num.toString();
-                BusinessPost businessPost=new BusinessPost(businessUser.getId(),Id);
+                BusinessPost businessPost=new BusinessPost(businessUser,Id);
                 businessPost.setId(Id);
-                if(!answer.equals(""))
+                String answer= sc.nextLine();
+                if(answer.contains("add text"))
                 {
-                    businessPost.setText("ad   " + answer);
+                    String text=sc.nextLine();
+                    businessPost.setText("ad   " + text);
                 }
-                LocalDate time=LocalDate.now();
-                businessPost.releasedTime=time;
-                businessUser.getPostIds().add(businessPost.getId());
+                businessUser.getPosts().add(businessPost);
                 businessPosts.add(businessPost);
                 posts.add(businessPost);
+                LocalDate time=LocalDate.now();
+                businessPost.releasedTime=time;
                 System.out.println("post created successfully");
             }
-            else
-            {
+            else{
                 User user=checkLogin();
-                Integer num=Integer.parseInt(String.valueOf(user.getPostIds().size()+1));
+                Integer num=Integer.parseInt(String.valueOf(user.getPosts().size()+1));
                 String Id=user.getId();
                 Id+=num.toString();
-                Post post=new Post(user.getId(),Id);
+                Post post=new Post(user,Id);
                 post.setId(Id);
-                if(!answer.equals(""))
+                String answer= sc.nextLine();
+                if(answer.contains("add text"))
                 {
-                    post.setText(answer);
+                    String text=sc.nextLine();
+                    post.setText(text);
                 }
-                user.getPostIds().add(post.getId());
+                user.getPosts().add(post);
                 posts.add(post);
                 System.out.println("post created successfully");
             }
         }
     }
-    public void addComment(String postId,String comment)
+    public void addComment(String[] splitInput)
     {
         boolean ordinaryPost=false,businessPost=false;
-        if (searchPostById(postId)==null && searchBusinessPostById(postId)==null){
+        if (searchPostById(splitInput[2])==null && searchBusinessPostById(splitInput[2])==null){
             System.out.println("This post doesn't exist...");
         }
-        else if (searchPostById(postId)!=null && searchBusinessPostById(postId)==null){
+        else if (searchPostById(splitInput[2])!=null && searchBusinessPostById(splitInput[2])==null){
             ordinaryPost=true;
         }
-        else if (searchPostById(postId)!=null && searchBusinessPostById(postId)!=null){
+        else if (searchPostById(splitInput[2])!=null && searchBusinessPostById(splitInput[2])!=null){
             businessPost=true;
         }
         if (ordinaryPost){
-            String id=searchPostById(postId).getId()+
-                    (searchPostById(postId).commentsId.size()+1);
-            Post post=new Post(checkLogin().getId(),id);
+            String comment=sc.nextLine();
+            String id=searchPostById(splitInput[2]).getId()+
+                    (searchPostById(splitInput[2]).getComments().size()+1);
+            Post post=new Post(checkLogin(),id);
             post.setText(comment);
-            searchPostById(postId).commentsId.add(post.getId());
+            searchPostById(splitInput[2]).getComments().add(post);
             posts.add(post);
             System.out.println("comment added successfully");
         }
         else if (businessPost){
-            String id=searchBusinessPostById(postId).getId()+
-                    (searchPostById(postId).commentsId.size()+1);
-            BusinessPost businessPost1=new BusinessPost(checkLogin().getId(),id);
+            String comment=sc.nextLine();
+            String id=searchBusinessPostById(splitInput[2]).getId()+
+                    (searchPostById(splitInput[2]).getComments().size()+1);
+            BusinessPost businessPost1=new BusinessPost(checkLogin(),id);
             businessPost1.setText(comment);
-            searchBusinessPostById(postId).commentsId.add(businessPost1.getId());
+            searchBusinessPostById(splitInput[2]).getComments().add(businessPost1);
             businessPosts.add(businessPost1);
             posts.add(businessPost1);
             System.out.println("comment added successfully");
@@ -324,16 +305,16 @@ public class Manager {
             businessPost=true;
         }
         if (ordinaryPost){
-            searchPostById(splitInput[1]).likeUsersId.add(checkLogin().getId());
+            searchPostById(splitInput[1]).getLikeUsers().add(checkLogin());
             System.out.println("liked successfully");
         }
         else if (businessPost){
-            searchBusinessPostById(splitInput[1]).likeUsersId.add(checkLogin().getId());
+            searchBusinessPostById(splitInput[1]).getLikeUsers().add(checkLogin());
             BusinessPost businessPost1 = searchBusinessPostById(splitInput[1]);
             LocalDate time = LocalDate.now();
             User user = checkLogin();
             businessPost1.likes.put(user, time);
-            businessPost1.likesUsersForTable.add(user.getId());
+            businessPost1.likesUsersForTable.add(user);
             businessPost1.likesLocalDateForTable.add(time);
             System.out.println("liked successfully");
         }
@@ -345,9 +326,9 @@ public class Manager {
                 System.out.println("this post does not exist");
             } else {
                 Post post = searchPostById(splitInput[2]);
-                System.out.println("The number of comments: " + post.commentsId.size());
-                for (int i = 0; i < post.commentsId.size(); i++) {
-                    System.out.println(searchPostById(post.commentsId.get(i)).text);
+                System.out.println("The number of comments: " + post.getComments().size());
+                for (int i = 0; i < post.getComments().size(); i++) {
+                    System.out.println(post.getComments().get(i).text);
                 }
             }
         }
@@ -363,9 +344,9 @@ public class Manager {
                 System.out.println("this post does not exist");
             } else {
                 Post post = searchPostById(splitInput[2]);
-                System.out.println("The number of Likes: " + post.likeUsersId.size());
-                for (int i = 0; i < post.likeUsersId.size(); i++) {
-                    System.out.println(post.likeUsersId.get(i));
+                System.out.println("The number of Likes: " + post.getLikeUsers().size());
+                for (int i = 0; i < post.getLikeUsers().size(); i++) {
+                    System.out.println(post.getLikeUsers().get(i).getId());
                 }
             }
         }
@@ -389,18 +370,16 @@ public class Manager {
             System.out.println("----------");
             System.out.println("following's posts: ");
             user.printFollowingsPosts();
-            for (int i = 0; i < user.getFollowerIds().size(); i++) {
-                User user1 = findId(user.getFollowerIds().get(i));
-                if (user1 instanceof BusinessUser) {
-                    int n = user1.getPostIds().size();
-                    BusinessUser businessUser=(BusinessUser) user1;
+            for (int i = 0; i < user.getFollowers().size(); i++) {
+                if (user.getFollowers().get(i) instanceof BusinessUser) {
+                    int n=user.getFollowers().get(i).getPosts().size();
+                    BusinessUser businessUser=(BusinessUser) user.getFollowers().get(i);
                     if(n>5) {
                         for (int i1 = n - 1; i1 > n - 6; i1--) {
-                            Post post = searchPostById(businessUser.getPostIds().get(i1));
-                            BusinessPost businessPost=(BusinessPost) post;
-                            businessPost.getViewers().add(checkLogin().getId());
+                            BusinessPost businessPost=(BusinessPost) businessUser.getPosts().get(i1);
+                            businessPost.getViewers().add(checkLogin());
                             businessPost.views.put(checkLogin(),LocalDate.now());
-                            businessPost.viewUsersForTable.add(checkLogin().getId());
+                            businessPost.viewUsersForTable.add(checkLogin());
                             businessPost.viewLocalDatesForTable.add(LocalDate.now());
                         }
                     }
@@ -408,24 +387,22 @@ public class Manager {
                     {
                         for(int i1=0;i1<n;i1++)
                         {
-                            Post post = searchPostById(businessUser.getPostIds().get(i1));
-                            BusinessPost businessPost=(BusinessPost) post;
-                            businessPost.getViewers().add(checkLogin().getId());
+                            BusinessPost businessPost=(BusinessPost) businessUser.getPosts().get(i1);
+                            businessPost.getViewers().add(checkLogin());
                             businessPost.views.put(checkLogin(),LocalDate.now());
                         }
                     }
+
                 }
             }
-            for (int i = 0; i < user.getFollowingIds().size(); i++) {
-                User user1 = findId(user.getFollowingIds().get(i));
-                if (user1 instanceof BusinessUser) {
-                    int n=user1.getPostIds().size();
-                    BusinessUser businessUser=(BusinessUser) user1;
+            for (int i = 0; i < user.getFollowings().size(); i++) {
+                if (user.getFollowings().get(i) instanceof BusinessUser) {
+                    int n=user.getFollowings().get(i).getPosts().size();
+                    BusinessUser businessUser=(BusinessUser) user.getFollowings().get(i);
                     if(n>5) {
                         for (int i1 = n - 1; i1 > n - 6; i1--) {
-                            Post post = searchPostById(businessUser.getPostIds().get(i1));
-                            BusinessPost businessPost=(BusinessPost) post;
-                            businessPost.getViewers().add(checkLogin().getId());
+                            BusinessPost businessPost=(BusinessPost) businessUser.getPosts().get(i1);
+                            businessPost.getViewers().add(checkLogin());
                             businessPost.views.put(checkLogin(),LocalDate.now());
                         }
                     }
@@ -433,9 +410,8 @@ public class Manager {
                     {
                         for(int i1=0;i1<n;i1++)
                         {
-                            Post post = searchPostById(businessUser.getPostIds().get(i1));
-                            BusinessPost businessPost=(BusinessPost) post;
-                            businessPost.getViewers().add(checkLogin().getId());
+                            BusinessPost businessPost=(BusinessPost) businessUser.getPosts().get(i1);
+                            businessPost.getViewers().add(checkLogin());
                             businessPost.views.put(checkLogin(),LocalDate.now());
                         }
                     }
@@ -477,18 +453,18 @@ public class Manager {
             System.out.println("you are not a business user...");
         }
     }
-    public void startPrivateMessage(User sender,User receiver,String text)
+    public void startPrivateMessage(String[] splitInput)
     {
         boolean blocked=false;
-        if(receiver==null)
+        if(findId(splitInput[3])==null)
         {
             System.out.println("Invalid id...");
         }
         else{
-            User user=receiver;
+            User user=findId(splitInput[3]);
             for (Block block : blocks)
             {
-                if (block.getBlocked().equals(sender) && block.getBlocker().equals(receiver)){
+                if (block.getBlocked().equals(checkLogin()) && block.getBlocker().equals(user)){
                     blocked=true;
                     break;
                 }
@@ -497,72 +473,69 @@ public class Manager {
         if (!blocked)
         {
             int num=0;
+            String text=sc.nextLine();
+            User sender=checkLogin();
+            User receiver=findId(splitInput[3]);
             for (int i = 0; i < messages.size(); i++) {
                 num++;
             }
             Message message=new Message(sender,receiver,num+1,text,LocalDate.now());
             message.localDateToString=LocalDate.now().toString();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            message.setTime(dtf.format(now));
-            sender.getMessageIds().add(message.getId());
+            sender.getMessages().add(message);
             messages.add(message);
             System.out.println(message.getText());
         }
         else
         {
-            System.out.println(receiver.getId() + " blocked you...");
+            System.out.println(findId(splitInput[3]).getId() + " blocked you...");
         }
     }
-    public void forwardMessage(String userId,int messageId)
+    public void forwardMessage(String[] splitInput)
     {
-        if (findId(userId)==null){
+        if (findId(splitInput[3])==null){
             System.out.println("user doesn't exist...");
         }
-        if (searchMessage(messageId)==null)
+        if (searchMessage(Integer.parseInt(splitInput[2]))==null)
         {
             System.out.println("this messageId doesn't exist...");
         }
-        else if (findId(userId)!=null && searchMessage(messageId)!=null)
+        else if (findId(splitInput[3])!=null && searchMessage(Integer.parseInt(splitInput[2]))!=null)
         {
             boolean blocked=false;
             for (Block block : blocks)
             {
-                if (block.getBlocked().equals(checkLogin()) && block.getBlocker().equals(findId(userId))){
+                if (block.getBlocked().equals(checkLogin()) && block.getBlocker().equals(findId(splitInput[3]))){
                     blocked=true;
                     break;
                 }
             }
             if(!blocked)
             {
-                if (searchMessage(messageId).getSender().equals(checkLogin()) ||
-                        searchMessage(messageId).getReceiver().equals(checkLogin())) {
+                if (searchMessage(Integer.parseInt(splitInput[2])).getSender().equals(checkLogin()) ||
+                        searchMessage(Integer.parseInt(splitInput[2])).getReceiver().equals(checkLogin())) {
                     int id = 0;
-                    Message message = searchMessage(messageId);
-                    User user = findId(userId);
+                    Message message = searchMessage(Integer.parseInt(splitInput[2]));
+                    User user = findId(splitInput[3]);
                     for (int i = 0; i < messages.size(); i++) {
                         id++;
                     }
-                    Message forwardedMessage = new Message(checkLogin(), user, id + 1, "forwarded from " + message.getSender().getId() + "\n" + message.getText(),LocalDate.now());
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    forwardedMessage.setTime(dtf.format(now));
+                    Message forwardedMessage = new Message(checkLogin(), user, id + 1, "forwarded\n" + message.getText(),LocalDate.now());
                     forwardedMessage.localDateToString=LocalDate.now().toString();
                     forwardedMessage.forwarded = true;
                     messages.add(forwardedMessage);
-                    checkLogin().getMessageIds().add(forwardedMessage.getId());
+                    checkLogin().getMessages().add(forwardedMessage);
                     System.out.println(forwardedMessage.getText());
                 }
             }
             else
             {
-                System.out.println(findId(userId).getId() + " blocked you...");
+                System.out.println(findId(splitInput[3]).getId() + " blocked you...");
             }
         }
     }
-    public void replyMessage(int id,String text)
+    public void replyMessage(String[] splitInput)
     {
-        if (searchMessage(id)==null)
+        if (searchMessage(Integer.parseInt(splitInput[2]))==null)
         {
             System.out.println("this messageId doesn't exist...");
         }
@@ -571,7 +544,7 @@ public class Manager {
             boolean blocked=false;
             for (Block block : blocks)
             {
-                User user=searchMessage(id).getSender();
+                User user=searchMessage(Integer.parseInt(splitInput[2])).getSender();
                 if (block.getBlocked().equals(checkLogin()) && block.getBlocker().equals(user)){
                     blocked=true;
                     break;
@@ -579,44 +552,42 @@ public class Manager {
             }
             if (!blocked)
             {
-                if (searchMessage(id).getSender().equals(checkLogin()) ||
-                        searchMessage(id).getReceiver().equals(checkLogin())) {
+                if (searchMessage(Integer.parseInt(splitInput[2])).getSender().equals(checkLogin()) ||
+                        searchMessage(Integer.parseInt(splitInput[2])).getReceiver().equals(checkLogin())) {
 
-                    Message message = searchMessage(id);
-                    String charsOfMessage = message.getText().substring(0, message.getText().length()-3);
-                    int id1 = 0;
+                    Message message = searchMessage(Integer.parseInt(splitInput[2]));
+                    String text = sc.nextLine();
+                    String charsOfMessage = message.getText().substring(0, 10);
+                    int id = 0;
                     User sender = checkLogin();
                     User receiver = message.getReceiver();
                     if (sender.equals(receiver)) {
                         receiver = message.getSender();
                     }
                     for (int i = 0; i < messages.size(); i++) {
-                        id1++;
+                        id++;
                     }
-                    Message repliedMessage = new Message(sender, receiver, id1 + 1, "replied:" + charsOfMessage + "\n" + text,LocalDate.now());
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    repliedMessage.setTime(dtf.format(now));
+                    Message repliedMessage = new Message(sender, receiver, id + 1, charsOfMessage + "\n" + text,LocalDate.now());
                     repliedMessage.localDateToString=LocalDate.now().toString();
                     messages.add(repliedMessage);
-                    sender.getMessageIds().add(repliedMessage.getId());
+                    sender.getMessages().add(repliedMessage);
                     System.out.println(repliedMessage.getText());
                 }
             }
             else
             {
-                User user=searchMessage(id).getSender();
+                User user=searchMessage(Integer.parseInt(splitInput[2])).getSender();
                 System.out.println(user.getId() + " blocked you...");
             }
         }
     }
-    public void block(String userId)
+    public void block(String[] splitInput)
     {
-        if (findId(userId)==null){
+        if (findId(splitInput[1])==null){
             System.out.println("user doesn't exist...");
         }
         else{
-            User user=findId(userId);
+            User user=findId(splitInput[1]);
             Block block=new Block(checkLogin(),user);
             block.setBlocked(user);
             block.setBlocker(checkLogin());
@@ -624,14 +595,14 @@ public class Manager {
             System.out.println(user.getId() + " is blocked successfully");
         }
     }
-    public void editMessage(int id,String text)
+    public void editMessage(String[] splitInput)
     {
-        if (searchMessage(id)==null)
+        if (searchMessage(Integer.parseInt(splitInput[2]))==null)
         {
             System.out.println("this messageId doesn't exist...");
         }
         else{
-            Message message=searchMessage(id);
+            Message message=searchMessage(Integer.parseInt(splitInput[2]));
             boolean blocked=false;
             for (Block block : blocks) {
                 if (block.getBlocked().equals(checkLogin()) && block.getBlocker().equals(message.getReceiver())){
@@ -641,17 +612,16 @@ public class Manager {
             }
             if (!blocked)
             {
-                if (message.getSender().equals(checkLogin()))
-                {
-                    int index = checkLogin().indexOfMessage(message), all = checkLogin().getMessageIds().size();
+                if (message.getSender().equals(checkLogin())) {
+                    int index = checkLogin().indexOfMessage(message), all = checkLogin().getMessages().size();
                     if (index <= all && index > all - 10 && !message.forwarded) {
+                        String text = sc.nextLine();
                         message.setText(text);
                         System.out.println("message edited successfully");
                     } else {
                         System.out.println("sth went wrong...");
                     }
-                } else
-                {
+                } else {
                     System.out.println("you cannot edit this message...");
                 }
             }
@@ -696,11 +666,11 @@ public class Manager {
             }
         }
     }
-    public void createGroup(String name,String id)
+    public void createGroup(String[] splitInput)
     {
-        if (searchGroup(id)==null)
+        if (searchGroup(splitInput[2])==null)
         {
-            Group group = new Group(checkLogin(), name, id);
+            Group group = new Group(checkLogin(), splitInput[2], splitInput[3]);
             groups.add(group);
             group.setAdmin(checkLogin());
             System.out.println("new group created successfully");
@@ -722,9 +692,6 @@ public class Manager {
                     group.getUsers().add(user);
                     group.getBanned().add(false);
                     System.out.println("added successfully");
-                    for (int i = 0; i < group.groupMessages.size(); i++) {
-                       group.groupMessages.get(i).getSeen().add(false);
-                    }
                 }
                 else{
                     System.out.println("you were added to the group before...");
@@ -738,107 +705,85 @@ public class Manager {
             System.out.println("this group doesn't exist...");
         }
     }
-    public String changeGroupName(String[] splitInput)
+    public void changeGroupName(String[] splitInput)
     {
-        String string = "";
         if (searchGroup((splitInput[2]))==null){
-            string = "this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else{
             if(searchGroup((splitInput[2])).getAdmin().equals(checkLogin())) {
                 Group group = searchGroup((splitInput[2]));
-                group.setGroupName(splitInput[3]);
-                string = "group name is changed successfully";
+                group.setGroupName(splitInput[2]);
+                System.out.println("group name is changed successfully");
             }
             else{
-                string = "you aren't admin...";
+                System.out.println("you aren't admin...");
             }
         }
-        return string;
     }
-    public String changeGroupId(String[] splitInput)
+    public void changeGroupId(String[] splitInput)
     {
-        String string = "";
         if (searchGroup((splitInput[2]))==null){
-            string = "this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else{
             if(searchGroup((splitInput[2])).getAdmin().equals(checkLogin())) {
-                if (searchGroup(splitInput[3])==null) {
+                if (searchGroup(splitInput[2])==null) {
                     Group group = searchGroup((splitInput[2]));
                     group.setGroupId(splitInput[3]);
-                    string = "group id is changed successfully";
-                    for (int i=0;i<group.getGroupMessages().size();i++){
-                        group.getGroupMessages().get(i).groupId = splitInput[3];
-                    }
+                    System.out.println("group id is changed successfully");
                 }
                 else
                 {
-                    string = "this group id had been chosen before...";
+                    System.out.println("this group id had been chosen before...");
                 }
             }
             else{
-                string = "you aren't admin...";
+                System.out.println("you aren't admin...");
             }
         }
-        return string;
     }
-    public String removeUser(String[] splitInput)
-    {
-        String string = "";
+    public void removeUser(String[] splitInput){
         if (searchGroup((splitInput[2]))==null){
-            string = "this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else{
             if(searchGroup((splitInput[2])).getAdmin().equals(checkLogin())) {
                 if (findId(splitInput[3])==null){
-                    string = "this user doesn't exist...";
+                    System.out.println("this user doesn't exist...");
                 }
                 else{
                     User user=findId(splitInput[3]);
                     boolean bool=false;
                     Group group=searchGroup((splitInput[2]));
-                    int k=0;
-                    for (int i = 0; i < group.getUsers().size(); i++) {
-                        if(group.getUsers().get(i).getId().equals(splitInput[3]))
-                        {
-                            k=i;
-                            break;
-                        }
-                    }
-                    for (int i = 0; i < group.groupMessages.size(); i++) {
-                        group.groupMessages.get(i).getSeen().remove(k);
-                    }
-                    for (int i=0;i<group.getUsers().size();i++) {
-                        if (group.getUsers().get(i).equals(user)){
-                            group.getUsers().remove(group.getUsers().get(i));
-                            group.getBanned().remove(i);
-                            string = "user removed successfully";
+                    for (User user1 : group.getUsers()) {
+                        if (user1.equals(user)){
+                            group.getUsers().remove(user1);
+                            System.out.println("user removed successfully");
                             bool=true;
                             break;
                         }
                     }
                     if (!bool){
-                        string = "this user wasn't the member of this group...";
+                        System.out.println("this user wasn't the member of this group...");
                     }
                 }
             }
             else{
-                string = "you aren't admin...";
+                System.out.println("you aren't admin...");
             }
         }
-        return string;
+
     }
-    public String banUser(String[] splitInput)
+    public void banUser(String[] splitInput)
     {
-        String string = "";
         if (searchGroup((splitInput[2]))==null){
-            string = "this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else{
             if(searchGroup((splitInput[2])).getAdmin().equals(checkLogin())) {
                 if (findId(splitInput[3])==null){
-                    string = "this user doesn't exist...";
+                    System.out.println("this user doesn't exist...");
                 }
                 else{
                     User user=findId(splitInput[3]);
@@ -848,23 +793,22 @@ public class Manager {
                         if (group.getUsers().get(i).equals(user)) {
                             bool = true;
                             group.getBanned().set(i,true);
-                            string = "user banned successfully";
+                            System.out.println("user banned successfully");
                             break;
                         }
                     }
                     if(!bool)
                     {
-                        string = "this user wasn't the member of this group...";
+                        System.out.println("this user wasn't the member of this group...");
                     }
                 }
             }
             else{
-                string = "you aren't admin...";
+                System.out.println("you aren't admin...");
             }
         }
-        return string;
     }
-    public void sendGroupMessage(String[] splitInput,String text)
+    public void sendGroupMessage(String[] splitInput)
     {
         boolean bool=false;
         if (searchGroup((splitInput[4]))==null)
@@ -878,17 +822,11 @@ public class Manager {
             if (checkLogin().equals(group.getAdmin()))
             {
                 admin=true;
+                String text = sc.nextLine();
                 int n=group.groupMessages.size()+1;
                 String str=Integer.toString(n);
                 String id = group.groupId + str;
-                GroupMessage groupMessage = new GroupMessage(checkLogin(), text, id, group.groupId,LocalDate.now());
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                groupMessage.setTime(dtf.format(now));
-                groupMessage.getSeen().add(false);
-                for (int i = 0; i < group.getUsers().size(); i++) {
-                    groupMessage.getSeen().add(false);
-                }
+                GroupMessage groupMessage = new GroupMessage(checkLogin(), text, id, group,LocalDate.now());
                 groupMessage.localDateToString = LocalDate.now().toString();
                 groupMessages.add(groupMessage);
                 group.getGroupMessages().add(groupMessage);
@@ -900,17 +838,11 @@ public class Manager {
                 {
                     if (group.getUsers().get(i).equals(checkLogin()) && group.getBanned().get(i).equals(false)) {
                         bool = true;
+                        String text = sc.nextLine();
                         int n=group.groupMessages.size()+1;
                         String str=Integer.toString(n);
                         String id = group.groupId + str;
-                        GroupMessage groupMessage = new GroupMessage(checkLogin(), text, id, group.groupId,LocalDate.now());
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                        LocalDateTime now = LocalDateTime.now();
-                        groupMessage.setTime(dtf.format(now));
-                        groupMessage.getSeen().add(false);
-                        for (int j = 0; j < group.getUsers().size(); j++) {
-                            groupMessage.getSeen().add(false);
-                        }
+                        GroupMessage groupMessage = new GroupMessage(checkLogin(), text, id, group,LocalDate.now());
                         groupMessage.localDateToString = LocalDate.now().toString();
                         groupMessages.add(groupMessage);
                         group.getGroupMessages().add(groupMessage);
@@ -925,21 +857,21 @@ public class Manager {
             }
         }
     }
-    public void editGroupMessage(String groupMessageId,String newText)
+    public void editGroupMessage(String[] splitInput)
     {
         boolean bool=false;
-        if(findGroupMessage(groupMessageId)==null)
+        if(findGroupMessage(splitInput[2])==null)
         {
             System.out.println("This message doesn't exist...");
         }
         else
         {
             boolean admin=false;
-            GroupMessage groupMessage=findGroupMessage(groupMessageId);
-            String groupId=groupMessage.groupId;
-            Group group = searchGroup(groupId);
+            GroupMessage groupMessage=findGroupMessage(splitInput[2]);
+            Group group=groupMessage.getGroup();
             if (checkLogin().equals(group.getAdmin())){
                 admin=true;
+                String newText=sc.nextLine();
                 groupMessage.setText(newText);
                 System.out.println("message is edited successfully");
             }
@@ -948,6 +880,7 @@ public class Manager {
                 for (int i = 0; i < group.getUsers().size(); i++) {
                     if (group.getUsers().get(i).equals(checkLogin()) && group.getBanned().get(i).equals(false)) {
                         bool = true;
+                        String newText = sc.nextLine();
                         groupMessage.setText(newText);
                         System.out.println("message is edited successfully");
                         break;
@@ -961,34 +894,27 @@ public class Manager {
 
         }
     }
-    public void replyGroupMessage(String groupMessageId,String text)
+    public void replyGroupMessage(String[] splitInput)
     {
         boolean bool=false;
-        if(findGroupMessage(groupMessageId)==null)
+        if(findGroupMessage(splitInput[2])==null)
         {
             System.out.println("This message doesn't exist...");
         }
         else
         {
             boolean admin=false;
-            GroupMessage groupMessage = findGroupMessage(groupMessageId);
-            String groupId = groupMessage.groupId;
-            Group group = searchGroup(groupId);
+            GroupMessage groupMessage = findGroupMessage(splitInput[2]);
+            Group group = groupMessage.getGroup();
             if (checkLogin().equals(group.getAdmin()))
             {
                 admin=true;
-                String charsOfMessage = groupMessage.getText().substring(0,4);
+                String text = sc.nextLine();
+                String charsOfMessage = groupMessage.getText().substring(0, 10);
                 int n = group.groupMessages.size()+1;
                 String str=Integer.toString(n);
                 String id=group.groupId + str;
-                GroupMessage groupMessage1=new GroupMessage(checkLogin(),"replied "+charsOfMessage + "\n" + text,id,groupId,LocalDate.now());
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                groupMessage1.setTime(dtf.format(now));
-                groupMessage1.getSeen().add(false);
-                for (int i = 0; i < group.getUsers().size(); i++) {
-                    groupMessage1.getSeen().add(false);
-                }
+                GroupMessage groupMessage1=new GroupMessage(checkLogin(),charsOfMessage + "\n" + text,id,group,LocalDate.now());
                 groupMessage1.localDateToString = LocalDate.now().toString();
                 groupMessages.add(groupMessage1);
                 group.groupMessages.add(groupMessage1);
@@ -1000,19 +926,13 @@ public class Manager {
                 {
                     if (group.getUsers().get(i).equals(checkLogin()) && group.getBanned().get(i).equals(false)) {
                         bool = true;
-                        String charsOfMessage = groupMessage.getText().substring(0, 4);
+                        String text = sc.nextLine();
+                        String charsOfMessage = groupMessage.getText().substring(0, 10);
                         int n = group.groupMessages.size()+1;
                         String str=Integer.toString(n);
                         String id=group.groupId + str;
-                        GroupMessage groupMessage1=new GroupMessage(checkLogin(),"replied "+charsOfMessage + "\n" + text,id,group.groupId,LocalDate.now());
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                        LocalDateTime now = LocalDateTime.now();
-                        groupMessage1.setTime(dtf.format(now));
+                        GroupMessage groupMessage1=new GroupMessage(checkLogin(),charsOfMessage + "\n" + text,id,group,LocalDate.now());
                         groupMessage1.localDateToString = LocalDate.now().toString();
-                        groupMessage1.getSeen().add(false);
-                        for (int j = 0; j < group.getUsers().size(); j++) {
-                            groupMessage1.getSeen().add(false);
-                        }
                         groupMessages.add(groupMessage1);
                         group.groupMessages.add(groupMessage1);
                         System.out.println("message is replied successfully");
@@ -1045,16 +965,9 @@ public class Manager {
                     admin=true;
                     GroupMessage groupMessage = findGroupMessage(splitInput[4]);
                     String id = group.getGroupId() + group.getGroupMessages().size() + 1;
-                    String text="Forwarded from " +groupMessage.getSender().getId() +"\n" + groupMessage.getText();
-                    GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group.groupId,LocalDate.now());
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    groupMessage1.setTime(dtf.format(now));
+                    String text="Forwarded" + "\n" + groupMessage.getText();
+                    GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group,LocalDate.now());
                     groupMessage1.localDateToString = LocalDate.now().toString();
-                    groupMessage1.getSeen().add(false);
-                    for (int i = 0; i < group.getUsers().size(); i++) {
-                        groupMessage1.getSeen().add(false);
-                    }
                     groupMessages.add(groupMessage1);
                     group.getGroupMessages().add(groupMessage1);
                     System.out.println("groupMessage forwarded to the group successfully");
@@ -1066,16 +979,9 @@ public class Manager {
                             bool = true;
                             GroupMessage groupMessage = findGroupMessage(splitInput[4]);
                             String id = group.getGroupId() + group.getGroupMessages().size() + 1;
-                            String text = "Forwarded from " +groupMessage.getSender().getId() +"\n" + groupMessage.getText();
-                            GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group.groupId, LocalDate.now());
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                            LocalDateTime now = LocalDateTime.now();
-                            groupMessage1.setTime(dtf.format(now));
+                            String text = "Forwarded" + "\n" + groupMessage.getText();
+                            GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group, LocalDate.now());
                             groupMessage1.localDateToString = LocalDate.now().toString();
-                            groupMessage1.getSeen().add(false);
-                            for (int j = 0; j < group.getUsers().size(); j++) {
-                                groupMessage1.getSeen().add(false);
-                            }
                             groupMessages.add(groupMessage1);
                             group.getGroupMessages().add(groupMessage1);
                             System.out.println("groupMessage forwarded to the group successfully");
@@ -1113,17 +1019,16 @@ public class Manager {
             }
         }
     }
-    public String forwardGroupToPv(String[] splitInput)
+    public void forwardGroupToPv(String[] splitInput)
     {
-        String str="";
         if (searchGroup((splitInput[4])) == null) {
-            str="this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else if (findId(splitInput[5])==null){
-            str="this user doesn't exist...";
+            System.out.println("this user doesn't exist...");
         }
         else if (findGroupMessage(splitInput[6])==null){
-            str="this groupMessage doesn't exist...";
+            System.out.println("this groupMessage doesn't exist...");
         }
         else{
             boolean blocked=false;
@@ -1139,30 +1044,24 @@ public class Manager {
             {
                 GroupMessage groupMessage = findGroupMessage(splitInput[6]);
                 int num = messages.size() + 1;
-                Message message = new Message(checkLogin(), receiver, num, "Forwarded from "+groupMessage.getSender().getId()+"\n" + groupMessage.getText(), LocalDate.now());
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                message.setTime(dtf.format(now));
-                message.forwarded=true;
+                Message message = new Message(checkLogin(), receiver, num, "Forwarded\n" + groupMessage.getText(), LocalDate.now());
                 message.localDateToString=LocalDate.now().toString();
                 messages.add(message);
-                str="groupMessage forwarded successfully";
+                System.out.println("groupMessage forwarded successfully");
             }
             else
             {
-                str="you are blocked...";
+                System.out.println("you are blocked...");
             }
         }
-        return str;
     }
-    public String forwardPvToGroup(String[] splitInput)
+    public void forwardPvToGroup(String[] splitInput)
     {
-        String string="";
         if (searchGroup((splitInput[4])) == null) {
-           string="this group doesn't exist...";
+            System.out.println("this group doesn't exist...");
         }
         else if (searchMessage(Integer.parseInt(splitInput[5]))==null){
-            string="this messageId doesn't exist...";
+            System.out.println("this messageId doesn't exist...");
         }
         else{
             boolean banned=false;
@@ -1180,198 +1079,143 @@ public class Manager {
                 int num = group.groupMessages.size() + 1;
                 String str = Integer.toString(num);
                 String id = group.getGroupId() + str;
-                System.out.println(id);
-                GroupMessage groupMessage = new GroupMessage(checkLogin(), "Forwarded from "+message.getSender().getId()+ "\n" + message.getText(), id, group.groupId, LocalDate.now());
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                groupMessage.setTime(dtf.format(now));
-                groupMessage.getSeen().add(false);
-                for (int i = 0; i < group.getUsers().size(); i++) {
-                    groupMessage.getSeen().add(false);
-                }
+                GroupMessage groupMessage = new GroupMessage(checkLogin(), "Forwarded\n" + message.getText(), id, group, LocalDate.now());
                 groupMessage.localDateToString = LocalDate.now().toString();
                 group.groupMessages.add(groupMessage);
-                groupMessages.add(groupMessage);
-                string="message forwarded successfully to the group";
+                System.out.println("message forwarded successfully to the group");
             }
             else{
-                string="you are banned...";
+                System.out.println("you are banned...");
             }
         }
-        return string;
     }
-    public ArrayList<Message> searchTextMessage(String text)
+    public void searchTextMessage()
     {
+        String text=sc.nextLine();
         ArrayList<Message> foundMessages=new ArrayList<>();
+        ArrayList<GroupMessage> foundGroupMessages=new ArrayList<>();
         for (Message message : messages) {
-            if (message.getText().contains(text)&&(message.getSender().equals(checkLogin())||message.getReceiver().equals(checkLogin()))){
+            if (message.getText().contains(text)){
                 foundMessages.add(message);
             }
         }
-
-        /*for (Message foundMessage : foundMessages) {
+        for (GroupMessage groupMessage : groupMessages) {
+            if (groupMessage.getText().contains(text)){
+                foundGroupMessages.add(groupMessage);
+            }
+        }
+        for (Message foundMessage : foundMessages) {
             System.out.println("Id: " + foundMessage.getId());
             System.out.println("date: " + foundMessage.getLocalDate());
             String str=foundMessage.getText().substring(0,10);
             System.out.println("some characters of message: " + str);
-        }*/
-        return foundMessages;
-    }
-    public ArrayList<GroupMessage> searchTextGroupMessage(String text)
-    {
-        ArrayList<GroupMessage> foundGroupMessages=new ArrayList<>();
-        for (GroupMessage groupMessage : groupMessages) {
-            if (groupMessage.getText().contains(text)&&(searchGroup(groupMessage.groupId).getUsers().contains(checkLogin())||
-                    searchGroup(groupMessage.groupId).getAdmin().equals(checkLogin()))){
-                foundGroupMessages.add(groupMessage);
-            }
         }
-        /*for (GroupMessage foundGroupMessage : foundGroupMessages)
+        for (GroupMessage foundGroupMessage : foundGroupMessages)
         {
             System.out.println("Id: " + foundGroupMessage.getId());
             System.out.println("date: " + foundGroupMessage.getLocalDate());
             String str=foundGroupMessage.getText().substring(0,10);
             System.out.println("some characters of message: " + str);
-        }*/
-        return foundGroupMessages;
-    }
-    public void showPosts(String[] splitInput)
-    {
-        User user=findId(splitInput[1]);
-        System.out.println(user.getId()+" posts:");
-        for (int i = 0; i < user.getPostIds().size(); i++) {
-            System.out.println(searchPostById(user.getPostIds().get(i)).getText());
-            if(user instanceof BusinessUser)
-            {
-                BusinessPost businessPost=(BusinessPost)searchBusinessPostById(user.getPostIds().get(i));
-                businessPost.getViewers().add(checkLogin().getId());
-                LocalDate localDate=LocalDate.now();
-                businessPost.views.put(checkLogin(),localDate);
-            }
+        }
+        String messageId=sc.nextLine();
+        try {
+            int id=Integer.parseInt(messageId);
+            Message message=searchMessage(id);
+            System.out.println(message.getText());
+        }
+        catch (Exception e){
+            GroupMessage groupMessage=findGroupMessage(messageId);
+            System.out.println(groupMessage.getText());
         }
     }
     public void setFriends()
     {
         for (User user : users) {
-            user.allFriendIds.addAll(user.getFollowerIds());
-            user.allFriendIds.addAll(user.getFollowingIds());
+            user.allFriends.addAll(user.getFollowers());
+            user.allFriends.addAll(user.getFollowings());
         }
     }
-    public ArrayList<User> suggestFriend()
+    public void suggestFriend()
     {
         User user=checkLogin();
         setFriends();
         ArrayList<User> userNewFriends=new ArrayList<>();
-        for (int i = 0; i < user.getAllFriendIds().size(); i++) {
+        for (int i = 0; i < user.getAllFriends().size(); i++) {
             ArrayList<User> newFriends=new ArrayList<>();
-            for (int i1 = 0; i1 < findId(user.getAllFriendIds().get(i)).getAllFriendIds().size(); i1++) {
-                if (!user.getAllFriendIds().contains(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1))){
-                    newFriends.add(findId(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1)));
+            for (int i1 = 0; i1 < user.getAllFriends().get(i).getAllFriends().size(); i1++) {
+                if (!user.getAllFriends().contains(user.getAllFriends().get(i).getAllFriends().get(i1))){
+                    newFriends.add(user.getAllFriends().get(i).getAllFriends().get(i1));
                 }
             }
             userNewFriends.addAll(newFriends);
         }
-        ArrayList<User>notFriendsWithOurFriends=new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
-            if(!user.getAllFriendIds().contains(users.get(i).getId())&&!users.get(i).equals(user)
-                    &&!userNewFriends.contains(users.get(i)))
-            {
-                notFriendsWithOurFriends.add(users.get(i));
-            }
-        }
-        ArrayList<Integer>gradeForNotFriends=new ArrayList<>();
-        for (int i = 0; i < notFriendsWithOurFriends.size(); i++) {
-            int num=0;
-            for (int i1 = 0; i1 < notFriendsWithOurFriends.get(i).getPostIds().size(); i1++) {
-                if( searchPostById(notFriendsWithOurFriends.get(i).getPostIds().get(i1)).likeUsersId.contains(user.getId()))
-                {
-                    num++;
-                }
-            }
-            gradeForNotFriends.add(num);
-        }
-        int max1=gradeForNotFriends.get(0);
-        int k1=0;
-        for (int i = 0; i < gradeForNotFriends.size(); i++) {
-            if(gradeForNotFriends.get(i)>max1)
-            {
-                max1=gradeForNotFriends.get(i);
-                k1=i;
-            }
-        }
-        System.out.println("Recommended friend for you\n"+notFriendsWithOurFriends.get(k1).getId());
         ArrayList<Integer>commonFriendsAndLikePosts=new ArrayList<>();
         for (int i = 0; i < userNewFriends.size(); i++) {
             int num=0;
-            for (int i1 = 0; i1 <userNewFriends.get(i).getAllFriendIds().size(); i1++) {
-                if(user.getAllFriendIds().contains(userNewFriends.get(i).getAllFriendIds().get(i1)))
+            for (int i1 = 0; i1 < userNewFriends.get(i).allFriends.size(); i1++) {
+                if(user.allFriends.contains(userNewFriends.get(i).allFriends.get(i1)))
                 {
                     num++;
                 }
             }
-            for (int i1 = 0; i1 < userNewFriends.get(i).getPostIds().size(); i1++) {
-                if( searchPostById(userNewFriends.get(i).getPostIds().get(i1)).likeUsersId.contains(user.getId()))
+            for (int i1 = 0; i1 < userNewFriends.get(i).getPosts().size(); i1++) {
+                if( userNewFriends.get(i).getPosts().get(i1).getLikeUsers().contains(user))
                 {
                     num++;
                 }
             }
             commonFriendsAndLikePosts.add(num);
         }
-        int max2=commonFriendsAndLikePosts.get(0);
-        int k2=0;
+        int max=commonFriendsAndLikePosts.get(0);
+        int k=0;
         for (int i = 0; i < commonFriendsAndLikePosts.size(); i++) {
-            if(commonFriendsAndLikePosts.get(i)>max2)
+            if(commonFriendsAndLikePosts.get(i)>max)
             {
-                max2=commonFriendsAndLikePosts.get(i);
-                k2=i;
+                max=commonFriendsAndLikePosts.get(i);
+                k=i;
             }
         }
-        System.out.println("Recommended friend for you\n"+userNewFriends.get(k2).getId());
-        ArrayList<User>suggestUsers=new ArrayList<>();
-        suggestUsers.add(notFriendsWithOurFriends.get(k1));
-        suggestUsers.add(userNewFriends.get(k2));
-        return suggestUsers;
+        System.out.println("Recommended friend for you\n"+userNewFriends.get(k).getId());
+
     }
     public void setFavoriteNumber()
     {
         for (int i = 0; i < businessPosts.size(); i++) {
             for (int i1 = 0; i1 < users.size(); i1++) {
-                if(businessPosts.get(i).getLikeUsersId().contains(users.get(i1).getId())&&
-                businessPosts.get(i).getViewers().contains(users.get(i1).getId()))
+                if(businessPosts.get(i).getLikeUsers().contains(users.get(i1)))
                 {
+                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1));
                     businessPosts.get(i).favoriteNumbers.put(users.get(i1),1.0);
-                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1).getId());
                     businessPosts.get(i).favoriteNumberDouble.add(1.0);
                 }
-                if(businessPosts.get(i).getViewers().contains(users.get(i1).getId())&&
-                !businessPosts.get(i).getLikeUsersId().contains(users.get(i).getId()))
+                else if(businessPosts.get(i).getViewers().contains(users.get(i1)))
                 {
+                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1));
                     businessPosts.get(i).favoriteNumbers.put(users.get(i1),0.0);
-                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1).getId());
                     businessPosts.get(i).favoriteNumberDouble.add(0.0);
                 }
                 else
                 {
+                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1));
                     businessPosts.get(i).favoriteNumbers.put(users.get(i1),0.5);
-                    businessPosts.get(i).favoriteNumberUser.add(users.get(i1).getId());
                     businessPosts.get(i).favoriteNumberDouble.add(0.5);
                 }
             }
         }
     }
-    public BusinessPost suggestBusinessPost()
+    public void suggestBusinessPost()
     {
         setFavoriteNumber();
         ArrayList<BusinessPost> notViewedPosts=new ArrayList<>();
         ArrayList<BusinessPost>likedPosts=new ArrayList<>();
         ArrayList<Double>favoritism=new ArrayList<>();
         for (BusinessPost post : businessPosts) {
-            if (!post.getViewers().contains(checkLogin().getId())) {
+            if (!post.getViewers().contains(checkLogin())) {
                 notViewedPosts.add(post);
             }
         }
         for (BusinessPost businessPost : businessPosts) {
-            if (businessPost.getLikeUsersId().contains(checkLogin().getId())) {
+            if (businessPost.getLikeUsers().contains(checkLogin())) {
                 likedPosts.add(businessPost);
             }
         }
@@ -1380,26 +1224,23 @@ public class Manager {
             double num=0.0;
             for (int k = 0; k < likedPosts.size(); k++) {
                 for (int i = 0; i < users.size(); i++) {
-                    num+= Math.abs(notViewedPosts.get(j).favoriteNumbers.get(users.get(i))
-                            -likedPosts.get(k).favoriteNumbers.get(users.get(i)));
+                    num+= notViewedPosts.get(j).favoriteNumbers.get(users.get(i))
+                            -likedPosts.get(k).favoriteNumbers.get(users.get(i));
                 }
             }
             favoritism.add(num);
         }
-        if(favoritism.size()!=0) {
-            double min = favoritism.get(0);
-            int k = 0;
-            for (int i = 0; i < favoritism.size(); i++) {
-                if (favoritism.get(i) < min) {
-                    min = favoritism.get(i);
-                    k = i;
-                }
+        double min=favoritism.get(0);
+        int k=0;
+        for (int i = 0; i < favoritism.size(); i++) {
+            if(favoritism.get(i)<min)
+            {
+                min=favoritism.get(i);
+                k=i;
             }
-            System.out.println("Recommended advertisement:\n" + notViewedPosts.get(k).getText() + "\n" +
-                    notViewedPosts.get(k).userId);
-            return notViewedPosts.get(k);
         }
-        return null;
+        System.out.println("Recommended advertisement:\n"+notViewedPosts.get(k).getText());
+
     }
     public void logout()
     {

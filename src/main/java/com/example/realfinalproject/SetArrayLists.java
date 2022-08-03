@@ -1,209 +1,128 @@
 package com.example.realfinalproject;
+
+import javafx.geometry.Pos;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SetArrayLists {
     Manager manager = new Manager();
-
-    public void setAllArrayLists() throws SQLException {
-        setUserArrayList(Main.connection);
-        setPostsArrayList(Main.connection);
-        setBusinessPosts(Main.connection);
-        setBlockArrayList(Main.connection);
-        setGroupMessages(Main.connection);
-        setGroupArrayList(Main.connection);
-        setMessagesArrayList(Main.connection);
-    }
-    public void setUserArrayList(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setUserArrayList(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from User");
         while (resultSet.next()) {
-            ArrayList<String> followerIds = new ArrayList<>();
-            ArrayList<String> followingIds = new ArrayList<>();
-            ArrayList<String> postIds = new ArrayList<>();
-            ArrayList<Integer> messageIds = new ArrayList<>();
-            ArrayList<String> allFriendIds = new ArrayList<>();
-            String[] splitInputFollowers = resultSet.getString("followerIds").split("-");
-            String[] splitInputFollowings = resultSet.getString("followingIds").split("-");
-            String[] splitInputPosts = resultSet.getString("postIds").split("-");
-            String[] splitInputMessages = resultSet.getString("messageIds").split("-");
-            String[] splitInputAllFriends = resultSet.getString("allFriendIds").split("-");
-            String follower = resultSet.getString("followerIds");
-            String following = resultSet.getString("followingIds");
-            String post = resultSet.getString("postIds");
-            String message = resultSet.getString("messageIds");
-            String friend = resultSet.getString("allFriendIds");
+            ArrayList<User> followers = new ArrayList<>();
+            ArrayList<User> followings = new ArrayList<>();
+            ArrayList<Post> posts = new ArrayList<>();
+            ArrayList<Message> messages = new ArrayList<>();
+            ArrayList<User> allFriends = new ArrayList<>();
+            String[] splitInputFollowers = resultSet.getString("followers").split("-");
+            String[] splitInputFollowings = resultSet.getString("followings").split("-");
+            String[] splitInputPosts = resultSet.getString("posts").split("-");
+            String[] splitInputMessages = resultSet.getString("messages").split("-");
+            String[] splitInputAllFriends = resultSet.getString("allFriends").split("-");
+            String follower = resultSet.getString("followers");
+            String following = resultSet.getString("followings");
+            String post = resultSet.getString("posts");
+            String message = resultSet.getString("messages");
+            String friend = resultSet.getString("allFriends");
             if (follower.contains("-")) {
                 for (int i = 0; i < splitInputFollowers.length; i++) {
-                    followerIds.add(splitInputFollowers[i]);
+                    followers.add(manager.findId(splitInputFollowers[i]));
                 }
             }
             if (following.contains("-")) {
                 for (int i = 0; i < splitInputFollowings.length; i++) {
-                    followingIds.add(splitInputFollowings[i]);
+                    followings.add(manager.findId(splitInputFollowings[i]));
+                }
+            }
+            if (post.contains("-")) {
+                for (int i = 0; i < splitInputPosts.length; i++) {
+                    posts.add(manager.searchPostById(splitInputPosts[i]));
                 }
             }
             if (message.contains("-")) {
                 for (int i = 0; i < splitInputMessages.length; i++) {
-                    messageIds.add(Integer.parseInt(splitInputMessages[i]));
+                    messages.add(manager.searchMessage(Integer.parseInt(splitInputMessages[i])));
                 }
             }
             if (friend.contains("-")) {
                 for (int i = 0; i < splitInputAllFriends.length; i++) {
-                    allFriendIds.add(splitInputAllFriends[i]);
+                    allFriends.add(manager.findId(splitInputAllFriends[i]));
                 }
             }
-            if (resultSet.getString("businessAccount").equals("ordinary")){
-                if (post.contains("-")) {
-                    for (int i = 0; i < splitInputPosts.length; i++) {
-                        postIds.add(splitInputPosts[i]);
-                    }
-                }
-                User user = new User(
-                        resultSet.getString("id"), resultSet.getString("password"),
-                        resultSet.getBoolean("entered"),resultSet.getString("nationalCode"),
-                        resultSet.getString("businessAccount"),postIds,followerIds,followingIds,messageIds,allFriendIds,
-                        resultSet.getString("imageAddress"),resultSet.getString("backGround"));
-                for (int i = 0; i < Manager.users.size(); i++) {
-                    if(Manager.users.get(i).getId().equals(user.getId()))
-                    {
-                        sameId=true;
-                        break;
-                    }
-                }
-                if(!sameId)
-                {
-                    Manager.users.add(user);
-                }
-
-            }
-            else if (resultSet.getString("businessAccount").equals("business")){
-                if (post.contains("-")) {
-                    for (int i = 0; i < splitInputPosts.length; i++) {
-                        postIds.add(splitInputPosts[i]);
-                    }
-                }
+            User user = new User(
+                    resultSet.getString("id"), resultSet.getString("password"),
+                    resultSet.getBoolean("entered"),resultSet.getString("nationalCode"),
+                    resultSet.getString("businessAccount"), followers,followings,posts,messages,allFriends);
+            manager.users.add(user);
+            if (resultSet.getString("businessAccount").equals("business")){
                 BusinessUser businessUser = new BusinessUser(resultSet.getString("id"), resultSet.getString("password"),
                         resultSet.getBoolean("entered"),resultSet.getString("nationalCode"),
-                        resultSet.getString("businessAccount"),postIds,followerIds,followingIds,messageIds,allFriendIds,resultSet.getString("imageAddress"),
-                        resultSet.getString("backGround"));
-                for (int i = 0; i < Manager.businessUsers.size(); i++) {
-                    if(Manager.businessUsers.get(i).getId().equals(businessUser.getId()))
-                    {
-                        sameId=true;
-                        break;
-                    }
-                }
-                if(!sameId)
-                {
-                    Manager.businessUsers.add(businessUser);
-                    User user1=(User) businessUser;
-                    Manager.users.add(user1);
-                }
-
+                        resultSet.getString("businessAccount"), followers,followings,posts,messages,allFriends);
+                manager.businessUsers.add(businessUser);
             }
         }
         statement.close();
     }
-    public void setPostsArrayList(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setPostsArrayList(Connection connection) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from Post");
         while (resultSet.next()){
-            ArrayList<String> likeUsersId = new ArrayList<>();
-            ArrayList<String> commentsId = new ArrayList<>();
+            ArrayList<User> likeUsers = new ArrayList<>();
+            ArrayList<Post> comments = new ArrayList<>();
             String[] splitInputLikeUsers = resultSet.getString("likeUsers").split("-");
             String[] splitInputComments = resultSet.getString("comments").split("-");
             String likes = resultSet.getString("likeUsers");
             String comment = resultSet.getString("comments");
-            if (likes.contains("-"))
-            {
+            if (likes.contains("-")){
                 for (int i=0;i< splitInputLikeUsers.length;i++){
-                    likeUsersId.add(splitInputLikeUsers[i]);
+                    likeUsers.add(manager.findId(splitInputLikeUsers[i]));
                 }
             }
             if (comment.contains("-")){
                 for (int i=0;i< splitInputComments.length;i++){
-                    commentsId.add(splitInputComments[i]);
+                    comments.add(manager.searchPostById(splitInputComments[i]));
                 }
             }
-            Post post = new Post(resultSet.getString("id"),resultSet.getString("userId"),
-                    resultSet.getString("postText"),likeUsersId,commentsId, resultSet.getString("image"));
-            for (int i = 0; i < Manager.posts.size(); i++) {
-                if(Manager.posts.get(i).getId().equals(post.getId()))
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-               Manager.posts.add(post);
-            }
+            Post post = new Post(manager.findId(resultSet.getString("postUser")), resultSet.getString("id"),
+                    resultSet.getString("postText"),likeUsers,comments);
+            manager.posts.add(post);
         }
         statement.close();
     }
-    public void setMessagesArrayList(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setMessagesArrayList(Connection connection) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from message");
         while (resultSet.next()){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
             String date = resultSet.getString("localDate");
             LocalDate localDate = LocalDate.parse(date, formatter);
-            Message message = new Message(manager.findId(resultSet.getString("sender")),resultSet.getString("messageText"),
+            Message message = new Message(manager.findId(resultSet.getString("sender")),resultSet.getString("text"),
                     manager.findId(resultSet.getString("receiver")),Integer.parseInt(resultSet.getString("id")),
-                    resultSet.getBoolean("forwarded"), localDate,resultSet.getBoolean("seen"),resultSet.getString("time"));
-            for (int i = 0; i < Manager.messages.size(); i++) {
-                if(Manager.messages.get(i).getId()==message.getId())
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-                manager.messages.add(message);
-            }
+                    resultSet.getBoolean("forwarded"), localDate);
+            manager.messages.add(message);
         }
         statement.close();
     }
     public void setBlockArrayList(Connection connection) throws SQLException{
-        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from blockUser");
         while (resultSet.next()){
             Block block = new Block(manager.findId(resultSet.getString("blocker")),
                     manager.findId(resultSet.getString("blocked")));
-            for (int i = 0; i < Manager.blocks.size(); i++) {
-                if(Manager.blocks.get(i).blocker.equals(block.blocker)&&
-                        Manager.blocks.get(i).blocked.equals(block.blocked))
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-                Manager.blocks.add(block);
-            }
+            manager.blocks.add(block);
         }
         statement.close();
     }
-    public void setGroupArrayList(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setGroupArrayList(Connection connection) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet=statement.executeQuery("select * from grp");
         while (resultSet.next())
@@ -235,164 +154,124 @@ public class SetArrayLists {
                 }
             }
             Group group=new Group(manager.findId(resultSet.getString("admin")),resultSet.getString("name")
-                    ,resultSet.getString("id"),users,banned,groupMessages, resultSet.getString("image"));
-            for (int i = 0; i < Manager.groups.size(); i++) {
-                if(Manager.groups.get(i).groupId.equals(group.groupId))
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-                Manager.groups.add(group);
-            }
+            ,resultSet.getString("id"),users,banned,groupMessages);
+            manager.groups.add(group);
         }
         statement.close();
     }
-    public void setGroupMessages(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setGroupMessages(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet=statement.executeQuery("select * from groupMessage");
         while (resultSet.next())
         {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
             String date = resultSet.getString("localDate");
             LocalDate localDate = LocalDate.parse(date, formatter);
-            ArrayList<Boolean>seen=new ArrayList<>();
-            String[] splitInputSeen=resultSet.getString("seen").split("-");
-            String Seen=resultSet.getString("seen");
-            if(Seen.contains("-"))
-            {
-                for (int i = 0; i < splitInputSeen.length; i++) {
-                    seen.add(Boolean.parseBoolean(splitInputSeen[i]));
-                }
-            }
             GroupMessage groupMessage=new GroupMessage(manager.findId(resultSet.getString("sender")),
                     resultSet.getString("groupText"),resultSet.getString("id"),
-                    resultSet.getString("groupId"),localDate,seen,resultSet.getString("time"));
-            for (int i = 0; i < Manager.groupMessages.size(); i++) {
-                if(Manager.groupMessages.get(i).getId().equals(groupMessage.getId()))
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-                Manager.groupMessages.add(groupMessage);
-            }
+                manager.searchGroup(resultSet.getString("grp")),localDate);
+            manager.groupMessages.add(groupMessage);
         }
         statement.close();
     }
-    public void setBusinessPosts(Connection connection) throws SQLException
-    {
-        boolean sameId=false;
+    public void setBusinessPosts(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet=statement.executeQuery("select * from businessPost");
+        ResultSet resultSet=statement.executeQuery("select * from groupMessage");
         while (resultSet.next())
         {
-            ArrayList<String>likeUsersId=new ArrayList<>();
+            ArrayList<User>likeUsers=new ArrayList<>();
             String[] splitInputLikeUsers=resultSet.getString("likeUsers").split("-");
             String LikeUsers=resultSet.getString("likeUsers");
             if(LikeUsers.contains("-"))
             {
                 for (int i = 0; i < splitInputLikeUsers.length; i++) {
-                    likeUsersId.add(splitInputLikeUsers[i]);
+                  likeUsers.add(manager.findId(splitInputLikeUsers[i]));  
                 }
             }
-            ArrayList<String>commentsId=new ArrayList<>();
+            ArrayList<Post>comments=new ArrayList<>();
             String[] splitInputComments=resultSet.getString("comments").split("-");
             String Comments=resultSet.getString("comments");
             if(Comments.contains("-"))
             {
                 for (int i = 0; i < splitInputComments.length; i++) {
-                    commentsId.add(splitInputComments[i]);
+                    comments.add(manager.searchPostById(splitInputComments[i]));
                 }
             }
-            ArrayList<String>viewers=new ArrayList<>();
+            ArrayList<User>viewers=new ArrayList<>();
             String[] splitInputViewers=resultSet.getString("viewers").split("-");
             String Viewers=resultSet.getString("viewers");
             if(Viewers.contains("-"))
             {
                 for (int i = 0; i < splitInputViewers.length; i++) {
-                    viewers.add(manager.findId(splitInputViewers[i]).getId());
+                    viewers.add(manager.findId(splitInputViewers[i]));
                 }
             }
-            ArrayList<String> favoriteNumberUser = new ArrayList<>();
-            String[] splitInputFavoriteNumberUser=resultSet.getString("favoriteNumberUser").split("-");
-            String FavoriteNumberUser=resultSet.getString("favoriteNumberUser");
-            if (FavoriteNumberUser.contains("-")){
-                for (int i=0;i<splitInputFavoriteNumberUser.length;i++) {
-                    favoriteNumberUser.add(splitInputFavoriteNumberUser[i]);
-                }
-            }
-            ArrayList<Double> favoriteNumberDouble = new ArrayList<>();
-            String[] splitInputFavoriteNumberDouble=resultSet.getString("favoriteNumberDouble").split("-");
-            String FavoriteNumberDouble = resultSet.getString("favoriteNumberDouble");
-            if (FavoriteNumberDouble.contains("-")){
-                for (int i=0;i<splitInputFavoriteNumberDouble.length;i++){
-                    favoriteNumberDouble.add(Double.parseDouble(splitInputFavoriteNumberDouble[i]));
-                }
-            }
-            ArrayList<String>likeUsersForTable=new ArrayList<>();
-            String[] splitInputLikeUsersForTable=resultSet.getString("likesUsersForTable").split("-");
-            String LikeUsersForTable=resultSet.getString("likesUsersForTable");
-            if(LikeUsersForTable.contains("-"))
+            HashMap<User,Double>favoriteNumbers=new HashMap<>();
+            String[] splitInputFavoriteNumbers=resultSet.getString("favoriteNumbers").split("-");
+            String FavoriteNumbers=resultSet.getString("favoriteNumbers");
+            if(FavoriteNumbers.contains("-"))
             {
-                for (int i = 0; i < splitInputLikeUsersForTable.length; i++) {
-                    likeUsersForTable.add(manager.findId(splitInputLikeUsersForTable[i]).getId());
+                for (int i = 0; i < splitInputFavoriteNumbers.length; i++) {
+                    for (int j = 0; j < splitInputFavoriteNumbers[i].length(); j++) {
+                        if(splitInputFavoriteNumbers[i].charAt(j)==',')
+                        {
+                            User user=manager.findId(splitInputFavoriteNumbers[i].substring(0,j));
+                            Double number=Double.parseDouble(splitInputFavoriteNumbers[i].substring(j+1,splitInputFavoriteNumbers.length));
+                            favoriteNumbers.put(user,number);
+                        }
+
+                    }
+
+                    
                 }
             }
-            ArrayList<LocalDate>likesLocalDateForTable=new ArrayList<>();
-            String[] splitInputLikesLocalDateForTable=resultSet.getString("likesLocalDateForTable").split(",");
-            String LikesLocalDateForTable=resultSet.getString("likesLocalDateForTable");
-            if(LikesLocalDateForTable.contains(","))
+            HashMap<User,LocalDate>likes=new HashMap<>();
+            String[] splitInputLikes=resultSet.getString("likes").split("-");
+            String Likes=resultSet.getString("likes");
+            if(Likes.contains("-"))
             {
-                for (int i = 0; i < splitInputLikesLocalDateForTable.length; i++) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate localDate = LocalDate.parse(splitInputLikesLocalDateForTable[i],formatter);
-                    likesLocalDateForTable.add(localDate);
+                for (int i = 0; i < splitInputLikes.length; i++) {
+                    for (int j = 0; j < splitInputLikes[i].length(); j++) {
+                        if(splitInputLikes[i].charAt(j)==',')
+                        {
+                            User user=manager.findId(splitInputLikes[i].substring(0,j));
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                            LocalDate localDate=LocalDate.parse(splitInputLikes[i].substring(j+1,splitInputLikes.length),formatter);
+                            likes.put(user,localDate);
+                        }
+
+                    }
+
+
                 }
             }
-            ArrayList<String>viewUsersForTable=new ArrayList<>();
-            String[] splitInputViewUsersForTable=resultSet.getString("viewUsersForTable").split("-");
-            String ViewUsersForTable=resultSet.getString("viewUsersForTable");
-            if(ViewUsersForTable.contains("-"))
+            HashMap<User,LocalDate>views=new HashMap<>();
+            String[] splitInputViews=resultSet.getString("views").split("-");
+            String Views=resultSet.getString("views");
+            if(Views.contains("-"))
             {
-                for (int i = 0; i < splitInputViewUsersForTable.length; i++) {
-                    viewUsersForTable.add(manager.findId(splitInputViewUsersForTable[i]).getId());
+                for (int i = 0; i < splitInputViews.length; i++) {
+                    for (int j = 0; j < splitInputViews[i].length(); j++) {
+                        if(splitInputViews[i].charAt(j)==',')
+                        {
+                            User user=manager.findId(splitInputViews[i].substring(0,j));
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                            LocalDate localDate=LocalDate.parse(splitInputViews[i].substring(j+1,splitInputViews.length),formatter);
+                            views.put(user,localDate);
+                        }
+
+                    }
+
+
                 }
             }
-            ArrayList<LocalDate>viewLocalDatesForTable=new ArrayList<>();
-            String[] splitInputViewLocalDatesForTable=resultSet.getString("viewLocalDatesForTable").split(",");
-            String ViewLocalDatesForTable=resultSet.getString("viewLocalDatesForTable");
-            if(ViewLocalDatesForTable.contains(","))
-            {
-                for (int i = 0; i < splitInputViewLocalDatesForTable.length; i++) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate localDate = LocalDate.parse(splitInputViewLocalDatesForTable[i],formatter);
-                    viewLocalDatesForTable.add(localDate);
-                }
-            }
-            LocalDate localDate = LocalDate.parse(resultSet.getString("releasedTime"));
-            BusinessPost businessPost=new BusinessPost(
-                    resultSet.getString("id"),resultSet.getString("userId"),resultSet.getString("postText"),likeUsersId,commentsId,
-                    favoriteNumberUser,favoriteNumberDouble,viewers,likeUsersForTable
-                    ,likesLocalDateForTable,viewUsersForTable,viewLocalDatesForTable,localDate, resultSet.getString("image"));
-            for (int i = 0; i < Manager.businessPosts.size(); i++) {
-                if(Manager.businessPosts.get(i).getId().equals(businessPost.getId()))
-                {
-                    sameId=true;
-                    break;
-                }
-            }
-            if(!sameId)
-            {
-                Manager.businessPosts.add(businessPost);
-                Manager.posts.add(businessPost);
-            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+            String date = resultSet.getString("localDate");
+            LocalDate localDate = LocalDate.parse(date, formatter);
+            BusinessPost businessPost=new BusinessPost(manager.findId(resultSet.getString("postUser")),
+                    resultSet.getString("id"),resultSet.getString("postText"),likeUsers,comments,
+                    favoriteNumbers,viewers,likes,views,localDate);
+            manager.businessPosts.add(businessPost);
         }
         statement.close();
     }

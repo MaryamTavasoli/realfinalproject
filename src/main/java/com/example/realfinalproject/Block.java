@@ -1,4 +1,5 @@
 package com.example.realfinalproject;
+
 public class Block {
     User blocker;
     User blocked;

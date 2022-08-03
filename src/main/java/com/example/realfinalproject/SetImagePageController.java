@@ -18,11 +18,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class SetImagePageController {
-    Manager manager = new Manager();
     Stage stage;
     Scene scene;
     @FXML
@@ -46,12 +44,10 @@ public class SetImagePageController {
     @FXML
     CheckBox checkBox4;
     @FXML
-    Button mainPage;
+    Button loginPage;
     public static String str="";
-    public void initialize() throws FileNotFoundException, SQLException
+    public void initialize() throws FileNotFoundException
     {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
         InputStream stream1 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\images\\ali.jpg");
         Image Image1 = new Image(stream1);
         image1.setImage(Image1);
@@ -65,27 +61,20 @@ public class SetImagePageController {
         Image Image4= new Image(stream4);
         image4.setImage(Image4);
     }
-    public void goToMainPage(ActionEvent event) throws IOException, SQLException
-    {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
+    public void goToLoginPage(ActionEvent event) throws IOException {
         if (checkBox1.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\ali.jpg";
-            manager.checkLogin().setImageAddress(str);
+            str = "C:\\Users\\APPLE\\Desktop\\images\\image1.jpg";
         }
         if (checkBox2.isSelected()) {
-            str ="C:\\Users\\APPLE\\Desktop\\images\\mina.jpg";
-            manager.checkLogin().setImageAddress(str);
+            str ="C:\\Users\\APPLE\\Desktop\\images\\image2.jpg" ;
         }
         if (checkBox3.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\neda.jpg";
-            manager.checkLogin().setImageAddress(str);
+            str = "C:\\Users\\APPLE\\Desktop\\images\\image3.jpg";
         }
         if (checkBox4.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\reza.jpg";
-            manager.checkLogin().setImageAddress(str);
+            str = "C:\\Users\\APPLE\\Desktop\\images\\image4.jpg";
         }
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainPage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("loginPage.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

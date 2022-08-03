@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.ForgotPageController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#66dbff" height="400.0" layoutX="-4.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="606.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#73f2f2" height="400.0" layoutX="-4.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="606.0" />
         <Label fx:id="id" layoutX="122.0" layoutY="101.0" text="id:">
             <font>
                 <Font size="18.0" />
@@ -27,12 +27,6 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="close" layoutX="524.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" />
-        <Label fx:id="setLabel" layoutX="112.0" layoutY="336.0" prefHeight="21.0" prefWidth="368.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Button fx:id="back" layoutX="33.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToLoginPage" text="back" />
+      <Button fx:id="close" layoutX="524.0" layoutY="14.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" />
     </children>
 </AnchorPane>

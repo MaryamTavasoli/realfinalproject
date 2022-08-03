@@ -1,35 +1,16 @@
 package com.example.realfinalproject;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class GroupMessage {
     User sender;
     String text;
     String id;
-    String groupId;
+
+    Group group;
     LocalDate localDate;
-    String time;
-
-    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate, ArrayList<Boolean> seen, String time) {
-        this.sender = sender;
-        this.text = text;
-        this.id = id;
-        this.groupId = groupId;
-        this.localDate = localDate;
-        this.seen = seen;
-        this.time = time;
-    }
-
-    public ArrayList<Boolean> getSeen() {
-        return seen;
-    }
-
-    public void setSeen(ArrayList<Boolean> seen) {
-        this.seen = seen;
-    }
-
     String localDateToString;
-    ArrayList<Boolean> seen=new ArrayList<>();
+
     public User getSender() {
         return sender;
     }
@@ -40,6 +21,14 @@ public class GroupMessage {
 
     public String getText() {
         return text;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void setText(String text) {
@@ -62,19 +51,11 @@ public class GroupMessage {
         this.localDate = localDate;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate) {
+    public GroupMessage(User sender, String text, String id, Group group, LocalDate localDate) {
         this.sender = sender;
         this.text = text;
         this.id = id;
-        this.groupId=groupId;
+        this.group=group;
         this.localDate=localDate;
     }
 }

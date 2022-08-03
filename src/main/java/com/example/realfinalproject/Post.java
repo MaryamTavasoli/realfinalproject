@@ -1,38 +1,45 @@
 package com.example.realfinalproject;
+
 import java.util.ArrayList;
 
 public class Post {
-    String userId;
-    String Id;
-    String text="";
-    ArrayList<String> likeUsersId = new ArrayList<>();
-    ArrayList<String> commentsId = new ArrayList<>();
-    String image="";
+    User user;
 
-    public Post(String id, String userId , String text, ArrayList<String> likeUsersId, ArrayList<String> commentsId, String image) {
-
+    public Post(User user, String id, String text, ArrayList<User> likeUsers, ArrayList<Post> comments) {
+        this.user = user;
         Id = id;
-        this.userId = userId;
         this.text = text;
-        this.likeUsersId = likeUsersId;
-        this.commentsId = commentsId;
-        this.image = image;
+        this.likeUsers = likeUsers;
+        this.comments = comments;
     }
 
-    public ArrayList<String> getLikeUsersId() {
-        return likeUsersId;
+    String Id;
+    String text;
+    ArrayList<User> likeUsers=new ArrayList<>();
+    public ArrayList<Post> comments=new ArrayList<>();
+
+    public User getUser() {
+        return user;
     }
 
-    public void setLikeUsersId(ArrayList<String> likeUsersId) {
-        this.likeUsersId = likeUsersId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public ArrayList<String> getCommentsId() {
-        return commentsId;
+    public ArrayList<User> getLikeUsers() {
+        return likeUsers;
     }
 
-    public void setCommentsId(ArrayList<String> commentsId) {
-        this.commentsId = commentsId;
+    public void setLikeUsers(ArrayList<User> likeUsers) {
+        this.likeUsers = likeUsers;
+    }
+
+    public ArrayList<Post> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Post> comments) {
+        this.comments = comments;
     }
 
     public String getId() {
@@ -51,17 +58,8 @@ public class Post {
         this.text = text;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-
-    public Post(String userId, String id) {
-        this.userId = userId;
+    public Post(User user, String id) {
+        this.user = user;
         this.Id= id;
     }
 }

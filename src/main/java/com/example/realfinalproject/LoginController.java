@@ -13,8 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Objects;
 
 public class LoginController {
     Manager manager =new Manager();
@@ -34,58 +32,28 @@ public class LoginController {
     Button forgotPassword;
     @FXML
     Button close;
-    @FXML
-    Label setLabel;
-    @FXML
-    Button back;
 
-    public void switchToMainPage(ActionEvent event) throws IOException, SQLException
-    {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
+    public void switchToMainPage(ActionEvent event) throws IOException {
         String[] splitInput = new String[3];
         splitInput[0] = "login";
         splitInput[1] = idField.getText();
         splitInput[2] = passwordField.getText();
-        if(manager.login(splitInput).equals("logged in successfully")) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainPage.fxml")));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-        else{
-            setLabel.setText(manager.login(splitInput));
-            idField.clear();
-            passwordField.clear();
-        }
-    }
-    public void switchToForgotPage(ActionEvent event) throws IOException, SQLException {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
-        Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("forgotPage.fxml")));
+        manager.login(splitInput);
+        Parent root= FXMLLoader.load(getClass().getResource("mainPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-    public void switchToRegisterOrLoginPage(ActionEvent event) throws SQLException, IOException {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
-        Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginOrRegister.fxml")));
+    public void switchToForgotPage(ActionEvent event) throws IOException {
+        Parent root= FXMLLoader.load(getClass().getResource("forgotPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-    public void closeTheStage(ActionEvent event) throws SQLException {
-        SetArrayLists setArrayLists = new SetArrayLists();
-        setArrayLists.setAllArrayLists();
-        if (manager.checkLogin()!=null){
-            manager.logout();
-        }
-        DataInitializer dataInitializer = new DataInitializer();
-        dataInitializer.insertAllInformation();
+    public void closeTheStage(ActionEvent event)
+    {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
     }

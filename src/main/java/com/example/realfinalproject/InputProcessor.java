@@ -1,12 +1,11 @@
 package com.example.realfinalproject;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class InputProcessor {
     private Scanner sc=new Scanner(System.in);
-    boolean invalidCommand=true;
-    public void start() throws SQLException {
+    public void start()
+    {
         Manager manager=new Manager();
         while(true)
         {
@@ -16,14 +15,14 @@ public class InputProcessor {
                 String[] splitInput=input.split("\\s");
                 manager.register(splitInput);
             }
-            else if (input.contains("login"))
+            if (input.contains("login"))
             {
                 if (manager.checkLogin()==null) {
                     String[] splitInput = input.split("\\s");
                     manager.login(splitInput);
                 }
             }
-            else if(input.contains("show")&&input.contains("profile"))
+            if(input.contains("show")&&input.contains("profile"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -34,31 +33,28 @@ public class InputProcessor {
                     manager.showProfile(splitInput);
                 }
             }
-            else if (input.contains("create post"))
+            if (input.contains("create post"))
             {
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
-                    invalidCommand=false;
-                    //manager.createPost();
+                    manager.createPost();
                 }
             }
-            else if(input.contains("add comment"))
+            if(input.contains("add comment"))
             {
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
-                    invalidCommand=false;
                     String[] splitInput=input.split("\\s");
-                    //manager.addComment(splitInput);
-
+                    manager.addComment(splitInput);
                 }
             }
-            else if(input.contains("LIKE"))
+            if(input.contains("LIKE"))
             {
                 if (manager.checkLogin()==null){
                     System.out.println("no one logged in...");
@@ -69,7 +65,7 @@ public class InputProcessor {
                     manager.like(splitInput);
                 }
             }
-            else if (input.contains("show comments")) {
+            if (input.contains("show comments")) {
                 if (manager.checkLogin() == null) {
                     System.out.println("no one logged in...");
                 }
@@ -78,7 +74,7 @@ public class InputProcessor {
                     manager.showComments(splitInput);
                 }
             }
-            else if(input.contains("show likes")) {
+            if(input.contains("show likes")) {
                 if (manager.checkLogin() == null) {
                     System.out.println("no one logged in...");
                 }
@@ -87,7 +83,7 @@ public class InputProcessor {
                     manager.showLikes(splitInput);
                 }
             }
-            else if(input.contains("show main page"))
+            if(input.contains("show main page"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -97,7 +93,7 @@ public class InputProcessor {
                     manager.showMainPage();
                 }
             }
-            else if (input.contains("show stats"))
+            if (input.contains("show stats"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -108,20 +104,7 @@ public class InputProcessor {
                     manager.showStats(splitInput);
                 }
             }
-            else if(input.contains("start private message"))
-            {
-                if (manager.checkLogin()==null)
-                {
-                    System.out.println("no one logged in...");
-                }
-                else {
-                    invalidCommand=false;
-                    String[] splitInput = input.split("\\s");
-                    //manager.startPrivateMessage(splitInput);
-
-                }
-            }
-            else if (input.contains("forward message"))
+            if(input.contains("start private message"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -129,23 +112,10 @@ public class InputProcessor {
                 }
                 else {
                     String[] splitInput = input.split("\\s");
-                    //manager.forwardMessage(splitInput);
+                    manager.startPrivateMessage(splitInput);
                 }
             }
-            else if (input.contains("reply message"))
-            {
-                if (manager.checkLogin()==null)
-                {
-                    System.out.println("no one logged in...");
-                }
-                else {
-                    invalidCommand=false;
-                    String[] splitInput = input.split("\\s");
-                    //manager.replyMessage(splitInput);
-
-                }
-            }
-            else if (input.contains("block"))
+            if (input.contains("forward message"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -153,23 +123,43 @@ public class InputProcessor {
                 }
                 else {
                     String[] splitInput = input.split("\\s");
-                    //manager.block(splitInput);
+                    manager.forwardMessage(splitInput);
                 }
             }
-            else if (input.contains("edit message"))
+            if (input.contains("reply message"))
             {
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
-                    //manager.editMessage(splitInput);
-
+                    manager.replyMessage(splitInput);
                 }
             }
-            else if (input.contains("show chats"))
+            if (input.contains("block"))
+            {
+                if (manager.checkLogin()==null)
+                {
+                    System.out.println("no one logged in...");
+                }
+                else {
+                    String[] splitInput = input.split("\\s");
+                    manager.block(splitInput);
+                }
+            }
+            if (input.contains("edit message"))
+            {
+                if (manager.checkLogin()==null)
+                {
+                    System.out.println("no one logged in...");
+                }
+                else {
+                    String[] splitInput = input.split("\\s");
+                    manager.editMessage(splitInput);
+                }
+            }
+            if (input.contains("show chats"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -180,17 +170,17 @@ public class InputProcessor {
                     manager.showChats(splitInput);
                 }
             }
-            else if (input.contains("create group")){
+            if (input.contains("create group")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
                     String[] splitInput = input.split("\\s");
-                    //manager.createGroup(splitInput);
+                    manager.createGroup(splitInput);
                 }
             }
-            else if (input.contains("add user")){
+            if (input.contains("add user")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
@@ -200,29 +190,27 @@ public class InputProcessor {
                     manager.addUser(splitInput);
                 }
             }
-            else if (input.contains("change groupName")){
+            if (input.contains("change groupName")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
-                    //manager.changeGroupName(splitInput);
+                    manager.changeGroupName(splitInput);
                 }
             }
-            else if (input.contains("change groupId")){
+            if (input.contains("change groupId")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
                 }
                 else {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
                     manager.changeGroupId(splitInput);
                 }
             }
-            else if (input.contains("remove user")){
+            if (input.contains("remove user")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
@@ -232,7 +220,7 @@ public class InputProcessor {
                     manager.removeUser(splitInput);
                 }
             }
-            else if (input.contains("ban user")){
+            if (input.contains("ban user")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
@@ -242,7 +230,7 @@ public class InputProcessor {
                     manager.banUser(splitInput);
                 }
             }
-            else if(input.contains("send message to group"))
+            if(input.contains("send message to group"))
             {
                 if(manager.checkLogin()==null)
                 {
@@ -250,12 +238,11 @@ public class InputProcessor {
                 }
                 else
                 {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
-                    //manager.sendGroupMessage(splitInput);
+                    manager.sendGroupMessage(splitInput);
                 }
             }
-            else if(input.contains("edit groupMessage"))
+            if(input.contains("edit groupMessage"))
             {
                 if(manager.checkLogin()==null)
                 {
@@ -263,12 +250,11 @@ public class InputProcessor {
                 }
                 else
                 {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
-                   // manager.editGroupMessage(splitInput);
+                    manager.editGroupMessage(splitInput);
                 }
             }
-            else if(input.contains("reply groupMessage"))
+            if(input.contains("reply groupMessage"))
             {
                 if(manager.checkLogin()==null)
                 {
@@ -276,13 +262,12 @@ public class InputProcessor {
                 }
                 else
                 {
-                    invalidCommand=false;
                     String[] splitInput = input.split("\\s");
-                    //manager.replyGroupMessage(splitInput);
+                    manager.replyGroupMessage(splitInput);
                 }
 
             }
-            else if(input.contains("forward groupMessage to group"))
+            if(input.contains("forward groupMessage to group"))
             {
                 if(manager.checkLogin()==null)
                 {
@@ -294,7 +279,7 @@ public class InputProcessor {
                     manager.forwardGroupMessage(splitInput);
                 }
             }
-            else if(input.contains("show group chats"))
+            if(input.contains("show group chats"))
             {
                 if(manager.checkLogin()==null)
                 {
@@ -306,7 +291,7 @@ public class InputProcessor {
                     manager.showGroupMessages(splitInput);
                 }
             }
-            else if (input.contains("forward groupMessage to pv"))
+            if (input.contains("forward groupMessage to pv"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -318,7 +303,7 @@ public class InputProcessor {
                     manager.forwardGroupToPv(splitInput);
                 }
             }
-            else if (input.contains("forward ordinaryMessage to group"))
+            if (input.contains("forward ordinaryMessage to group"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -330,7 +315,7 @@ public class InputProcessor {
                     manager.forwardPvToGroup(splitInput);
                 }
             }
-            else if (input.contains("search text message"))
+            if (input.contains("search text message"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -338,24 +323,10 @@ public class InputProcessor {
                 }
                 else
                 {
-                    invalidCommand=false;
-                    //manager.searchTextMessage();
+                    manager.searchTextMessage();
                 }
             }
-            else if(input.contains("show")&&input.contains("posts"))
-            {
-                if (manager.checkLogin()==null)
-                {
-                    System.out.println("no one logged in...");
-                }
-                else
-                {
-                    String[] splitInput = input.split("\\s");
-                    manager.showPosts(splitInput);
-                }
-
-            }
-            else if(input.contains("suggest friend")){
+            if(input.contains("suggest friend")){
                 if (manager.checkLogin()==null)
                 {
                     System.out.println("no one logged in...");
@@ -364,7 +335,7 @@ public class InputProcessor {
                     manager.suggestFriend();
                 }
             }
-            else if(input.contains("suggest advertisement"))
+            if(input.contains("suggest advertisement"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -374,7 +345,7 @@ public class InputProcessor {
                     manager.suggestBusinessPost();
                 }
             }
-            else if(input.contains("log out"))
+            if(input.contains("log out"))
             {
                 if (manager.checkLogin()==null)
                 {
@@ -384,16 +355,9 @@ public class InputProcessor {
                     manager.logout();
                 }
             }
-            else if(input.equals("end"))
+            if(input.equals("end"))
             {
                 break;
-            }
-            else
-            {
-                if(invalidCommand)
-                {
-                    System.out.println("Invalid command...");
-                }
             }
         }
     }
