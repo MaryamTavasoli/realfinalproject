@@ -1,5 +1,4 @@
 package com.example.realfinalproject;
-
 import java.util.ArrayList;
 
 public class Group {
@@ -9,17 +8,25 @@ public class Group {
     ArrayList<User>users=new ArrayList<>();
     ArrayList<Boolean>banned=new ArrayList<>();
     ArrayList<GroupMessage>groupMessages=new ArrayList<>();
+    String image;
 
-    public Group(User admin, String groupName, String groupId, ArrayList<User> users, ArrayList<Boolean> banned, ArrayList<GroupMessage> groupMessages) {
+
+    public Group(User admin, String groupName, String groupId, ArrayList<User> users, ArrayList<Boolean> banned, ArrayList<GroupMessage> groupMessages, String image) {
         this.admin = admin;
         this.groupName = groupName;
         this.groupId = groupId;
         this.users = users;
         this.banned = banned;
         this.groupMessages = groupMessages;
+        this.image = image;
+    }
+    public String getImage() {
+        return image;
     }
 
-
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public User getAdmin() {
         return admin;

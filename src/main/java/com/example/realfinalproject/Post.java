@@ -1,45 +1,38 @@
 package com.example.realfinalproject;
-
 import java.util.ArrayList;
 
 public class Post {
-    User user;
-
-    public Post(User user, String id, String text, ArrayList<User> likeUsers, ArrayList<Post> comments) {
-        this.user = user;
-        Id = id;
-        this.text = text;
-        this.likeUsers = likeUsers;
-        this.comments = comments;
-    }
-
+    String userId;
     String Id;
-    String text;
-    ArrayList<User> likeUsers=new ArrayList<>();
-    public ArrayList<Post> comments=new ArrayList<>();
+    String text="";
+    ArrayList<String> likeUsersId = new ArrayList<>();
+    ArrayList<String> commentsId = new ArrayList<>();
+    String image="";
 
-    public User getUser() {
-        return user;
+    public Post(String id, String userId , String text, ArrayList<String> likeUsersId, ArrayList<String> commentsId, String image) {
+
+        Id = id;
+        this.userId = userId;
+        this.text = text;
+        this.likeUsersId = likeUsersId;
+        this.commentsId = commentsId;
+        this.image = image;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public ArrayList<String> getLikeUsersId() {
+        return likeUsersId;
     }
 
-    public ArrayList<User> getLikeUsers() {
-        return likeUsers;
+    public void setLikeUsersId(ArrayList<String> likeUsersId) {
+        this.likeUsersId = likeUsersId;
     }
 
-    public void setLikeUsers(ArrayList<User> likeUsers) {
-        this.likeUsers = likeUsers;
+    public ArrayList<String> getCommentsId() {
+        return commentsId;
     }
 
-    public ArrayList<Post> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<Post> comments) {
-        this.comments = comments;
+    public void setCommentsId(ArrayList<String> commentsId) {
+        this.commentsId = commentsId;
     }
 
     public String getId() {
@@ -58,8 +51,17 @@ public class Post {
         this.text = text;
     }
 
-    public Post(User user, String id) {
-        this.user = user;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
+    public Post(String userId, String id) {
+        this.userId = userId;
         this.Id= id;
     }
 }

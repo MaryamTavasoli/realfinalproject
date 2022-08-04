@@ -1,5 +1,4 @@
 package com.example.realfinalproject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,47 +6,70 @@ import java.util.ArrayList;
 
 public class DataInitializer {
     Manager manager=new Manager();
+    public  void insertAllInformation() throws SQLException {
+        insertUsers(Main.connection);
+        insertPosts(Main.connection);
+        insertMessages(Main.connection);
+        insertGroupMessage(Main.connection);
+        insertGroup(Main.connection);
+        insertBlocks(Main.connection);
+        insertBusinessPost(Main.connection);
+    }
     public void insertUsers(Connection connection) throws SQLException {
         int num = manager.users.size();
         ArrayList<User> users = manager.users;
         for (int i=0;i<num;i++){
             PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into User values(" +
-                    "?,?,?,?,?,?,?,?,?,?)");
+                    "?,?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1, users.get(i).getId());
             preparedStatement.setString(2,users.get(i).getPassword());
             preparedStatement.setBoolean(3,users.get(i).isEntered());
             preparedStatement.setString(4,users.get(i).getNationalCode());
             preparedStatement.setString(5,users.get(i).getBusinessAccount());
             StringBuilder followerIds= new StringBuilder();
-            for (int j=0;j<users.get(i).getFollowers().size();j++){
-                followerIds.append(users.get(i).getFollowers().get(j).getId());
+            for (int j=0;j<users.get(i).getFollowerIds().size();j++){
+                followerIds.append(users.get(i).getFollowerIds().get(j));
                 followerIds.append("-");
             }
             preparedStatement.setString(6, followerIds.toString());
             StringBuilder followingIds= new StringBuilder();
-            for (int j=0;j<users.get(i).getFollowings().size();j++){
-                followingIds.append(users.get(i).getFollowings().get(j).getId());
+            for (int j=0;j<users.get(i).getFollowingIds().size();j++){
+                followingIds.append(users.get(i).getFollowingIds().get(j));
                 followingIds.append("-");
             }
             preparedStatement.setString(7, followingIds.toString());
-            StringBuilder postIds= new StringBuilder();
-            for(int j=0;j<users.get(i).getPosts().size();j++){
-                postIds.append(users.get(i).getPosts().get(j).getId());
-                postIds.append("-");
+            if (users.get(i).getBusinessAccount().equals("ordinary")) {
+                StringBuilder postIds = new StringBuilder();
+                for (int j = 0; j < users.get(i).getPostIds().size(); j++) {
+                    postIds.append(users.get(i).getPostIds().get(j));
+                    postIds.append("-");
+                }
+                preparedStatement.setString(8, postIds.toString());
             }
-            preparedStatement.setString(8, postIds.toString());
+            else if (users.get(i).getBusinessAccount().equals("business")){
+                StringBuilder businessPostIds = new StringBuilder();
+                BusinessUser businessUser = (BusinessUser) users.get(i);
+                for (int j = 0; j < businessUser.getPostIds().size(); j++) {
+                    businessPostIds.append(businessUser.getPostIds().get(j));
+                    businessPostIds.append("-");
+                }
+                preparedStatement.setString(8, businessPostIds.toString());
+            }
             StringBuilder messageIds= new StringBuilder();
-            for (int j=0;j<users.get(i).getMessages().size();j++){
-                messageIds.append(users.get(i).getMessages().get(j).getId());
+            for (int j=0;j<users.get(i).getMessageIds().size();j++){
+                String str=Integer.toString(users.get(i).getMessageIds().get(j));
+                messageIds.append(str);
                 messageIds.append("-");
             }
             preparedStatement.setString(9, messageIds.toString());
             StringBuilder allFriends= new StringBuilder();
-            for (int j=0;j<users.get(i).getAllFriends().size();j++){
-                allFriends.append(users.get(i).getAllFriends().get(j).getId());
+            for (int j=0;j<users.get(i).getAllFriendIds().size();j++){
+                allFriends.append(users.get(i).getAllFriendIds().get(j));
                 allFriends.append("-");
             }
             preparedStatement.setString(10, allFriends.toString());
+            preparedStatement.setString(11,users.get(i).getImageAddress());
+            preparedStatement.setString(12,users.get(i).getBackGround());
             preparedStatement.executeUpdate();
         }
     }
@@ -56,36 +78,41 @@ public class DataInitializer {
         int num=manager.posts.size();
         ArrayList<Post> posts=manager.posts;
         for (int i=0;i<num;i++){
-            PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Post values(?,?,?,?,?)");
-            preparedStatement.setString(1,posts.get(i).getId());
-            preparedStatement.setString(2,posts.get(i).getText());
-            preparedStatement.setString(3,posts.get(i).getUser().getId());
-            StringBuilder likeUsers= new StringBuilder();
-            for (int j=0;j<posts.get(i).getLikeUsers().size();j++){
-                likeUsers.append(posts.get(i).getLikeUsers().get(j).getId());
-                likeUsers.append("-");
+            if (!(posts.get(i) instanceof  BusinessPost) ) {
+                PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Post values(?,?,?,?,?,?)");
+                preparedStatement.setString(1, posts.get(i).getId());
+                preparedStatement.setString(2, posts.get(i).userId);
+                preparedStatement.setString(3, posts.get(i).getText());
+                StringBuilder likeUsers = new StringBuilder();
+                for (int j = 0; j < posts.get(i).getLikeUsersId().size(); j++) {
+                    likeUsers.append(posts.get(i).getLikeUsersId().get(j));
+                    likeUsers.append("-");
+                }
+                preparedStatement.setString(4, likeUsers.toString());
+                StringBuilder commentIds = new StringBuilder();
+                for (int j = 0; j < posts.get(i).getCommentsId().size(); j++) {
+                    commentIds.append(posts.get(i).getCommentsId().get(j));
+                    commentIds.append("-");
+                }
+                preparedStatement.setString(5, commentIds.toString());
+                preparedStatement.setString(6,posts.get(i).getImage());
+                preparedStatement.executeUpdate();
             }
-            preparedStatement.setString(4,likeUsers.toString());
-            StringBuilder commentIds= new StringBuilder();
-            for (int j=0;j<posts.get(i).getComments().size();j++){
-                commentIds.append(posts.get(i).getComments().get(j).getId());
-                commentIds.append("-");
-            }
-            preparedStatement.setString(5,commentIds.toString());
-            preparedStatement.executeUpdate();
         }
     }
     public void insertMessages(Connection connection) throws SQLException{
         int num=manager.messages.size();
         ArrayList<Message> messages=manager.messages;
         for (int i=0;i<num;i++){
-            PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Message values(?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Message values(?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,messages.get(i).getId());
             preparedStatement.setString(2,messages.get(i).getText());
             preparedStatement.setBoolean(3,messages.get(i).forwarded);
             preparedStatement.setString(4,messages.get(i).localDateToString);
             preparedStatement.setString(5,messages.get(i).getSender().getId());
             preparedStatement.setString(6,messages.get(i).getReceiver().getId());
+            preparedStatement.setBoolean(7,messages.get(i).isSeen());
+            preparedStatement.setString(8,messages.get(i).getTime());
             preparedStatement.executeUpdate();
         }
     }
@@ -94,12 +121,19 @@ public class DataInitializer {
         ArrayList<GroupMessage> groupMessages = manager.groupMessages;
         for (int i=0;i<num;i++){
             PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into GroupMessage values" +
-                    "(?,?,?,?,?)");
+                    "(?,?,?,?,?,?,?)");
             preparedStatement.setString(1,groupMessages.get(i).getId());
             preparedStatement.setString(2,groupMessages.get(i).getText());
             preparedStatement.setString(3,groupMessages.get(i).localDateToString);
-            preparedStatement.setString(4,groupMessages.get(i).getGroup().getGroupId());
+            preparedStatement.setString(4,groupMessages.get(i).groupId);
             preparedStatement.setString(5,groupMessages.get(i).getSender().getId());
+            StringBuilder seen= new StringBuilder();
+            for (int j=0;j<groupMessages.get(i).getSeen().size();j++){
+                seen.append(groupMessages.get(i).getSeen().get(j).toString());
+                seen.append("-");
+            }
+            preparedStatement.setString(6,seen.toString());
+            preparedStatement.setString(7,groupMessages.get(i).getTime());
             preparedStatement.executeUpdate();
         }
     }
@@ -108,7 +142,7 @@ public class DataInitializer {
         ArrayList<Group> groups = manager.groups;
         for (int i=0;i<num;i++){
             PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into grp values" +
-                    "(?,?,?,?,?,?)");
+                    "(?,?,?,?,?,?,?)");
             preparedStatement.setString(1,groups.get(i).getGroupId());
             preparedStatement.setString(2,groups.get(i).getGroupName());
             preparedStatement.setString(3,groups.get(i).getAdmin().getId());
@@ -130,6 +164,7 @@ public class DataInitializer {
                 groupMessageIds.append("-");
             }
             preparedStatement.setString(6,groupMessageIds.toString());
+            preparedStatement.setString(7,groups.get(i).getImage());
             preparedStatement.executeUpdate();
         }
     }
@@ -151,19 +186,19 @@ public class DataInitializer {
         ArrayList<BusinessPost> businessPosts = manager.businessPosts;
         for (int i=0;i<num;i++){
             PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into BusinessPost values" +
-                    "(?,?,?,?,?,?,?,?,?,?)");
+                    "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1,businessPosts.get(i).getId());
-            preparedStatement.setString(2,businessPosts.get(i).getText());
-            preparedStatement.setString(3,businessPosts.get(i).getUser().getId());
+            preparedStatement.setString(2,businessPosts.get(i).userId);
+            preparedStatement.setString(3,businessPosts.get(i).getText());
             StringBuilder likeUsers = new StringBuilder();
-            for (int j=0;j<businessPosts.get(i).getLikeUsers().size();j++){
-               likeUsers.append(businessPosts.get(i).getLikeUsers().get(j));
+            for (int j=0;j<businessPosts.get(i).getLikeUsersId().size();j++){
+                likeUsers.append(businessPosts.get(i).getLikeUsersId().get(j));
                 likeUsers.append("-");
             }
             preparedStatement.setString(4,likeUsers.toString());
             StringBuilder comments = new StringBuilder();
-            for (int j=0;j<businessPosts.get(i).getComments().size();j++){
-                comments.append(businessPosts.get(i).getComments().get(j));
+            for (int j=0;j<businessPosts.get(i).getCommentsId().size();j++){
+                comments.append(businessPosts.get(i).getCommentsId().get(j));
                 comments.append("-");
             }
             preparedStatement.setString(5,comments.toString());
@@ -174,30 +209,46 @@ public class DataInitializer {
             }
             preparedStatement.setString(6,viewers.toString());
             preparedStatement.setString(7,businessPosts.get(i).releasedTime.toString());
-            StringBuilder likes = new StringBuilder();
+            StringBuilder likesUsersForTable= new StringBuilder();
             for (int j=0;j<businessPosts.get(i).likesUsersForTable.size();j++){
-                likes.append(businessPosts.get(i).likesUsersForTable.get(j).getId());
-                likes.append(",");
-                likes.append(businessPosts.get(i).likesLocalDateForTable.get(j).toString());
-                likes.append("-");
+                likesUsersForTable.append(businessPosts.get(i).likesUsersForTable.get(j));
+                likesUsersForTable.append("-");
             }
-            preparedStatement.setString(8,likes.toString());
-            StringBuilder views = new StringBuilder();
+            preparedStatement.setString(8,likesUsersForTable.toString());
+            StringBuilder likesLocalDateForTable= new StringBuilder();
+            for (int j=0;j<businessPosts.get(i).likesLocalDateForTable.size();j++){
+                likesLocalDateForTable.append(businessPosts.get(i).likesLocalDateForTable.get(j));
+                likesLocalDateForTable.append(",");
+            }
+            preparedStatement.setString(9,likesLocalDateForTable.toString());
+
+            StringBuilder viewUsersForTable = new StringBuilder();
             for (int j=0;j<businessPosts.get(i).viewUsersForTable.size();j++){
-                views.append(businessPosts.get(i).viewUsersForTable.get(j).getId());
-                views.append(",");
-                views.append(businessPosts.get(i).viewLocalDatesForTable.get(j).toString());
-                views.append("-");
+                viewUsersForTable.append(businessPosts.get(i).viewUsersForTable.get(j));
+                viewUsersForTable.append("-");
             }
-            preparedStatement.setString(9,views.toString());
-            StringBuilder favoriteNumbers = new StringBuilder();
-            for (int j=0;j<businessPosts.get(i).favoriteNumbers.size();j++){
-                favoriteNumbers.append(businessPosts.get(i).favoriteNumberUser.get(j).getId());
-                favoriteNumbers.append(",");
-                favoriteNumbers.append(businessPosts.get(i).favoriteNumberDouble.get(j).toString());
-                favoriteNumbers.append("-");
+            preparedStatement.setString(10,viewUsersForTable.toString());
+            StringBuilder viewLocalDatesForTable = new StringBuilder();
+            for (int j=0;j<businessPosts.get(i).viewLocalDatesForTable.size();j++){
+                viewLocalDatesForTable.append(businessPosts.get(i).viewLocalDatesForTable.get(j));
+                viewLocalDatesForTable.append(",");
             }
-            preparedStatement.setString(10,favoriteNumbers.toString());
+            preparedStatement.setString(11,viewLocalDatesForTable.toString());
+
+            StringBuilder favoriteNumberUser = new StringBuilder();
+            for (int j=0;j<businessPosts.get(i).favoriteNumberUser.size();j++){
+                favoriteNumberUser.append(businessPosts.get(i).favoriteNumberUser.get(j));
+                favoriteNumberUser.append("-");
+            }
+            preparedStatement.setString(12,favoriteNumberUser.toString());
+            StringBuilder favoriteNumberDouble = new StringBuilder();
+            for (int j=0;j<businessPosts.get(i).favoriteNumberDouble.size();j++){
+                favoriteNumberDouble.append(businessPosts.get(i).favoriteNumberDouble.get(j));
+                favoriteNumberDouble.append("-");
+            }
+            preparedStatement.setString(13,favoriteNumberDouble.toString());
+            preparedStatement.setString(14,businessPosts.get(i).getImage());
+            preparedStatement.executeUpdate();
         }
     }
 }

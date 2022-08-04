@@ -18,9 +18,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class SetImagePageController {
+    Manager manager = new Manager();
     Stage stage;
     Scene scene;
     @FXML
@@ -44,37 +46,46 @@ public class SetImagePageController {
     @FXML
     CheckBox checkBox4;
     @FXML
-    Button loginPage;
+    Button mainPage;
     public static String str="";
-    public void initialize() throws FileNotFoundException
+    public void initialize() throws FileNotFoundException, SQLException
     {
-        InputStream stream1 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\images\\ali.jpg");
+        SetArrayLists setArrayLists = new SetArrayLists();
+        setArrayLists.setAllArrayLists();
+        InputStream stream1 = new FileInputStream("C:\\Users\\ernika\\Desktop\\images\\ali.jpg");
         Image Image1 = new Image(stream1);
         image1.setImage(Image1);
-        InputStream stream2 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\images\\mina.jpg");
+        InputStream stream2 = new FileInputStream("C:\\Users\\ernika\\Desktop\\images\\mina.jpg");
         Image Image2 = new Image(stream2);
         image2.setImage(Image2);
-        InputStream stream3 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\images\\neda.jpg");
+        InputStream stream3 = new FileInputStream("C:\\Users\\ernika\\Desktop\\images\\neda.jpg");
         Image Image3 = new Image(stream3);
         image3.setImage(Image3);
-        InputStream stream4 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\images\\reza.jpg");
+        InputStream stream4 = new FileInputStream("C:\\Users\\ernika\\Desktop\\images\\reza.jpg");
         Image Image4= new Image(stream4);
         image4.setImage(Image4);
     }
-    public void goToLoginPage(ActionEvent event) throws IOException {
+    public void goToMainPage(ActionEvent event) throws IOException, SQLException
+    {
+        SetArrayLists setArrayLists = new SetArrayLists();
+        setArrayLists.setAllArrayLists();
         if (checkBox1.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\image1.jpg";
+            str = "C:\\Users\\ernika\\Desktop\\images\\ali.jpg";
+            manager.checkLogin().setImageAddress(str);
         }
         if (checkBox2.isSelected()) {
-            str ="C:\\Users\\APPLE\\Desktop\\images\\image2.jpg" ;
+            str ="C:\\Users\\ernika\\Desktop\\images\\mina.jpg";
+            manager.checkLogin().setImageAddress(str);
         }
         if (checkBox3.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\image3.jpg";
+            str = "C:\\Users\\ernika\\Desktop\\images\\neda.jpg";
+            manager.checkLogin().setImageAddress(str);
         }
         if (checkBox4.isSelected()) {
-            str = "C:\\Users\\APPLE\\Desktop\\images\\image4.jpg";
+            str = "C:\\Users\\ernika\\Desktop\\images\\reza.jpg";
+            manager.checkLogin().setImageAddress(str);
         }
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("loginPage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainPage.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
