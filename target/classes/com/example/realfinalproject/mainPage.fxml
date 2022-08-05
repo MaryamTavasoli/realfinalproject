@@ -55,15 +55,13 @@
         <Button fx:id="showProfile" layoutX="490.0" layoutY="78.0" mnemonicParsing="false" onAction="#switchToShowProfilePage" text="show profile" />
         <Button fx:id="showFollowersPosts" layoutX="489.0" layoutY="107.0" mnemonicParsing="false" onAction="#switchToShowFriendsPostsPage" text="friends'Posts" />
         <Button fx:id="showStats" layoutX="382.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToShowStatsPage" prefHeight="25.0" prefWidth="98.0" text="show stats" />
-        <Text fx:id="post1Text" layoutX="138.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="98.0" />
-        <Text fx:id="post2Text" layoutX="362.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="98.0" />
-        <Button fx:id="createGroup" layoutX="489.0" layoutY="170.0" mnemonicParsing="false" onAction="#switchToCreateGroupPage" text="create group" />
-        <Button fx:id="searchText" layoutX="495.0" layoutY="201.0" mnemonicParsing="false" onAction="#switchToSearchTextPage" text="search text" />
-        <Button fx:id="suggestFriend" layoutX="486.0" layoutY="233.0" mnemonicParsing="false" onAction="#switchToSuggestFriendPage" text="suggest friend" />
-        <Button fx:id="suggestAdvertisement" layoutX="464.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToSuggestBusinessPostPage" text="suggest advertisement" />
-        <Button fx:id="mainChatsPage" layoutX="479.0" layoutY="139.0" mnemonicParsing="false" onAction="#switchToMainChatsPage" text="main chats page" />
-        <Button fx:id="settings" layoutX="502.0" layoutY="47.0" mnemonicParsing="false" onAction="#switchToSettingsPage" text="settings" />
-      <Label fx:id="views1" layoutX="31.0" layoutY="311.0" prefHeight="17.0" prefWidth="81.0" textFill="#ff9019" />
-      <Label fx:id="views2" layoutX="260.0" layoutY="312.0" prefHeight="17.0" prefWidth="81.0" textFill="#ff9019" />
+      <Text fx:id="post1Text" layoutX="138.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="98.0" />
+      <Text fx:id="post2Text" layoutX="362.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="98.0" />
+      <Button fx:id="createGroup" layoutX="489.0" layoutY="170.0" mnemonicParsing="false" onAction="#switchToCreateGroupPage" text="create group" />
+      <Button fx:id="searchText" layoutX="495.0" layoutY="201.0" mnemonicParsing="false" onAction="#switchToSearchTextPage" text="search text" />
+      <Button fx:id="suggestFriend" layoutX="486.0" layoutY="233.0" mnemonicParsing="false" onAction="#switchToSuggestFriendPage" text="suggest friend" />
+      <Button fx:id="suggestAdvertisement" layoutX="464.0" layoutY="269.0" mnemonicParsing="false" onAction="#switchToSuggestBusinessPostPage" text="suggest advertisement" />
+      <Button fx:id="mainChatsPage" layoutX="479.0" layoutY="139.0" mnemonicParsing="false" onAction="#switchToMainChatsPage" text="main chats page" />
+      <Button fx:id="settings" layoutX="502.0" layoutY="47.0" mnemonicParsing="false" onAction="#switchToSettingsPage" text="settings" />
     </children>
 </AnchorPane>

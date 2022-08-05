@@ -19,13 +19,6 @@
       <Button fx:id="back" layoutX="534.0" layoutY="349.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" />
       <Button fx:id="like" layoutX="257.0" layoutY="300.0" mnemonicParsing="false" onAction="#setLike" prefHeight="25.0" prefWidth="28.0" />
       <Button fx:id="comment" layoutX="312.0" layoutY="300.0" mnemonicParsing="false" onAction="#setComment" prefHeight="25.0" prefWidth="28.0" />
-      <Label fx:id="label" layoutX="233.0" layoutY="332.0" prefHeight="17.0" prefWidth="135.0" textFill="#ff9019" />
-      <ImageView fx:id="profile" fitHeight="79.0" fitWidth="110.0" layoutX="22.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="id" layoutX="22.0" layoutY="171.0" prefHeight="17.0" prefWidth="110.0" textFill="#ff9019">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Text fx:id="information" layoutX="226.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="148.0" />
+      <Label layoutX="233.0" layoutY="353.0" prefHeight="17.0" prefWidth="135.0" textFill="#ff9019" />
    </children>
 </AnchorPane>
