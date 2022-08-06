@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainPageController {
@@ -131,8 +132,24 @@ public class MainPageController {
     public void showRecentPosts() throws FileNotFoundException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
-        if (manager.checkLogin().postIds.size()>=1) {
-            post1 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 1));
+        ArrayList<String> suitablePosts=new ArrayList<>();
+        for (int i = 0; i < manager.checkLogin().getPostIds().size(); i++) {
+            boolean bool=true;
+            for (int i1 = 0; i1 < Manager.posts.size(); i1++) {
+                if(Manager.posts.get(i1).commentsId.contains(manager.checkLogin().getPostIds().get(i)))
+                {
+                    bool=false;
+                    break;
+                }
+
+            }
+            if(bool)
+            {
+                suitablePosts.add(manager.checkLogin().getPostIds().get(i));
+            }
+        }
+        if (suitablePosts.size()>=1) {
+            post1 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 1));
             if (!post1.getText().equals("")) {
                 post1Text.setText(post1.getText());
             }
@@ -157,8 +174,8 @@ public class MainPageController {
                 views1.setText("views: "+businessPost1.getViewers().size());
             }
         }
-        if (manager.checkLogin().postIds.size()>=2) {
-            post2 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 2));
+        if (suitablePosts.size()>=2) {
+            post2 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 2));
             if (!post2.getText().equals("")) {
                 post2Text.setText(post2.getText());
             }

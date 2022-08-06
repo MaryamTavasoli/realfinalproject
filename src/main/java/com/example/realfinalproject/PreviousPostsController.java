@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class PreviousPostsController {
@@ -102,8 +103,24 @@ public class PreviousPostsController {
     public void showPreviousPosts() throws SQLException, FileNotFoundException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
-        if (manager.checkLogin().postIds.size()>=3) {
-            post1 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 3));
+        ArrayList<String> suitablePosts=new ArrayList<>();
+        for (int i = 0; i < manager.checkLogin().getPostIds().size(); i++) {
+            boolean bool=true;
+            for (int i1 = 0; i1 < Manager.posts.size(); i1++) {
+                if(Manager.posts.get(i1).commentsId.contains(manager.checkLogin().getPostIds().get(i)))
+                {
+                    bool=false;
+                    break;
+                }
+
+            }
+            if(bool)
+            {
+                suitablePosts.add(manager.checkLogin().getPostIds().get(i));
+            }
+        }
+        if (suitablePosts.size()>=3) {
+            post1 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 3));
             if (!post1.getText().equals("")) {
                 post1Text.setText(post1.getText());
             }
@@ -128,8 +145,8 @@ public class PreviousPostsController {
                 label1.setText("views: "+businessPost.getViewers().size());
             }
         }
-        if (manager.checkLogin().postIds.size()>=4) {
-            post2 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 4));
+        if (suitablePosts.size()>=4) {
+            post2 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 4));
             if (!post2.getText().equals("")) {
                 post2Text.setText(post2.getText());
             }
@@ -154,8 +171,8 @@ public class PreviousPostsController {
                 label2.setText("views: "+businessPost.getViewers().size());
             }
         }
-        if (manager.checkLogin().postIds.size()>=5) {
-            post3 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 5));
+        if (suitablePosts.size()>=5) {
+            post3 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 5));
             if (!post3.getText().equals("")) {
                 post3Text.setText(post3.getText());
             }
@@ -180,8 +197,8 @@ public class PreviousPostsController {
                 label3.setText("views: "+businessPost.getViewers().size());
             }
         }
-        if (manager.checkLogin().postIds.size()>=6) {
-            post4 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 6));
+        if (suitablePosts.size()>=6) {
+            post4 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 6));
             if (!post4.getText().equals("")) {
                 post4Text.setText(post4.getText());
             }

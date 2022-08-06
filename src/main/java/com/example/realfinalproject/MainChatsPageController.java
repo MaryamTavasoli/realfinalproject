@@ -202,6 +202,7 @@ public class MainChatsPageController {
         if (time1!=null) {
             if (manager.findMessageByTime(dtf.format(time1))!=null){
                 findMessage1 = true;
+                findGroupMessage1=false;
                 message1 = manager.findMessageByTime(dtf.format(time1));
                 if (message1.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message1.getSender().getImageAddress());
@@ -223,7 +224,8 @@ public class MainChatsPageController {
             }
             if (manager.findGroupMessageByTime(dtf.format(time1))!=null){
                 GroupMessage groupMessage1 = manager.findGroupMessageByTime(dtf.format(time1));
-                findGroupMessage1 = true;
+                findMessage1 =false;
+                findGroupMessage1=true;
                 if (manager.searchGroup(groupMessage1.groupId).getImage()!=null){
                     InputStream stream = new FileInputStream(manager.searchGroup(groupMessage1.groupId).getImage());
                     Image image = new Image(stream);
@@ -257,7 +259,8 @@ public class MainChatsPageController {
         }
         if (time2!=null) {
             if (manager.findMessageByTime(dtf.format(time2))!=null){
-                findMessage2 = true;
+                findMessage2=true;
+                findGroupMessage2=false;
                 message2 = manager.findMessageByTime(dtf.format(time2));
                 if (message2.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message2.getSender().getImageAddress());
@@ -279,7 +282,8 @@ public class MainChatsPageController {
             }
             if (manager.findGroupMessageByTime(dtf.format(time2))!=null){
                 GroupMessage groupMessage2 = manager.findGroupMessageByTime(dtf.format(time2));
-                findGroupMessage2 = true;
+                findMessage2=false;
+                findGroupMessage2=true;
                 if (manager.searchGroup(groupMessage2.groupId).getImage()!=null){
                     InputStream stream = new FileInputStream(manager.searchGroup(groupMessage2.groupId).getImage());
                     Image image = new Image(stream);
@@ -313,7 +317,8 @@ public class MainChatsPageController {
         }
         if (time3!=null) {
             if (manager.findMessageByTime(dtf.format(time3))!=null){
-                findMessage3 = true;
+                findMessage3=true;
+                findGroupMessage3=false;
                 message3 = manager.findMessageByTime(dtf.format(time3));
                 if (message3.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message3.getSender().getImageAddress());
@@ -334,7 +339,8 @@ public class MainChatsPageController {
                 }
             }
             if (manager.findGroupMessageByTime(dtf.format(time3))!=null){
-                findGroupMessage3 = true;
+                findMessage3=false;
+                findGroupMessage3=true;
                 GroupMessage groupMessage3 = manager.findGroupMessageByTime(dtf.format(time3));
                 if (manager.searchGroup(groupMessage3.groupId).getImage()!=null){
                     InputStream stream = new FileInputStream(manager.searchGroup(groupMessage3.groupId).getImage());
@@ -369,7 +375,8 @@ public class MainChatsPageController {
         }
         if (time4!=null) {
             if (manager.findMessageByTime(dtf.format(time4))!=null){
-                findMessage4 = true;
+                findMessage4=true;
+                findGroupMessage4=false;
                 message4 = manager.findMessageByTime(dtf.format(time4));
                 if (message4.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message4.getSender().getImageAddress());
@@ -390,7 +397,8 @@ public class MainChatsPageController {
                 }
             }
             if (manager.findGroupMessageByTime(dtf.format(time4))!=null){
-                findGroupMessage4 = true;
+                findMessage4=false;
+                findGroupMessage4=true;
                 GroupMessage groupMessage4 = manager.findGroupMessageByTime(dtf.format(time4));
                 if (manager.searchGroup(groupMessage4.groupId).getImage()!=null){
                     InputStream stream = new FileInputStream(manager.searchGroup(groupMessage4.groupId).getImage());
@@ -425,7 +433,8 @@ public class MainChatsPageController {
         }
         if (time5!=null) {
             if (manager.findMessageByTime(dtf.format(time5))!=null){
-                findMessage5 = true;
+                findMessage5=true;
+                findGroupMessage5=false;
                 message5 = manager.findMessageByTime(dtf.format(time5));
                 if (message5.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message5.getSender().getImageAddress());
@@ -446,7 +455,8 @@ public class MainChatsPageController {
                 }
             }
             if (manager.findGroupMessageByTime(dtf.format(time5))!=null){
-                findGroupMessage5 = true;
+                findMessage5=false;
+                findGroupMessage5=true;
                 GroupMessage groupMessage5= manager.findGroupMessageByTime(dtf.format(time5));
                 if (manager.searchGroup(groupMessage5.groupId).getImage()!=null){
                     InputStream stream = new FileInputStream(manager.searchGroup(groupMessage5.groupId).getImage());

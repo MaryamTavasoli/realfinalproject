@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FriendsPostsController {
@@ -126,12 +127,28 @@ public class FriendsPostsController {
             InputStream stream = new FileInputStream(user.getImageAddress());
             Image image = new Image(stream);
             profileImage.setImage(image);
-            if (user.postIds.size()>=1){
-                post1 = manager.searchPostById(user.postIds.get(user.postIds.size() - 1));
-                InputStream stream1 = new FileInputStream(manager.searchPostById(user.postIds.get(user.postIds.size() - 1)).getImage());
+            ArrayList<String> suitablePosts=new ArrayList<>();
+            for (int i = 0; i <user.getPostIds().size(); i++) {
+                boolean bool=true;
+                for (int i1 = 0; i1 < Manager.posts.size(); i1++) {
+                    if(Manager.posts.get(i1).commentsId.contains(user.getPostIds().get(i)))
+                    {
+                        bool=false;
+                        break;
+                    }
+
+                }
+                if(bool)
+                {
+                    suitablePosts.add(user.getPostIds().get(i));
+                }
+            }
+            if (suitablePosts.size()>=1){
+                post1 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 1));
+                InputStream stream1 = new FileInputStream(post1.getImage());
                 Image image1 = new Image(stream1);
                 post1Image.setImage(image1);
-                post1Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 1)).getText());
+                post1Text.setText(post1.getText());
                 ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
@@ -145,12 +162,12 @@ public class FriendsPostsController {
                 like1Label.setText("likes:" + post1.getLikeUsersId().size());
                 like1Label.setVisible(true);
             }
-            if (user.postIds.size()>=2){
-                post2 = manager.searchPostById(user.postIds.get(user.postIds.size() - 2));
-                InputStream stream2 = new FileInputStream(manager.searchPostById(user.postIds.get(user.postIds.size() - 2)).getImage());
+            if (suitablePosts.size()>=2){
+                post2 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 2));
+                InputStream stream2 = new FileInputStream(post2.getImage());
                 Image image2 = new Image(stream2);
                 post2Image.setImage(image2);
-                post2Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 2)).getText());
+                post2Text.setText(post2.getText());
                 ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
@@ -164,12 +181,12 @@ public class FriendsPostsController {
                 like2Label.setText("likes:" + post2.getLikeUsersId().size());
                 like2Label.setVisible(true);
             }
-            if (user.postIds.size()>=3){
-                post3 = manager.searchPostById(user.postIds.get(user.postIds.size() - 3));
-                InputStream stream3 = new FileInputStream(manager.searchPostById(user.postIds.get(user.postIds.size() - 3)).getImage());
+            if (suitablePosts.size()>=3){
+                post3 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 3));
+                InputStream stream3 = new FileInputStream(post3.getImage());
                 Image image3 = new Image(stream3);
                 post3Image.setImage(image3);
-                post3Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 3)).getText());
+                post3Text.setText(post3.getText());
                 ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
@@ -184,8 +201,8 @@ public class FriendsPostsController {
                 like3Label.setVisible(true);
             }
             if (user.getBusinessAccount().equals("business")){
-                if (user.postIds.size()>=1){
-                    Post post1 = manager.searchPostById(user.postIds.get(user.postIds.size() - 1));
+                if (suitablePosts.size()>=1){
+                    Post post1 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 1));
                     BusinessPost businessPost1 = (BusinessPost) post1;
                     if(!businessPost1.getViewers().contains(manager.checkLogin().getId()))
                     {
@@ -197,8 +214,8 @@ public class FriendsPostsController {
                     label1.setText("views: "+businessPost1.getViewers().size());
 
                 }
-                if (user.postIds.size()>=2){
-                    Post post2 = manager.searchPostById(user.postIds.get(user.postIds.size() - 2));
+                if (suitablePosts.size()>=2){
+                    Post post2 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 2));
                     BusinessPost businessPost2 = (BusinessPost) post2;
                     if(!businessPost2.getViewers().contains(manager.checkLogin().getId()))
                     {
@@ -209,8 +226,8 @@ public class FriendsPostsController {
                     }
                     label2.setText("views: "+businessPost2.getViewers().size());
                 }
-                if (user.postIds.size()>=3){
-                    Post post3 = manager.searchPostById(user.postIds.get(user.postIds.size() - 3));
+                if (suitablePosts.size()>=3){
+                    Post post3 = manager.searchPostById(suitablePosts.get(suitablePosts.size() - 3));
                     BusinessPost businessPost3 = (BusinessPost) post3;
                     if(!businessPost3.getViewers().contains(manager.checkLogin().getId()))
                     {

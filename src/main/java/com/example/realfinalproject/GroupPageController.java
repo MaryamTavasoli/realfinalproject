@@ -202,7 +202,9 @@ public class GroupPageController {
             }
             id1.setText(groupMessage1.getSender().getId());
             text1.setText(groupMessage1.getText());
-            edit1.setVisible(true);
+            if(groupMessage1.getSender().equals(manager.checkLogin())) {
+                edit1.setVisible(true);
+            }
             reply1.setVisible(true);
             forward1.setVisible(true);
             delete1.setVisible(true);
@@ -240,7 +242,9 @@ public class GroupPageController {
             }
             id2.setText(groupMessage2.getSender().getId());
             text2.setText(groupMessage2.getText());
-            edit2.setVisible(true);
+            if(groupMessage2.getSender().equals(manager.checkLogin())) {
+                edit2.setVisible(true);
+            }
             reply2.setVisible(true);
             forward2.setVisible(true);
             delete2.setVisible(true);
@@ -330,6 +334,7 @@ public class GroupPageController {
             manager.editGroupMessage(groupMessage1.getId(),fillText.getText());
             fillText.clear();
             initialize();
+            isEdit1=false;
 
         }
         if(!isEdit1&&isEdit2)
@@ -337,7 +342,7 @@ public class GroupPageController {
             manager.editGroupMessage(groupMessage2.getId(),fillText.getText());
             fillText.clear();
             initialize();
-
+            isEdit2=false;
         }
     }
     public void switchToMainPage(ActionEvent event) throws SQLException, IOException {

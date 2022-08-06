@@ -37,7 +37,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="followStatus" layoutX="6.0" layoutY="361.0" prefHeight="17.0" prefWidth="210.0" textFill="#ff9019" />
+      <Label fx:id="followStatus" layoutX="167.0" layoutY="328.0" prefHeight="17.0" prefWidth="210.0" textFill="#ff9019" />
       <ImageView fx:id="profileImage" fitHeight="61.0" fitWidth="68.0" layoutX="245.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="id" layoutX="245.0" layoutY="182.0" prefHeight="17.0" prefWidth="60.0" textFill="#ff9019" />
       <Text fx:id="postText1" fill="#ff9019" layoutX="71.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="112.0" />

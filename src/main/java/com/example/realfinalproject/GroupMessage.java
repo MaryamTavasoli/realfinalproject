@@ -1,22 +1,16 @@
 package com.example.realfinalproject;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-@Getter
 @Setter
-@AllArgsConstructor
-@RequiredArgsConstructor
+@Getter
 public class GroupMessage {
-    @NonNull
     User sender;
-    @NonNull
     String text;
-    @NonNull
     String id;
-    @NonNull
     String groupId;
-    @NonNull
     LocalDate localDate;
     String time;
     String emojiAddress;
@@ -32,5 +26,11 @@ public class GroupMessage {
         this.time = time;
         this.emojiAddress = emojiAddress;
     }
-
+    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate) {
+        this.sender = sender;
+        this.text = text;
+        this.id = id;
+        this.groupId=groupId;
+        this.localDate=localDate;
+    }
 }

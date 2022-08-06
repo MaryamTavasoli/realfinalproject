@@ -298,6 +298,7 @@ public class Manager {
             post.setText(comment);
             searchPostById(postId).commentsId.add(post.getId());
             posts.add(post);
+            checkLogin().getPostIds().add(post.getId());
             System.out.println("comment added successfully");
         }
         else if (businessPost){
@@ -307,6 +308,7 @@ public class Manager {
             businessPost1.setText(comment);
             searchBusinessPostById(postId).commentsId.add(businessPost1.getId());
             businessPosts.add(businessPost1);
+            checkLogin().getPostIds().add(businessPost1.getId());
             posts.add(businessPost1);
             System.out.println("comment added successfully");
         }
@@ -544,6 +546,10 @@ public class Manager {
                         id++;
                     }
                     Message forwardedMessage = new Message(checkLogin(), user, id + 1, "forwarded from " + message.getSender().getId() + "\n" + message.getText(),LocalDate.now());
+                    if(message.getEmojiAddress()!=null)
+                    {
+                        forwardedMessage.setEmojiAddress(message.getEmojiAddress());
+                    }
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     forwardedMessage.setTime(dtf.format(now));
@@ -1074,6 +1080,10 @@ public class Manager {
                     String id = group.getGroupId() + group.getGroupMessages().size() + 1;
                     String text="Forwarded from " +groupMessage.getSender().getId() +"\n" + groupMessage.getText();
                     GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group.groupId,LocalDate.now());
+                    if(groupMessage.getEmojiAddress()!=null)
+                    {
+                        groupMessage1.setEmojiAddress(groupMessage.getEmojiAddress());
+                    }
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     groupMessage1.setTime(dtf.format(now));
@@ -1095,6 +1105,10 @@ public class Manager {
                             String id = group.getGroupId() + group.getGroupMessages().size() + 1;
                             String text = "Forwarded from " +groupMessage.getSender().getId() +"\n" + groupMessage.getText();
                             GroupMessage groupMessage1 = new GroupMessage(checkLogin(), text, id, group.groupId, LocalDate.now());
+                            if(groupMessage.getEmojiAddress()!=null)
+                            {
+                                groupMessage1.setEmojiAddress(groupMessage.getEmojiAddress());
+                            }
                             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                             LocalDateTime now = LocalDateTime.now();
                             groupMessage1.setTime(dtf.format(now));
@@ -1178,6 +1192,10 @@ public class Manager {
                 GroupMessage groupMessage = findGroupMessage(splitInput[6]);
                 int num = messages.size() + 1;
                 Message message = new Message(checkLogin(), receiver, num, "Forwarded from "+groupMessage.getSender().getId()+"\n" + groupMessage.getText(), LocalDate.now());
+                if(groupMessage.getEmojiAddress()!=null)
+                {
+                    message.setEmojiAddress(groupMessage.getEmojiAddress());
+                }
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 message.setTime(dtf.format(now));
@@ -1220,6 +1238,10 @@ public class Manager {
                 String id = group.getGroupId() + str;
                 System.out.println(id);
                 GroupMessage groupMessage = new GroupMessage(checkLogin(), "Forwarded from "+message.getSender().getId()+ "\n" + message.getText(), id, group.groupId, LocalDate.now());
+                if(message.getEmojiAddress()!=null)
+                {
+                    groupMessage.setEmojiAddress(message.getEmojiAddress());
+                }
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 groupMessage.setTime(dtf.format(now));
@@ -1297,7 +1319,6 @@ public class Manager {
     }
     public ArrayList<User> suggestFriend()
     {
-        ArrayList<User>suggestUsers=new ArrayList<>();
         User user=checkLogin();
         setFriends();
         ArrayList<User> userNewFriends=new ArrayList<>();
@@ -1330,18 +1351,16 @@ public class Manager {
             }
             gradeForNotFriends.add(num);
         }
-        if(gradeForNotFriends.size()!=0) {
-            int max1 = gradeForNotFriends.get(0);
-            int k1 = 0;
-            for (int i = 0; i < gradeForNotFriends.size(); i++) {
-                if (gradeForNotFriends.get(i) > max1) {
-                    max1 = gradeForNotFriends.get(i);
-                    k1 = i;
-                }
+        int max1=gradeForNotFriends.get(0);
+        int k1=0;
+        for (int i = 0; i < gradeForNotFriends.size(); i++) {
+            if(gradeForNotFriends.get(i)>max1)
+            {
+                max1=gradeForNotFriends.get(i);
+                k1=i;
             }
-            suggestUsers.add(notFriendsWithOurFriends.get(k1));
-            System.out.println("Recommended friend for you\n" + notFriendsWithOurFriends.get(k1).getId());
         }
+        System.out.println("Recommended friend for you\n"+notFriendsWithOurFriends.get(k1).getId());
         ArrayList<Integer>commonFriendsAndLikePosts=new ArrayList<>();
         for (int i = 0; i < userNewFriends.size(); i++) {
             int num=0;
@@ -1359,18 +1378,19 @@ public class Manager {
             }
             commonFriendsAndLikePosts.add(num);
         }
-        if(commonFriendsAndLikePosts.size()!=0) {
-            int max2 = commonFriendsAndLikePosts.get(0);
-            int k2 = 0;
-            for (int i = 0; i < commonFriendsAndLikePosts.size(); i++) {
-                if (commonFriendsAndLikePosts.get(i) > max2) {
-                    max2 = commonFriendsAndLikePosts.get(i);
-                    k2 = i;
-                }
+        int max2=commonFriendsAndLikePosts.get(0);
+        int k2=0;
+        for (int i = 0; i < commonFriendsAndLikePosts.size(); i++) {
+            if(commonFriendsAndLikePosts.get(i)>max2)
+            {
+                max2=commonFriendsAndLikePosts.get(i);
+                k2=i;
             }
-            System.out.println("Recommended friend for you\n" + userNewFriends.get(k2).getId());
-            suggestUsers.add(userNewFriends.get(k2));
         }
+        System.out.println("Recommended friend for you\n"+userNewFriends.get(k2).getId());
+        ArrayList<User>suggestUsers=new ArrayList<>();
+        suggestUsers.add(notFriendsWithOurFriends.get(k1));
+        suggestUsers.add(userNewFriends.get(k2));
         return suggestUsers;
     }
     public void setFavoriteNumber()
