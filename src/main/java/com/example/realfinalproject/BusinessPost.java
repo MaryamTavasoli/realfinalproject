@@ -1,7 +1,12 @@
 package com.example.realfinalproject;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+@Setter
+@Getter
 public class BusinessPost  extends Post{
     HashMap<User,Double> favoriteNumbers=new HashMap<>();
     ArrayList<String>viewers=new ArrayList<>();
@@ -26,14 +31,6 @@ public class BusinessPost  extends Post{
         this.viewUsersForTable = viewUsersForTable;
         this.viewLocalDatesForTable=viewLocalDatesForTable;
         this.releasedTime = releasedTime;
-    }
-
-    public ArrayList<String> getViewers() {
-        return viewers;
-    }
-
-    public void setViewers(ArrayList<String> viewers) {
-        this.viewers = viewers;
     }
 
     public BusinessPost(String userId, String id) {

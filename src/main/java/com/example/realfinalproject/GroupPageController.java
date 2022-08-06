@@ -78,6 +78,28 @@ public class GroupPageController {
     CheckBox forward2;
     @FXML
     Label forwardLabel;
+    @FXML
+    CheckBox delete1;
+    @FXML
+    CheckBox delete2;
+    @FXML
+    Button delete;
+    @FXML
+    Label leaveTheGroup;
+    @FXML
+    ImageView imageInTextArea;
+    @FXML
+    ImageView emoji1;
+    @FXML
+    ImageView emoji2;
+    @FXML
+    Button imageEmoji1;
+    @FXML
+    Button imageEmoji2;
+    @FXML
+    Button imageEmoji3;
+    @FXML
+    Button imageEmoji4;
     public boolean isEdit1=false;
     public boolean isEdit2=false;
     public static Group forwardedGroup=null;
@@ -87,6 +109,10 @@ public class GroupPageController {
     public static boolean toGroupPage=false;
     public static boolean goToChatPage=false;
     public static User chatUser;
+    boolean isEmoji1=false;
+    boolean isEmoji2=false;
+    boolean isEmoji3=false;
+    boolean isEmoji4=false;
     public void initialize() throws FileNotFoundException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -96,6 +122,32 @@ public class GroupPageController {
         reply2.setVisible(false);
         forward1.setVisible(false);
         forward2.setVisible(false);
+        delete1.setVisible(false);
+        delete2.setVisible(false);
+        ImageView imageView = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\emoji1.png");
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
+        imageEmoji1.setGraphic(imageView);
+
+        ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\emoji2.png");
+        imageView2.setFitHeight(20);
+        imageView2.setFitWidth(20);
+        imageEmoji2.setGraphic(imageView2);
+
+        ImageView imageView3 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\emoji3.png");
+        imageView3.setFitHeight(20);
+        imageView3.setFitWidth(20);
+        imageEmoji3.setGraphic(imageView3);
+
+        ImageView imageView4 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\emoji4.png");
+        imageView4.setFitHeight(20);
+        imageView4.setFitWidth(20);
+        imageEmoji4.setGraphic(imageView4);
+        User leftUser = GroupSettingController.user;
+        if (leftUser!=null){
+            leaveTheGroup.setVisible(true);
+            leaveTheGroup.setText(leftUser.getId() + " left the group");
+        }
         if (manager.checkLogin().getBackGround()!=null){
             InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
             Image image = new Image(stream);
@@ -126,12 +178,19 @@ public class GroupPageController {
         groupName.setText(group.getGroupName());
         groupId.setText(group.getGroupId());
         memberNumbers.setText(Integer.toString(group.getUsers().size() + 1));
-        ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\send.png");
+        ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\send.png");
         imageView1.setFitHeight(33);
         imageView1.setFitWidth(40);
         send.setGraphic(imageView1);
         if (group.getGroupMessages().size()>=1) {
             groupMessage1 = group.getGroupMessages().get(group.getGroupMessages().size() - 1);
+            if(groupMessage1.getEmojiAddress()!=null)
+            {
+                InputStream stream1 = new FileInputStream(groupMessage1.getEmojiAddress());
+                Image image1 = new Image(stream1);
+                emoji1.setImage(image1);
+                imageInTextArea.setImage(null);
+            }
             if (groupMessage1.getSender().getImageAddress()!=null) {
                 InputStream stream1 = new FileInputStream(groupMessage1.getSender().getImageAddress());
                 Image image1 = new Image(stream1);
@@ -146,6 +205,7 @@ public class GroupPageController {
             edit1.setVisible(true);
             reply1.setVisible(true);
             forward1.setVisible(true);
+            delete1.setVisible(true);
             int k=0;
             for (int i = 0; i < group.getUsers().size(); i++) {
                 if(group.getUsers().get(i).equals(manager.checkLogin()))
@@ -162,6 +222,13 @@ public class GroupPageController {
         }
         if (group.getGroupMessages().size()>=2) {
             groupMessage2 = group.getGroupMessages().get(group.getGroupMessages().size() - 2);
+            if(groupMessage2.getEmojiAddress()!=null)
+            {
+                InputStream stream2 = new FileInputStream(groupMessage2.getEmojiAddress());
+                Image image2= new Image(stream2);
+                emoji2.setImage(image2);
+                imageInTextArea.setImage(null);
+            }
             if (groupMessage2.getSender().getImageAddress()!=null) {
                 InputStream stream2 = new FileInputStream(groupMessage2.getSender().getImageAddress());
                 Image image2 = new Image(stream2);
@@ -176,6 +243,7 @@ public class GroupPageController {
             edit2.setVisible(true);
             reply2.setVisible(true);
             forward2.setVisible(true);
+            delete2.setVisible(true);
             int k=0;
             for (int i = 0; i < group.getUsers().size(); i++) {
                 if(group.getUsers().get(i).equals(manager.checkLogin()))
@@ -226,6 +294,7 @@ public class GroupPageController {
     public void setSend() throws FileNotFoundException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
+        leaveTheGroup.setVisible(false);
         if(!isEdit1&&!isEdit2) {
             String splitInput[] = new String[5];
             splitInput[0] = "send";
@@ -234,6 +303,25 @@ public class GroupPageController {
             splitInput[3] = "group";
             splitInput[4] = group.getGroupId();
             manager.sendGroupMessage(splitInput, fillText.getText());
+            if(imageInTextArea.getImage()!=null)
+            {
+                GroupMessage groupMessage=Manager.groupMessages.get(Manager.groupMessages.size()-1);
+                if(isEmoji1) {
+                    groupMessage.setEmojiAddress("C:\\Users\\APPLE\\Desktop\\posts\\emoji1.png");
+                }
+                if(isEmoji2)
+                {
+                    groupMessage.setEmojiAddress("C:\\Users\\APPLE\\Desktop\\posts\\emoji2.png");
+                }
+                if(isEmoji3)
+                {
+                    groupMessage.setEmojiAddress("C:\\Users\\APPLE\\Desktop\\posts\\emoji3.png");
+                }
+                if(isEmoji4)
+                {
+                    groupMessage.setEmojiAddress("C:\\Users\\APPLE\\Desktop\\posts\\emoji4.png");
+                }
+            }
             fillText.clear();
             initialize();
         }
@@ -353,5 +441,70 @@ public class GroupPageController {
         {
             label.setText("Id not exists");
         }
+    }
+    public void setDelete() throws SQLException, FileNotFoundException {
+        SetArrayLists setArrayLists = new SetArrayLists();
+        setArrayLists.setAllArrayLists();
+        if (delete1.isSelected()){
+            if (groupMessage1.getSender().equals(manager.checkLogin())) {
+                manager.deleteGroupMessage(groupMessage1.getId());
+                text1.setText("");
+                text2.setText("");
+                id1.setText("");
+                id2.setText("");
+                message1Image.setImage(null);
+                message2Image.setImage(null);
+            }
+            delete1.setSelected(false);
+        }
+        if (delete2.isSelected()){
+            if (groupMessage2.getSender().equals(manager.checkLogin())) {
+                manager.deleteGroupMessage(groupMessage2.getId());
+                text1.setText("");
+                text2.setText("");
+                id1.setText("");
+                id2.setText("");
+                message1Image.setImage(null);
+                message2Image.setImage(null);
+            }
+            delete2.setSelected(false);
+        }
+        initialize();
+    }
+    public void setImageEmoji1() throws FileNotFoundException {
+        InputStream stream = new FileInputStream("C:\\Users\\APPLE\\Desktop\\posts\\emoji1.png");
+        Image image = new Image(stream);
+        imageInTextArea.setImage(image);
+        isEmoji1=true;
+        isEmoji2=false;
+        isEmoji3=false;
+        isEmoji4=false;
+    }
+    public void setImageEmoji2() throws FileNotFoundException {
+        InputStream stream = new FileInputStream("C:\\Users\\APPLE\\Desktop\\posts\\emoji2.png");
+        Image image = new Image(stream);
+        imageInTextArea.setImage(image);
+        isEmoji1=false;
+        isEmoji2=true;
+        isEmoji3=false;
+        isEmoji4=false;
+    }
+    public void setImageEmoji3() throws FileNotFoundException {
+        InputStream stream = new FileInputStream("C:\\Users\\APPLE\\Desktop\\posts\\emoji3.png");
+        Image image = new Image(stream);
+        imageInTextArea.setImage(image);
+        isEmoji1=false;
+        isEmoji2=false;
+        isEmoji3=true;
+        isEmoji4=false;
+    }
+    public void setImageEmoji4() throws FileNotFoundException {
+        InputStream stream = new FileInputStream("C:\\Users\\APPLE\\Desktop\\posts\\emoji4.png");
+        Image image = new Image(stream);
+        imageInTextArea.setImage(image);
+        isEmoji1=false;
+        isEmoji2=false;
+        isEmoji3=false;
+        isEmoji4=true;
     }
 }

@@ -1,16 +1,28 @@
 package com.example.realfinalproject;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class GroupMessage {
+    @NonNull
     User sender;
+    @NonNull
     String text;
+    @NonNull
     String id;
+    @NonNull
     String groupId;
+    @NonNull
     LocalDate localDate;
     String time;
-
-    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate, ArrayList<Boolean> seen, String time) {
+    String emojiAddress;
+    String localDateToString;
+    ArrayList<Boolean> seen=new ArrayList<>();
+    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate, ArrayList<Boolean> seen, String time, String emojiAddress) {
         this.sender = sender;
         this.text = text;
         this.id = id;
@@ -18,63 +30,7 @@ public class GroupMessage {
         this.localDate = localDate;
         this.seen = seen;
         this.time = time;
+        this.emojiAddress = emojiAddress;
     }
 
-    public ArrayList<Boolean> getSeen() {
-        return seen;
-    }
-
-    public void setSeen(ArrayList<Boolean> seen) {
-        this.seen = seen;
-    }
-
-    String localDateToString;
-    ArrayList<Boolean> seen=new ArrayList<>();
-    public User getSender() {
-        return sender;
-    }
-
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public GroupMessage(User sender, String text, String id, String groupId, LocalDate localDate) {
-        this.sender = sender;
-        this.text = text;
-        this.id = id;
-        this.groupId=groupId;
-        this.localDate=localDate;
-    }
 }

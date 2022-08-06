@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
@@ -88,11 +89,30 @@ public class MainChatsPageController {
     Label seen4;
     @FXML
     Button goToChat4;
-    public static boolean findMessage1 = false,findMessage2 = false,findMessage3 = false,findMessage4 = false;
-    public static boolean findGroupMessage1 = false,findGroupMessage2 = false,findGroupMessage3 = false,findGroupMessage4 = false;
+    @FXML
+    ImageView image5;
+    @FXML
+    Label id5;
+    @FXML
+    Text text5;
+    @FXML
+    Label seen5;
+    @FXML
+    Button goToChat5;
+    @FXML
+    ScrollPane scrollPane;
+    @FXML
+    Line line5;
+    public static boolean findMessage1 = false,findMessage2 = false,findMessage3 = false,findMessage4 = false,findMessage5=false;
+    public static boolean findGroupMessage1 = false,findGroupMessage2 = false,findGroupMessage3 = false,findGroupMessage4 = false,findGroupMessage5=false;
     public static boolean goToChatPage = false,toGroupPage = false;
     public static User chatUser = null;
     public static Group group = null;
+    public Message message1=null;
+    public Message message2=null;
+    public Message message3=null;
+    public Message message4=null;
+    public Message message5=null;
     public void initialize() throws FileNotFoundException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -123,6 +143,7 @@ public class MainChatsPageController {
         LocalDateTime time2 = null;
         LocalDateTime time3 = null;
         LocalDateTime time4 = null;
+        LocalDateTime time5 =null;
         for (int i=times.size()-1;i>=0;i--){
             Group group = null;
             if (manager.findMessageByTime(dtf.format(times.get(i)))!=null){
@@ -149,6 +170,9 @@ public class MainChatsPageController {
                     if (k==4){
                         time4 = times.get(i);
                     }
+                    if(k==5){
+                        time5=times.get(i);
+                    }
                 }
             }
             if (manager.findGroupMessageByTime(dtf.format(times.get(i)))!=null){
@@ -169,13 +193,16 @@ public class MainChatsPageController {
                     if (k==4){
                         time4 = times.get(i);
                     }
+                    if(k==5){
+                        time5=times.get(i);
+                    }
                 }
             }
         }
         if (time1!=null) {
             if (manager.findMessageByTime(dtf.format(time1))!=null){
                 findMessage1 = true;
-                Message message1 = manager.findMessageByTime(dtf.format(time1));
+                message1 = manager.findMessageByTime(dtf.format(time1));
                 if (message1.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message1.getSender().getImageAddress());
                     Image image = new Image(stream);
@@ -231,7 +258,7 @@ public class MainChatsPageController {
         if (time2!=null) {
             if (manager.findMessageByTime(dtf.format(time2))!=null){
                 findMessage2 = true;
-                Message message2 = manager.findMessageByTime(dtf.format(time2));
+                message2 = manager.findMessageByTime(dtf.format(time2));
                 if (message2.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message2.getSender().getImageAddress());
                     Image image = new Image(stream);
@@ -287,7 +314,7 @@ public class MainChatsPageController {
         if (time3!=null) {
             if (manager.findMessageByTime(dtf.format(time3))!=null){
                 findMessage3 = true;
-                Message message3 = manager.findMessageByTime(dtf.format(time3));
+                message3 = manager.findMessageByTime(dtf.format(time3));
                 if (message3.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message3.getSender().getImageAddress());
                     Image image = new Image(stream);
@@ -343,7 +370,7 @@ public class MainChatsPageController {
         if (time4!=null) {
             if (manager.findMessageByTime(dtf.format(time4))!=null){
                 findMessage4 = true;
-                Message message4 = manager.findMessageByTime(dtf.format(time4));
+                message4 = manager.findMessageByTime(dtf.format(time4));
                 if (message4.getSender().getImageAddress()!=null){
                     InputStream stream = new FileInputStream(message4.getSender().getImageAddress());
                     Image image = new Image(stream);
@@ -396,6 +423,62 @@ public class MainChatsPageController {
                     seen4.setText(Integer.toString(num));
             }
         }
+        if (time5!=null) {
+            if (manager.findMessageByTime(dtf.format(time5))!=null){
+                findMessage5 = true;
+                message5 = manager.findMessageByTime(dtf.format(time5));
+                if (message5.getSender().getImageAddress()!=null){
+                    InputStream stream = new FileInputStream(message5.getSender().getImageAddress());
+                    Image image = new Image(stream);
+                    image5.setImage(image);
+                }
+                id5.setText(message5.getSender().getId());
+                text5.setText(message5.getText());
+                int notSeen5 = 0;
+                for (int i1 = 0; i1 < Manager.messages.size(); i1++) {
+                    if (Manager.messages.get(i1).getReceiver().equals(manager.checkLogin()) && Manager.messages.get(i1).getSender().equals(message5.getSender())
+                            && !Manager.messages.get(i1).isSeen()){
+                        notSeen5++;
+                    }
+                }
+                if (notSeen5!=0){
+                    seen5.setText(Integer.toString(notSeen5));
+                }
+            }
+            if (manager.findGroupMessageByTime(dtf.format(time5))!=null){
+                findGroupMessage5 = true;
+                GroupMessage groupMessage5= manager.findGroupMessageByTime(dtf.format(time5));
+                if (manager.searchGroup(groupMessage5.groupId).getImage()!=null){
+                    InputStream stream = new FileInputStream(manager.searchGroup(groupMessage5.groupId).getImage());
+                    Image image = new Image(stream);
+                    image5.setImage(image);
+                }
+                id5.setText(manager.searchGroup(groupMessage5.groupId).getGroupId());
+                text5.setText(groupMessage5.getText());
+                int num=0;
+                int n=0;
+                Group group = manager.searchGroup(groupMessage5.groupId);
+                for (int i = 0; i < group.getUsers().size(); i++) {
+                    if(group.getUsers().get(i).equals(manager.checkLogin()))
+                    {
+                        n=i;
+                        break;
+                    }
+                }
+                if(group.getAdmin().equals(manager.checkLogin()))
+                {
+                    n=-1;
+                }
+                for (int i = 0; i < group.groupMessages.size(); i++) {
+                    if(!group.groupMessages.get(i).getSeen().get(n+1))
+                    {
+                        num++;
+                    }
+                }
+                if(num>0)
+                    seen5.setText(Integer.toString(num));
+            }
+        }
     }
     public void setGoToChat1(ActionEvent event) throws SQLException, IOException {
         SetArrayLists setArrayLists = new SetArrayLists();
@@ -406,7 +489,13 @@ public class MainChatsPageController {
             PrivateMessagePageController.goToChatPage = false;
             ChatPageController.goToChatPage = false;
             GroupPageController.goToChatPage = false;
-            chatUser = manager.findId(id1.getText());
+            if(message1.getSender().equals(manager.checkLogin())) {
+                chatUser =message1.getReceiver();
+            }
+            if(message1.getReceiver().equals(manager.checkLogin())) {
+                chatUser =message1.getSender();
+            }
+
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chatPage.fxml")));
         }
         if (findGroupMessage1){
@@ -434,6 +523,12 @@ public class MainChatsPageController {
             ChatPageController.goToChatPage = false;
             GroupPageController.goToChatPage = false;
             chatUser = manager.findId(id2.getText());
+            if(message2.getSender().equals(manager.checkLogin())) {
+                chatUser =message2.getReceiver();
+            }
+            if(message2.getReceiver().equals(manager.checkLogin())) {
+                chatUser =message2.getSender();
+            }
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chatPage.fxml")));
         }
         if (findGroupMessage2){
@@ -460,7 +555,12 @@ public class MainChatsPageController {
             PrivateMessagePageController.goToChatPage = false;
             ChatPageController.goToChatPage = false;
             GroupPageController.goToChatPage = false;
-            chatUser = manager.findId(id3.getText());
+            if(message3.getSender().equals(manager.checkLogin())) {
+                chatUser =message3.getReceiver();
+            }
+            if(message3.getReceiver().equals(manager.checkLogin())) {
+                chatUser =message3.getSender();
+            }
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chatPage.fxml")));
         }
         if (findGroupMessage3){
@@ -488,6 +588,12 @@ public class MainChatsPageController {
             ChatPageController.goToChatPage = false;
             GroupPageController.goToChatPage = false;
             chatUser = manager.findId(id4.getText());
+            if(message4.getSender().equals(manager.checkLogin())) {
+                chatUser =message4.getReceiver();
+            }
+            if(message4.getReceiver().equals(manager.checkLogin())) {
+                chatUser =message4.getSender();
+            }
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chatPage.fxml")));
         }
         if (findGroupMessage4){
@@ -497,6 +603,39 @@ public class MainChatsPageController {
             ChatPageController.toGroupPage = false;
             CreateGroupController.toGroupPage = false;
             group = manager.searchGroup(id4.getText());
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("groupPage.fxml")));
+        }
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        assert root != null;
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void setGoToChat5(ActionEvent event) throws SQLException, IOException {
+        SetArrayLists setArrayLists = new SetArrayLists();
+        setArrayLists.setAllArrayLists();
+        Parent root = null;
+        if (findMessage5) {
+            goToChatPage = true;
+            PrivateMessagePageController.goToChatPage = false;
+            ChatPageController.goToChatPage = false;
+            GroupPageController.goToChatPage = false;
+            chatUser = manager.findId(id5.getText());
+            if(message5.getSender().equals(manager.checkLogin())) {
+                chatUser =message5.getReceiver();
+            }
+            if(message5.getReceiver().equals(manager.checkLogin())) {
+                chatUser =message5.getSender();
+            }
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("chatPage.fxml")));
+        }
+        if (findGroupMessage5){
+            toGroupPage = true;
+            GroupPageController.toGroupPage = false;
+            GroupsPageController.toGroupPage = false;
+            ChatPageController.toGroupPage = false;
+            CreateGroupController.toGroupPage = false;
+            group = manager.searchGroup(id5.getText());
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("groupPage.fxml")));
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

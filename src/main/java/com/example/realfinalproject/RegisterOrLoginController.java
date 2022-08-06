@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,8 +16,9 @@ import java.util.Objects;
 
 public class RegisterOrLoginController {
     Manager manager = new Manager();
-    Stage stage;
-    Scene scene;
+    private Stage stage = Main.mainStage;
+    private Scene scene = null;
+
     @FXML
     Button register;
     @FXML
@@ -25,6 +27,23 @@ public class RegisterOrLoginController {
     Rectangle rectangle;
     @FXML
     Button close;
+
+//    public void initialize() throws SQLException, IOException {
+//        SetArrayLists setArrayLists = new SetArrayLists();
+//        setArrayLists.setAllArrayLists();
+//        stage.setHeight(439.0);
+//        stage.setWidth(616.0);
+//        double height = stage.getHeight();
+//        double width = stage.getWidth();
+//        stage.sizeToScene();
+//        register.setLayoutX(width/2 - 172);
+//        register.setLayoutY(height/2 - 16);
+//        rectangle.setWidth(width);
+//        rectangle.setHeight(height);
+//        login.setLayoutX(width/2 + 50);
+//        login.setLayoutY(height/2 - 16);
+//        close.setLayoutX(width - 101);
+//    }
 
     public void switchToRegisterPage(ActionEvent event) throws IOException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();

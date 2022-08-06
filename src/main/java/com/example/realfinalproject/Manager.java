@@ -98,7 +98,7 @@ public class Manager {
     }
     public int getDistance(LocalDate first, LocalDate second){
         if (first.getYear()==second.getYear()){
-            return second.getDayOfYear() - first.getYear();
+            return second.getDayOfYear() - first.getDayOfYear();
         }
         else{
             int x= first.getDayOfYear();
@@ -661,6 +661,18 @@ public class Manager {
             }
         }
     }
+    public void deleteMessage(int messageId)
+    {
+        if (searchMessage(messageId)==null){
+            System.out.println("message not found...");
+        }
+        else{
+            Message message = searchMessage(messageId);
+            messages.remove(message);
+            User user = message.getSender();
+            user.messageIds.remove(Integer.valueOf(messageId));
+        }
+    }
     public void showChats(String[] splitInput)
     {
         ArrayList<Message> selectedMessages=new ArrayList<>();
@@ -828,6 +840,21 @@ public class Manager {
             }
         }
         return string;
+    }
+    public void leaveGroup(String groupId){
+        if (searchGroup(groupId)==null){
+            System.out.println("not found...");
+        }
+        else{
+            Group group = searchGroup(groupId);
+            if (!checkLogin().equals(group.getAdmin())){
+                group.getUsers().remove(checkLogin());
+            }
+            else{
+                group.setAdmin(group.getUsers().get(0));
+                group.getUsers().remove(0);
+            }
+        }
     }
     public String banUser(String[] splitInput)
     {
@@ -1090,6 +1117,17 @@ public class Manager {
         }
 
     }
+    public void deleteGroupMessage(String id){
+        if (findGroupMessage(id)==null){
+            System.out.println("not found...");
+        }
+        else {
+            GroupMessage groupMessage = findGroupMessage(id);
+            groupMessages.remove(groupMessage);
+            Group group = searchGroup(groupMessage.groupId);
+            group.getGroupMessages().remove(groupMessage);
+        }
+    }
     public void showGroupMessages(String[] splitInput)
     {
         boolean bool = false;
@@ -1259,13 +1297,15 @@ public class Manager {
     }
     public ArrayList<User> suggestFriend()
     {
+        ArrayList<User>suggestUsers=new ArrayList<>();
         User user=checkLogin();
         setFriends();
         ArrayList<User> userNewFriends=new ArrayList<>();
         for (int i = 0; i < user.getAllFriendIds().size(); i++) {
             ArrayList<User> newFriends=new ArrayList<>();
             for (int i1 = 0; i1 < findId(user.getAllFriendIds().get(i)).getAllFriendIds().size(); i1++) {
-                if (!user.getAllFriendIds().contains(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1))){
+                if (!user.getAllFriendIds().contains(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1)) &&
+                        newFriends.add(findId(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1)))){
                     newFriends.add(findId(findId(user.getAllFriendIds().get(i)).getAllFriendIds().get(i1)));
                 }
             }
@@ -1290,16 +1330,18 @@ public class Manager {
             }
             gradeForNotFriends.add(num);
         }
-        int max1=gradeForNotFriends.get(0);
-        int k1=0;
-        for (int i = 0; i < gradeForNotFriends.size(); i++) {
-            if(gradeForNotFriends.get(i)>max1)
-            {
-                max1=gradeForNotFriends.get(i);
-                k1=i;
+        if(gradeForNotFriends.size()!=0) {
+            int max1 = gradeForNotFriends.get(0);
+            int k1 = 0;
+            for (int i = 0; i < gradeForNotFriends.size(); i++) {
+                if (gradeForNotFriends.get(i) > max1) {
+                    max1 = gradeForNotFriends.get(i);
+                    k1 = i;
+                }
             }
+            suggestUsers.add(notFriendsWithOurFriends.get(k1));
+            System.out.println("Recommended friend for you\n" + notFriendsWithOurFriends.get(k1).getId());
         }
-        System.out.println("Recommended friend for you\n"+notFriendsWithOurFriends.get(k1).getId());
         ArrayList<Integer>commonFriendsAndLikePosts=new ArrayList<>();
         for (int i = 0; i < userNewFriends.size(); i++) {
             int num=0;
@@ -1317,32 +1359,33 @@ public class Manager {
             }
             commonFriendsAndLikePosts.add(num);
         }
-        int max2=commonFriendsAndLikePosts.get(0);
-        int k2=0;
-        for (int i = 0; i < commonFriendsAndLikePosts.size(); i++) {
-            if(commonFriendsAndLikePosts.get(i)>max2)
-            {
-                max2=commonFriendsAndLikePosts.get(i);
-                k2=i;
+        if(commonFriendsAndLikePosts.size()!=0) {
+            int max2 = commonFriendsAndLikePosts.get(0);
+            int k2 = 0;
+            for (int i = 0; i < commonFriendsAndLikePosts.size(); i++) {
+                if (commonFriendsAndLikePosts.get(i) > max2) {
+                    max2 = commonFriendsAndLikePosts.get(i);
+                    k2 = i;
+                }
             }
+            System.out.println("Recommended friend for you\n" + userNewFriends.get(k2).getId());
+            suggestUsers.add(userNewFriends.get(k2));
         }
-        System.out.println("Recommended friend for you\n"+userNewFriends.get(k2).getId());
-        ArrayList<User>suggestUsers=new ArrayList<>();
-        suggestUsers.add(notFriendsWithOurFriends.get(k1));
-        suggestUsers.add(userNewFriends.get(k2));
         return suggestUsers;
     }
     public void setFavoriteNumber()
     {
         for (int i = 0; i < businessPosts.size(); i++) {
             for (int i1 = 0; i1 < users.size(); i1++) {
-                if(businessPosts.get(i).getLikeUsersId().contains(users.get(i1).getId()))
+                if(businessPosts.get(i).getLikeUsersId().contains(users.get(i1).getId())&&
+                businessPosts.get(i).getViewers().contains(users.get(i1).getId()))
                 {
                     businessPosts.get(i).favoriteNumbers.put(users.get(i1),1.0);
                     businessPosts.get(i).favoriteNumberUser.add(users.get(i1).getId());
                     businessPosts.get(i).favoriteNumberDouble.add(1.0);
                 }
-                else if(businessPosts.get(i).getViewers().contains(users.get(i1).getId()))
+                if(businessPosts.get(i).getViewers().contains(users.get(i1).getId())&&
+                !businessPosts.get(i).getLikeUsersId().contains(users.get(i).getId()))
                 {
                     businessPosts.get(i).favoriteNumbers.put(users.get(i1),0.0);
                     businessPosts.get(i).favoriteNumberUser.add(users.get(i1).getId());
@@ -1384,18 +1427,20 @@ public class Manager {
             }
             favoritism.add(num);
         }
-        double min=favoritism.get(0);
-        int k=0;
-        for (int i = 0; i < favoritism.size(); i++) {
-            if(favoritism.get(i)<min)
-            {
-                min=favoritism.get(i);
-                k=i;
+        if(favoritism.size()!=0) {
+            double min = favoritism.get(0);
+            int k = 0;
+            for (int i = 0; i < favoritism.size(); i++) {
+                if (favoritism.get(i) < min) {
+                    min = favoritism.get(i);
+                    k = i;
+                }
             }
+            System.out.println("Recommended advertisement:\n" + notViewedPosts.get(k).getText() + "\n" +
+                    notViewedPosts.get(k).userId);
+            return notViewedPosts.get(k);
         }
-        System.out.println("Recommended advertisement:\n" + notViewedPosts.get(k).getText()+"\n"+
-                notViewedPosts.get(k).userId);
-        return notViewedPosts.get(k);
+        return null;
     }
     public void logout()
     {

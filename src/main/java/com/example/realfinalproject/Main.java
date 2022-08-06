@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 public class Main extends Application {
     public static Connection connection;
+    static Stage mainStage;
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/oop_project",
@@ -26,14 +27,11 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage stage) throws IOException {
-        try {
-            Parent root= FXMLLoader.load(getClass().getResource("LoginOrRegister.fxml"));
-            Scene scene=new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        mainStage = stage;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginOrRegister.fxml"));
+        Parent root= loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

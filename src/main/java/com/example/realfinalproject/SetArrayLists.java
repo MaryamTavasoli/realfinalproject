@@ -23,6 +23,7 @@ public class SetArrayLists {
     }
     public void setUserArrayList(Connection connection) throws SQLException
     {
+        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from User");
         while (resultSet.next()) {
@@ -72,8 +73,18 @@ public class SetArrayLists {
                         resultSet.getBoolean("entered"),resultSet.getString("nationalCode"),
                         resultSet.getString("businessAccount"),postIds,followerIds,followingIds,messageIds,allFriendIds,
                         resultSet.getString("imageAddress"),resultSet.getString("backGround"));
+                for (int i = 0; i < Manager.users.size(); i++) {
+                    if(Manager.users.get(i).getId().equals(user.getId()))
+                    {
+                        sameId=true;
+                        break;
+                    }
+                }
+                if(!sameId)
+                {
+                    Manager.users.add(user);
+                }
 
-                manager.users.add(user);
             }
             else if (resultSet.getString("businessAccount").equals("business")){
                 if (post.contains("-")) {
@@ -85,15 +96,27 @@ public class SetArrayLists {
                         resultSet.getBoolean("entered"),resultSet.getString("nationalCode"),
                         resultSet.getString("businessAccount"),postIds,followerIds,followingIds,messageIds,allFriendIds,resultSet.getString("imageAddress"),
                         resultSet.getString("backGround"));
+                for (int i = 0; i < Manager.businessUsers.size(); i++) {
+                    if(Manager.businessUsers.get(i).getId().equals(businessUser.getId()))
+                    {
+                        sameId=true;
+                        break;
+                    }
+                }
+                if(!sameId)
+                {
+                    Manager.businessUsers.add(businessUser);
+                    User user1=(User) businessUser;
+                    Manager.users.add(user1);
+                }
 
-                manager.businessUsers.add(businessUser);
-                manager.users.add(businessUser);
             }
         }
         statement.close();
     }
     public void setPostsArrayList(Connection connection) throws SQLException
     {
+        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from Post");
         while (resultSet.next()){
@@ -116,7 +139,17 @@ public class SetArrayLists {
             }
             Post post = new Post(resultSet.getString("id"),resultSet.getString("userId"),
                     resultSet.getString("postText"),likeUsersId,commentsId, resultSet.getString("image"));
-            manager.posts.add(post);
+            for (int i = 0; i < Manager.posts.size(); i++) {
+                if(Manager.posts.get(i).getId().equals(post.getId()))
+                {
+                    sameId=true;
+                    break;
+                }
+            }
+            if(!sameId)
+            {
+               Manager.posts.add(post);
+            }
         }
         statement.close();
     }
@@ -131,7 +164,7 @@ public class SetArrayLists {
             LocalDate localDate = LocalDate.parse(date, formatter);
             Message message = new Message(manager.findId(resultSet.getString("sender")),resultSet.getString("messageText"),
                     manager.findId(resultSet.getString("receiver")),Integer.parseInt(resultSet.getString("id")),
-                    resultSet.getBoolean("forwarded"), localDate,resultSet.getBoolean("seen"),resultSet.getString("time"));
+                    resultSet.getBoolean("forwarded"), localDate,resultSet.getBoolean("seen"),resultSet.getString("time"),resultSet.getString("emojiAddress"));
             for (int i = 0; i < Manager.messages.size(); i++) {
                 if(Manager.messages.get(i).getId()==message.getId())
                 {
@@ -147,17 +180,30 @@ public class SetArrayLists {
         statement.close();
     }
     public void setBlockArrayList(Connection connection) throws SQLException{
+        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select * from blockUser");
         while (resultSet.next()){
             Block block = new Block(manager.findId(resultSet.getString("blocker")),
                     manager.findId(resultSet.getString("blocked")));
-            manager.blocks.add(block);
+            for (int i = 0; i < Manager.blocks.size(); i++) {
+                if(Manager.blocks.get(i).blocker.equals(block.blocker)&&
+                        Manager.blocks.get(i).blocked.equals(block.blocked))
+                {
+                    sameId=true;
+                    break;
+                }
+            }
+            if(!sameId)
+            {
+                Manager.blocks.add(block);
+            }
         }
         statement.close();
     }
     public void setGroupArrayList(Connection connection) throws SQLException
     {
+        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet=statement.executeQuery("select * from grp");
         while (resultSet.next())
@@ -190,7 +236,17 @@ public class SetArrayLists {
             }
             Group group=new Group(manager.findId(resultSet.getString("admin")),resultSet.getString("name")
                     ,resultSet.getString("id"),users,banned,groupMessages, resultSet.getString("image"));
-            manager.groups.add(group);
+            for (int i = 0; i < Manager.groups.size(); i++) {
+                if(Manager.groups.get(i).groupId.equals(group.groupId))
+                {
+                    sameId=true;
+                    break;
+                }
+            }
+            if(!sameId)
+            {
+                Manager.groups.add(group);
+            }
         }
         statement.close();
     }
@@ -215,7 +271,7 @@ public class SetArrayLists {
             }
             GroupMessage groupMessage=new GroupMessage(manager.findId(resultSet.getString("sender")),
                     resultSet.getString("groupText"),resultSet.getString("id"),
-                    resultSet.getString("groupId"),localDate,seen,resultSet.getString("time"));
+                    resultSet.getString("groupId"),localDate,seen,resultSet.getString("time"),resultSet.getString("emojiAddress"));
             for (int i = 0; i < Manager.groupMessages.size(); i++) {
                 if(Manager.groupMessages.get(i).getId().equals(groupMessage.getId()))
                 {
@@ -232,6 +288,7 @@ public class SetArrayLists {
     }
     public void setBusinessPosts(Connection connection) throws SQLException
     {
+        boolean sameId=false;
         Statement statement = connection.createStatement();
         ResultSet resultSet=statement.executeQuery("select * from businessPost");
         while (resultSet.next())
@@ -324,8 +381,18 @@ public class SetArrayLists {
                     resultSet.getString("id"),resultSet.getString("userId"),resultSet.getString("postText"),likeUsersId,commentsId,
                     favoriteNumberUser,favoriteNumberDouble,viewers,likeUsersForTable
                     ,likesLocalDateForTable,viewUsersForTable,viewLocalDatesForTable,localDate, resultSet.getString("image"));
-            manager.businessPosts.add(businessPost);
-            manager.posts.add(businessPost);
+            for (int i = 0; i < Manager.businessPosts.size(); i++) {
+                if(Manager.businessPosts.get(i).getId().equals(businessPost.getId()))
+                {
+                    sameId=true;
+                    break;
+                }
+            }
+            if(!sameId)
+            {
+                Manager.businessPosts.add(businessPost);
+                Manager.posts.add(businessPost);
+            }
         }
         statement.close();
     }

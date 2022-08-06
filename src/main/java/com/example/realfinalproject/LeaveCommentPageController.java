@@ -64,6 +64,10 @@ public class LeaveCommentPageController {
         if (SuggestBusinessPostPageController.suggestBusinessPost){
             post = SuggestBusinessPostPageController.businessPost;
         }
+        if(commentPageController.commentPage)
+        {
+            post=commentPageController.post1;
+        }
         assert post != null;
         String postId = post.getId();
         manager.addComment(postId,comment.getText());

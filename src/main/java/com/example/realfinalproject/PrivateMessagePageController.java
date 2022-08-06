@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
@@ -97,6 +95,8 @@ public class PrivateMessagePageController {
     Button block3;
     @FXML
     Button block4;
+    @FXML
+    ScrollPane scrollPane;
     public static User chatUser;
     public static boolean goToChatPage=false;
     public void initialize() throws FileNotFoundException, SQLException {

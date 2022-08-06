@@ -104,7 +104,7 @@ public class DataInitializer {
         int num=manager.messages.size();
         ArrayList<Message> messages=manager.messages;
         for (int i=0;i<num;i++){
-            PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Message values(?,?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into Message values(?,?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1,messages.get(i).getId());
             preparedStatement.setString(2,messages.get(i).getText());
             preparedStatement.setBoolean(3,messages.get(i).forwarded);
@@ -113,6 +113,7 @@ public class DataInitializer {
             preparedStatement.setString(6,messages.get(i).getReceiver().getId());
             preparedStatement.setBoolean(7,messages.get(i).isSeen());
             preparedStatement.setString(8,messages.get(i).getTime());
+            preparedStatement.setString(9,messages.get(i).getEmojiAddress());
             preparedStatement.executeUpdate();
         }
     }
@@ -121,7 +122,7 @@ public class DataInitializer {
         ArrayList<GroupMessage> groupMessages = manager.groupMessages;
         for (int i=0;i<num;i++){
             PreparedStatement preparedStatement = connection.prepareStatement("insert ignore into GroupMessage values" +
-                    "(?,?,?,?,?,?,?)");
+                    "(?,?,?,?,?,?,?,?)");
             preparedStatement.setString(1,groupMessages.get(i).getId());
             preparedStatement.setString(2,groupMessages.get(i).getText());
             preparedStatement.setString(3,groupMessages.get(i).localDateToString);
@@ -134,6 +135,7 @@ public class DataInitializer {
             }
             preparedStatement.setString(6,seen.toString());
             preparedStatement.setString(7,groupMessages.get(i).getTime());
+            preparedStatement.setString(8,groupMessages.get(i).getEmojiAddress());
             preparedStatement.executeUpdate();
         }
     }

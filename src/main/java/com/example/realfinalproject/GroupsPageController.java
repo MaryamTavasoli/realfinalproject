@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -91,6 +92,8 @@ public class GroupsPageController {
     Label seen3;
     @FXML
     Label seen4;
+    @FXML
+    ScrollPane scrollPane;
     public static Group group = null;
     public static boolean toGroupPage = false;
     public ArrayList<Group> groups = new ArrayList<>();

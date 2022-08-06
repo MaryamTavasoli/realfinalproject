@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
@@ -27,5 +28,9 @@
       <Text fx:id="post2Text" fill="#ff9019" layoutX="169.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
       <Text fx:id="post3Text" fill="#ff9019" layoutX="308.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
       <Text fx:id="post4Text" fill="#ff9019" layoutX="475.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
+      <Label fx:id="label1" layoutX="62.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
+      <Label fx:id="label2" layoutX="189.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
+      <Label fx:id="label3" layoutX="323.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
+      <Label fx:id="label4" layoutX="482.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
     </children>
 </AnchorPane>

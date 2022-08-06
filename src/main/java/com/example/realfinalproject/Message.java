@@ -1,25 +1,31 @@
 package com.example.realfinalproject;
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Message {
+    @NonNull
     private User sender;
-    private String text;
+    @NonNull
     private User receiver;
+    @NonNull
     private int id;
-    boolean forwarded=false;
+    @NonNull
+    private String text;
+    @NonNull
     private LocalDate localDate;
+    boolean forwarded=false;
     public String localDateToString;
     private boolean seen = false;
     private String time;
+    private String emojiAddress;
 
-    public Message(User sender, User receiver, int id, String text,LocalDate localDate) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.id = id;
-        this.text=text;
-        this.localDate=localDate;
-    }
-    public Message(User sender, String text, User receiver, int id, boolean forwarded, LocalDate localDate,boolean seen,String time) {
+    public Message(User sender, String text, User receiver, int id, boolean forwarded, LocalDate localDate,boolean seen,String time,String emojiAddress) {
         this.sender = sender;
         this.text = text;
         this.receiver = receiver;
@@ -28,62 +34,7 @@ public class Message {
         this.localDate = localDate;
         this.seen = seen;
         this.time = time;
+        this.emojiAddress = emojiAddress;
     }
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
-    public User getSender() {
-        return sender;
-    }
-
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    public User getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
 }
 

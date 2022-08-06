@@ -44,10 +44,6 @@ public class MainPageController {
     @FXML
     Button close;
     @FXML
-    Button setProfileImage;
-    @FXML
-    Button setTheme;
-    @FXML
     Button createPost;
     @FXML
     ImageView post1Image;
@@ -87,6 +83,10 @@ public class MainPageController {
     Button mainChatsPage;
     @FXML
     Button settings;
+    @FXML
+    Label views1;
+    @FXML
+    Label views2;
     public static Post post;
     public static Post post1;
     public static Post post2;
@@ -141,16 +141,21 @@ public class MainPageController {
                 Image image = new Image(stream);
                 post1Image.setImage(image);
             }
-            ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like1.setGraphic(imageView1);
             like1.setVisible(true);
-            ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment1.setGraphic(imageView2);
             comment1.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost1=(BusinessPost) post1;
+                views1.setText("views: "+businessPost1.getViewers().size());
+            }
         }
         if (manager.checkLogin().postIds.size()>=2) {
             post2 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 2));
@@ -162,16 +167,21 @@ public class MainPageController {
                 Image image = new Image(stream);
                 post2Image.setImage(image);
             }
-            ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like2.setGraphic(imageView1);
             like2.setVisible(true);
-            ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment2.setGraphic(imageView2);
             comment2.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost2=(BusinessPost) post2;
+                views2.setText("views: "+businessPost2.getViewers().size());
+            }
         }
     }
     public void setShowPreviousPosts(ActionEvent event) throws IOException, SQLException {
@@ -210,6 +220,8 @@ public class MainPageController {
         mainPage=true;
         PreviousPostsController.prePostPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post1;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -224,6 +236,8 @@ public class MainPageController {
         mainPage=true;
         PreviousPostsController.prePostPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post2;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();

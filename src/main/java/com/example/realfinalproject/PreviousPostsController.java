@@ -63,6 +63,14 @@ public class PreviousPostsController {
     Button comment3;
     @FXML
     Button comment4;
+    @FXML
+    Label label1;
+    @FXML
+    Label label2;
+    @FXML
+    Label label3;
+    @FXML
+    Label label4;
     public  static Post post;
     public static Post post1;
     public static Post post2;
@@ -104,16 +112,21 @@ public class PreviousPostsController {
                 Image image = new Image(stream);
                 post1Image.setImage(image);
             }
-            ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like1.setGraphic(imageView1);
             like1.setVisible(true);
-            ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment1.setGraphic(imageView2);
             comment1.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost=(BusinessPost) post1;
+                label1.setText("views: "+businessPost.getViewers().size());
+            }
         }
         if (manager.checkLogin().postIds.size()>=4) {
             post2 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 4));
@@ -125,16 +138,21 @@ public class PreviousPostsController {
                 Image image = new Image(stream);
                 post2Image.setImage(image);
             }
-            ImageView imageView1= new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1= new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like2.setGraphic(imageView1);
             like2.setVisible(true);
-            ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment2.setGraphic(imageView2);
             comment2.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost=(BusinessPost) post2;
+                label2.setText("views: "+businessPost.getViewers().size());
+            }
         }
         if (manager.checkLogin().postIds.size()>=5) {
             post3 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 5));
@@ -146,16 +164,21 @@ public class PreviousPostsController {
                 Image image = new Image(stream);
                 post3Image.setImage(image);
             }
-            ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like3.setGraphic(imageView1);
             like3.setVisible(true);
-            ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment3.setGraphic(imageView2);
             comment3.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost=(BusinessPost) post3;
+                label3.setText("views: "+businessPost.getViewers().size());
+            }
         }
         if (manager.checkLogin().postIds.size()>=6) {
             post4 = manager.searchPostById(manager.checkLogin().postIds.get(manager.checkLogin().postIds.size() - 6));
@@ -167,16 +190,21 @@ public class PreviousPostsController {
                 Image image = new Image(stream);
                 post4Image.setImage(image);
             }
-            ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+            ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
             imageView1.setFitHeight(25);
             imageView1.setFitWidth(30);
             like4.setGraphic(imageView1);
             like4.setVisible(true);
-            ImageView imageView2= new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+            ImageView imageView2= new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
             imageView2.setFitHeight(25);
             imageView2.setFitWidth(30);
             comment4.setGraphic(imageView2);
             comment4.setVisible(true);
+            if(manager.checkLogin().getBusinessAccount().equals("business"))
+            {
+                BusinessPost businessPost=(BusinessPost) post4;
+                label4.setText("views: "+businessPost.getViewers().size());
+            }
         }
     }
     public void goBackToMainPage(ActionEvent event) throws IOException {
@@ -202,6 +230,8 @@ public class PreviousPostsController {
         prePostPage=true;
         MainPageController.mainPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post1;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -216,6 +246,8 @@ public class PreviousPostsController {
         prePostPage=true;
         MainPageController.mainPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post2;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -230,6 +262,8 @@ public class PreviousPostsController {
         prePostPage=true;
         MainPageController.mainPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post3;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -244,6 +278,8 @@ public class PreviousPostsController {
         prePostPage=true;
         MainPageController.mainPage=false;
         FriendsPostsController.followerPostPage = false;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post4;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();

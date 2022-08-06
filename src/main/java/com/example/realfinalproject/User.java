@@ -1,130 +1,30 @@
 package com.example.realfinalproject;
-import java.util.ArrayList;
+import lombok.*;
 
+import java.util.ArrayList;
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class User {
+    @NonNull
     private String id;
+    @NonNull
     private String password;
     private boolean entered=false;
+    @NonNull
     private String nationalCode;
+    @NonNull
     private String businessAccount;
-    private String imageAddress;
-    private String backGround;
-
     ArrayList<String>followerIds=new ArrayList<>();
     ArrayList<String>followingIds=new ArrayList<>();
     ArrayList<String>postIds=new ArrayList<>();
     ArrayList<Integer> messageIds=new ArrayList<>();
     ArrayList<String> allFriendIds=new ArrayList<>();
+    private String imageAddress;
+    private String backGround;
 
-    public User(String id, String password, boolean entered, String nationalCode, String businessAccount, ArrayList<String> postIds ,ArrayList<String> followerIds, ArrayList<String> followingIds, ArrayList<Integer> messageIds, ArrayList<String> allFriendIds, String imageAddress, String backGround) {
-        this.id = id;
-        this.password = password;
-        this.entered = entered;
-        this.nationalCode = nationalCode;
-        this.businessAccount = businessAccount;
-        this.postIds = postIds;
-        this.followerIds = followerIds;
-        this.followingIds = followingIds;
-        this.messageIds = messageIds;
-        this.allFriendIds = allFriendIds;
-        this.imageAddress = imageAddress;
-        this.backGround = backGround;
-    }
-    public String getBackGround() {
-        return backGround;
-    }
 
-    public void setBackGround(String backGround) {
-        this.backGround = backGround;
-    }
-
-    public ArrayList<String> getFollowerIds() {
-        return followerIds;
-    }
-
-    public void setFollowerIds(ArrayList<String> followerIds) {
-        this.followerIds = followerIds;
-    }
-
-    public ArrayList<String> getFollowingIds() {
-        return followingIds;
-    }
-
-    public void setFollowingIds(ArrayList<String> followingIds) {
-        this.followingIds = followingIds;
-    }
-
-    public ArrayList<String> getPostIds() {
-        return postIds;
-    }
-
-    public void setPostIds(ArrayList<String> postIds) {
-        this.postIds = postIds;
-    }
-
-    public ArrayList<Integer> getMessageIds() {
-        return messageIds;
-    }
-
-    public void setMessageIds(ArrayList<Integer> messageIds) {
-        this.messageIds = messageIds;
-    }
-
-    public ArrayList<String> getAllFriendIds() {
-        return allFriendIds;
-    }
-
-    public void setAllFriendIds(ArrayList<String> allFriendIds) {
-        this.allFriendIds = allFriendIds;
-    }
-
-    public void setBusinessAccount(String businessAccount) {
-        this.businessAccount = businessAccount;
-    }
-
-    public String getBusinessAccount() {
-        return businessAccount;
-    }
-
-    public void setNationalCode(String nationalCode) {
-        this.nationalCode = nationalCode;
-    }
-
-    public String getNationalCode() {
-        return nationalCode;
-    }
-
-    public void setEntered(boolean entered) {
-        this.entered = entered;
-    }
-
-    public boolean isEntered() {
-        return entered;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getImageAddress() {
-        return imageAddress;
-    }
-
-    public void setImageAddress(String imageAddress) {
-        this.imageAddress = imageAddress;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
     public void printUserPosts(){
         int n= postIds.size();
         if (n<5){
@@ -218,12 +118,5 @@ public class User {
             }
         }
         return -1;
-    }
-
-    public User(String id, String password, String nationalCode, String businessAccount) {
-        this.id = id;
-        this.password = password;
-        this.nationalCode = nationalCode;
-        this.businessAccount=businessAccount;
     }
 }

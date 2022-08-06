@@ -72,6 +72,12 @@ public class FriendsPostsController {
     ImageView profileImage;
     @FXML
     Label idLabel;
+    @FXML
+    Label label1;
+    @FXML
+    Label label2;
+    @FXML
+    Label label3;
     public static boolean followerPostPage = false;
     public static Post post;
     public static Post post1;
@@ -126,12 +132,12 @@ public class FriendsPostsController {
                 Image image1 = new Image(stream1);
                 post1Image.setImage(image1);
                 post1Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 1)).getText());
-                ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+                ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
                 like1.setGraphic(imageView1);
                 like1.setVisible(true);
-                ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+                ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
                 imageView2.setFitHeight(25);
                 imageView2.setFitWidth(30);
                 comment1.setGraphic(imageView2);
@@ -145,12 +151,12 @@ public class FriendsPostsController {
                 Image image2 = new Image(stream2);
                 post2Image.setImage(image2);
                 post2Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 2)).getText());
-                ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+                ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
                 like2.setGraphic(imageView1);
                 like2.setVisible(true);
-                ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+                ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
                 imageView2.setFitHeight(25);
                 imageView2.setFitWidth(30);
                 comment2.setGraphic(imageView2);
@@ -164,12 +170,12 @@ public class FriendsPostsController {
                 Image image3 = new Image(stream3);
                 post3Image.setImage(image3);
                 post3Text.setText(manager.searchPostById(user.postIds.get(user.postIds.size() - 3)).getText());
-                ImageView imageView1 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\likeLogo.png");
+                ImageView imageView1 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\likeLogo.png");
                 imageView1.setFitHeight(25);
                 imageView1.setFitWidth(30);
                 like3.setGraphic(imageView1);
                 like3.setVisible(true);
-                ImageView imageView2 = new ImageView("C:\\Users\\ernika\\Desktop\\posts\\commentLogo.png");
+                ImageView imageView2 = new ImageView("C:\\Users\\APPLE\\Desktop\\posts\\commentLogo.png");
                 imageView2.setFitHeight(25);
                 imageView2.setFitWidth(30);
                 comment3.setGraphic(imageView2);
@@ -188,6 +194,8 @@ public class FriendsPostsController {
                         businessPost1.viewUsersForTable.add(manager.checkLogin().getId());
                         businessPost1.viewLocalDatesForTable.add(LocalDate.now());
                     }
+                    label1.setText("views: "+businessPost1.getViewers().size());
+
                 }
                 if (user.postIds.size()>=2){
                     Post post2 = manager.searchPostById(user.postIds.get(user.postIds.size() - 2));
@@ -199,6 +207,7 @@ public class FriendsPostsController {
                         businessPost2.viewUsersForTable.add(manager.checkLogin().getId());
                         businessPost2.viewLocalDatesForTable.add(LocalDate.now());
                     }
+                    label2.setText("views: "+businessPost2.getViewers().size());
                 }
                 if (user.postIds.size()>=3){
                     Post post3 = manager.searchPostById(user.postIds.get(user.postIds.size() - 3));
@@ -210,6 +219,7 @@ public class FriendsPostsController {
                         businessPost3.viewUsersForTable.add(manager.checkLogin().getId());
                         businessPost3.viewLocalDatesForTable.add(LocalDate.now());
                     }
+                    label3.setText("views: "+businessPost3.getViewers().size());
                 }
             }
         }
@@ -276,6 +286,8 @@ public class FriendsPostsController {
         MainPageController.mainPage=false;
         PreviousPostsController.prePostPage=false;
         followerPostPage = true;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post1;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -290,6 +302,8 @@ public class FriendsPostsController {
         MainPageController.mainPage=false;
         PreviousPostsController.prePostPage=false;
         followerPostPage = true;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post2;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
@@ -304,6 +318,8 @@ public class FriendsPostsController {
         MainPageController.mainPage=false;
         PreviousPostsController.prePostPage=false;
         followerPostPage = true;
+        commentPageController.commentPage=false;
+        SuggestBusinessPostPageController.suggestBusinessPost=false;
         post=post3;
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();

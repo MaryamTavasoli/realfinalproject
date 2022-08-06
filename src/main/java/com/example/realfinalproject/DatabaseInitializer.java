@@ -28,11 +28,11 @@ public class DatabaseInitializer {
 
     private void initMessageTable(Statement statement) throws SQLException {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Message(id int PRIMARY KEY,messageText varchar(100)," +
-                "forwarded boolean,localDate varchar(20),sender varchar(20),receiver varchar(20),seen boolean,time varchar(20))");
+                "forwarded boolean,localDate varchar(20),sender varchar(20),receiver varchar(20),seen boolean,time varchar(20),emojiAddress varchar(100))");
     }
     private void initGroupMessageTable(Statement statement) throws SQLException {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "GroupMessage(id varchar(20) PRIMARY KEY,groupText varchar(100)," +
-                "localDate varchar(20),groupId varchar(20),sender varchar(20),seen varchar(100),time varchar(20))");
+                "localDate varchar(20),groupId varchar(20),sender varchar(20),seen varchar(100),time varchar(20),emojiAddress varchar(100))");
     }
     private void initGroupTable(Statement statement) throws SQLException {
         statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + "Grp(id varchar(20) PRIMARY KEY,name varchar(20),admin varchar(20)," +
