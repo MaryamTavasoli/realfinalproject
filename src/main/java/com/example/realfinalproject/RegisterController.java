@@ -43,8 +43,6 @@ public class RegisterController {
     @FXML
     Button register;
     @FXML
-    Rectangle rectangle;
-    @FXML
     Button close;
     @FXML
     Label setString;

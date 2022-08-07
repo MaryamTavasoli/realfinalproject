@@ -6,12 +6,12 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.RegisterController">
    <children>
-      <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="#66dbff" height="407.0" layoutX="-3.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="606.0" />
+      <Pane layoutY="-1.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #66dbff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label fx:id="id" layoutX="137.0" layoutY="91.0" text="id:">
          <font>
             <Font size="18.0" />
@@ -37,31 +37,31 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="idField" layoutX="235.0" layoutY="92.0" />
-      <PasswordField fx:id="passwordField" layoutX="235.0" layoutY="131.0" />
-      <PasswordField fx:id="repeatPasswordField" layoutX="235.0" layoutY="175.0" />
-      <TextField fx:id="nationalCodeField" layoutX="235.0" layoutY="215.0" />
-      <CheckBox fx:id="ordinary" layoutX="227.0" layoutY="272.0" mnemonicParsing="false" text="ordinary">
+      <TextField fx:id="idField" layoutX="235.0" layoutY="92.0" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="216.0" />
+      <PasswordField fx:id="passwordField" layoutX="235.0" layoutY="131.0" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="216.0" />
+      <PasswordField fx:id="repeatPasswordField" layoutX="235.0" layoutY="175.0" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="216.0" />
+      <TextField fx:id="nationalCodeField" layoutX="235.0" layoutY="215.0" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="216.0" />
+      <CheckBox fx:id="ordinary" layoutX="227.0" layoutY="272.0" mnemonicParsing="false" text="ordinary" AnchorPane.leftAnchor="227.0">
          <font>
             <Font size="15.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="business" layoutX="353.0" layoutY="272.0" mnemonicParsing="false" text="business">
+      <CheckBox fx:id="business" layoutX="353.0" layoutY="272.0" mnemonicParsing="false" text="business" AnchorPane.leftAnchor="353.0">
          <font>
             <Font size="15.0" />
          </font>
       </CheckBox>
-      <Button fx:id="register" layoutX="274.0" layoutY="302.0" mnemonicParsing="false" onAction="#setRegister" text="register">
+      <Button fx:id="register" layoutX="274.0" layoutY="302.0" mnemonicParsing="false" onAction="#setRegister" text="register" AnchorPane.leftAnchor="274.0">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="close" layoutX="534.0" layoutY="22.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" />
+      <Button fx:id="close" layoutX="534.0" layoutY="22.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" AnchorPane.rightAnchor="23.0" />
       <Label fx:id="setString" layoutX="104.0" layoutY="352.0" prefHeight="21.0" prefWidth="411.0" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="back" layoutX="35.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToRegisterOrLoginPage" text="back" />
+      <Button fx:id="back" layoutX="35.0" layoutY="22.0" mnemonicParsing="false" onAction="#switchToRegisterOrLoginPage" text="back" AnchorPane.leftAnchor="35.0" />
    </children>
 </AnchorPane>

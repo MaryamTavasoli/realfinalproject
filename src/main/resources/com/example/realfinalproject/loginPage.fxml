@@ -5,12 +5,12 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.LoginController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#66dbff" height="406.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="406.0" prefWidth="600.0" style="-fx-background-color: #66dbff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <Label fx:id="id" layoutX="120.0" layoutY="104.0" text="id:">
             <font>
                 <Font size="18.0" />
@@ -26,19 +26,19 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <TextField fx:id="idField" layoutX="200.0" layoutY="105.0" />
-        <PasswordField fx:id="passwordField" layoutX="200.0" layoutY="153.0" />
+        <TextField fx:id="idField" layoutX="200.0" layoutY="105.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="251.0" />
+        <PasswordField fx:id="passwordField" layoutX="200.0" layoutY="153.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="251.0" />
         <Button fx:id="forgotPassword" layoutX="223.0" layoutY="274.0" mnemonicParsing="false" onAction="#switchToForgotPage" text="forgot password">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="close" layoutX="525.0" layoutY="23.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" />
+        <Button fx:id="close" layoutX="525.0" layoutY="23.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" AnchorPane.rightAnchor="20.0" />
         <Label fx:id="setLabel" layoutX="128.0" layoutY="346.0" prefHeight="21.0" prefWidth="345.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Button fx:id="back" layoutX="22.0" layoutY="23.0" mnemonicParsing="false" onAction="#switchToRegisterOrLoginPage" text="back" />
+        <Button fx:id="back" layoutX="22.0" layoutY="23.0" mnemonicParsing="false" onAction="#switchToRegisterOrLoginPage" text="back" AnchorPane.leftAnchor="22.0" />
     </children>
 </AnchorPane>

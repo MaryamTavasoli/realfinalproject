@@ -5,18 +5,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.FriendsPostsController">
     <children>
-        <ImageView fx:id="bg" fitHeight="407.0" fitWidth="607.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+      <Pane fx:id="pane" layoutX="-5.0" layoutY="-4.0" prefHeight="406.0" prefWidth="608.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <Label fx:id="label" layoutX="18.0" layoutY="40.0" text="which person posts do you want to see?" textFill="#ff9019">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <TextField fx:id="followerId" layoutX="349.0" layoutY="38.0" />
+        <TextField fx:id="followerId" layoutX="349.0" layoutY="38.0" AnchorPane.leftAnchor="349.0" AnchorPane.rightAnchor="102.0" />
         <Button fx:id="confirm" layoutX="396.0" layoutY="71.0" mnemonicParsing="false" onAction="#showPosts" text="confirm" />
         <ImageView fx:id="post1Image" fitHeight="148.0" fitWidth="115.0" layoutX="157.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fx:id="post2Image" fitHeight="148.0" fitWidth="115.0" layoutX="310.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true" />
@@ -26,7 +27,7 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Button fx:id="back" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToMainPage" text="back" />
+        <Button fx:id="back" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToMainPage" text="back" AnchorPane.rightAnchor="20.0" />
         <Button fx:id="like1" layoutX="171.0" layoutY="264.0" mnemonicParsing="false" onAction="#setLike1" prefHeight="25.0" prefWidth="30.0" />
         <Button fx:id="comment1" layoutX="214.0" layoutY="264.0" mnemonicParsing="false" onAction="#goToCommentPage1" prefHeight="25.0" prefWidth="30.0" />
         <Button fx:id="like2" layoutX="324.0" layoutY="264.0" mnemonicParsing="false" onAction="#setLike2" prefHeight="25.0" prefWidth="30.0" />

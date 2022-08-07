@@ -26,8 +26,6 @@ public class SetImagePageController {
     Stage stage;
     Scene scene;
     @FXML
-    Rectangle rectangle;
-    @FXML
     Label label;
     @FXML
     ImageView image1;

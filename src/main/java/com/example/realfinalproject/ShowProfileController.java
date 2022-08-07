@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,8 +28,6 @@ public class ShowProfileController {
     Manager manager=new Manager();
     Stage stage;
     Scene scene;
-    @FXML
-    ImageView bg;
     @FXML
     Label label;
     @FXML
@@ -67,13 +66,20 @@ public class ShowProfileController {
     Label label1;
     @FXML
     Label label2;
+    @FXML
+    Pane pane;
     public void initialize() throws FileNotFoundException, SQLException {
         SetArrayLists setArrayLists = new SetArrayLists();
         setArrayLists.setAllArrayLists();
         if (manager.checkLogin().getBackGround()!=null){
-            InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
-            Image image = new Image(stream);
-            bg.setImage(image);
+            Image img = new Image(manager.checkLogin().getBackGround());
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            Background bGround = new Background(bImg);
+            pane.setBackground(bGround);
         }
         like1.setVisible(false);
         like2.setVisible(false);

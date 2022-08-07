@@ -18,16 +18,12 @@ public class RegisterOrLoginController {
     Manager manager = new Manager();
     private Stage stage = Main.mainStage;
     private Scene scene = null;
-
     @FXML
     Button register;
     @FXML
     Button login;
     @FXML
-    Rectangle rectangle;
-    @FXML
     Button close;
-
 //    public void initialize() throws SQLException, IOException {
 //        SetArrayLists setArrayLists = new SetArrayLists();
 //        setArrayLists.setAllArrayLists();
