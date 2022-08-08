@@ -4,33 +4,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.PreviousPostsController">
     <children>
-        <ImageView fx:id="bg" fitHeight="406.0" fitWidth="606.0" layoutX="-4.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fitHeight="153.0" fitWidth="111.0" layoutX="51.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="post1Image" fitHeight="153.0" fitWidth="111.0" layoutX="44.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="post2Image" fitHeight="153.0" fitWidth="111.0" layoutX="181.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="post3Image" fitHeight="153.0" fitWidth="111.0" layoutX="323.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="post4Image" fitHeight="153.0" fitWidth="111.0" layoutX="475.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="goBackToMain" layoutX="19.0" layoutY="359.0" mnemonicParsing="false" onAction="#goBackToMainPage" text="go back to main page" />
-        <Button fx:id="close" layoutX="530.0" layoutY="359.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" />
-        <Button fx:id="comment1" layoutX="107.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage1" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="like1" layoutX="72.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike1" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="comment2" layoutX="239.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage2" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="like2" layoutX="198.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike2" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="like3" layoutX="337.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike3" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="comment3" layoutX="378.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage3" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="comment4" layoutX="539.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage4" prefHeight="25.0" prefWidth="26.0" />
-        <Button fx:id="like4" layoutX="497.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike4" prefHeight="25.0" prefWidth="26.0" />
-      <Text fx:id="post1Text" fill="#ff9019" layoutX="43.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
-      <Text fx:id="post2Text" fill="#ff9019" layoutX="169.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
-      <Text fx:id="post3Text" fill="#ff9019" layoutX="308.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
-      <Text fx:id="post4Text" fill="#ff9019" layoutX="475.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" />
-      <Label fx:id="label1" layoutX="62.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
-      <Label fx:id="label2" layoutX="189.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
-      <Label fx:id="label3" layoutX="323.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
-      <Label fx:id="label4" layoutX="482.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" />
+      <Pane fx:id="pane" layoutX="200.0" layoutY="55.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ImageView fx:id="post1Image" fitHeight="153.0" fitWidth="111.0" layoutX="44.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="44.0" />
+        <ImageView fx:id="post2Image" fitHeight="153.0" fitWidth="111.0" layoutX="181.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="181.0" />
+        <ImageView fx:id="post3Image" fitHeight="153.0" fitWidth="111.0" layoutX="323.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="142.0" AnchorPane.rightAnchor="166.0" />
+        <ImageView fx:id="post4Image" fitHeight="153.0" fitWidth="111.0" layoutX="475.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="142.0" AnchorPane.rightAnchor="14.0" />
+        <Button fx:id="goBackToMain" layoutX="19.0" layoutY="359.0" mnemonicParsing="false" onAction="#goBackToMainPage" text="go back to main page" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="19.0" />
+        <Button fx:id="close" layoutX="530.0" layoutY="359.0" mnemonicParsing="false" onAction="#closeTheStage" text="close" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="10.0" />
+        <Button fx:id="comment1" layoutX="107.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage1" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="110.0" />
+        <Button fx:id="like1" layoutX="72.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike1" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="72.0" />
+        <Button fx:id="comment2" layoutX="239.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage2" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="239.0" />
+        <Button fx:id="like2" layoutX="198.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike2" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="198.0" />
+        <Button fx:id="like3" layoutX="337.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike3" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.rightAnchor="237.0" />
+        <Button fx:id="comment3" layoutX="378.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage3" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.rightAnchor="190.0" />
+        <Button fx:id="comment4" layoutX="539.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToCommentPage4" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.rightAnchor="30.0" />
+        <Button fx:id="like4" layoutX="497.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToLike4" prefHeight="25.0" prefWidth="26.0" AnchorPane.bottomAnchor="303.0" AnchorPane.rightAnchor="77.0" />
+      <Text fx:id="post1Text" fill="#ff9019" layoutX="43.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" AnchorPane.bottomAnchor="78.98828125" AnchorPane.leftAnchor="43.0" />
+      <Text fx:id="post2Text" fill="#ff9019" layoutX="169.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" AnchorPane.bottomAnchor="79.98828125" AnchorPane.leftAnchor="169.0" />
+      <Text fx:id="post3Text" fill="#ff9019" layoutX="308.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" AnchorPane.bottomAnchor="79.02734375" AnchorPane.rightAnchor="170.0" />
+      <Text fx:id="post4Text" fill="#ff9019" layoutX="475.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="111.0" AnchorPane.bottomAnchor="79.02734375" AnchorPane.rightAnchor="10.0" />
+      <Label fx:id="label1" layoutX="62.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" AnchorPane.bottomAnchor="345.0" AnchorPane.leftAnchor="62.0" />
+      <Label fx:id="label2" layoutX="189.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" AnchorPane.bottomAnchor="345.0" AnchorPane.leftAnchor="189.0" />
+      <Label fx:id="label3" layoutX="323.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" AnchorPane.bottomAnchor="345.0" AnchorPane.rightAnchor="190.0" />
+      <Label fx:id="label4" layoutX="482.0" layoutY="38.0" prefHeight="17.0" prefWidth="83.0" textFill="#ff9019" AnchorPane.bottomAnchor="345.0" AnchorPane.rightAnchor="25.0" />
     </children>
 </AnchorPane>

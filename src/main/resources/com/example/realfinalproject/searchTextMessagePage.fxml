@@ -6,22 +6,22 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.SearchTextMessagePageController">
    <children>
-      <ImageView fx:id="bg" fitHeight="400.0" fitWidth="606.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField fx:id="text" layoutX="324.0" layoutY="32.0" prefHeight="25.0" prefWidth="244.0" />
+      <Pane fx:id="pane" layoutX="144.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TextField fx:id="text" layoutX="324.0" layoutY="32.0" prefHeight="25.0" prefWidth="244.0" AnchorPane.leftAnchor="324.0" AnchorPane.rightAnchor="32.0" />
       <Label fx:id="label" layoutX="103.0" layoutY="31.0" prefHeight="27.0" prefWidth="205.0" text="Type your text to search:" textFill="#ff9019">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Button fx:id="confirm" layoutX="418.0" layoutY="74.0" mnemonicParsing="false" onAction="#setConfirm" text="confirm" />
-      <Line fx:id="line" endX="337.0" endY="-8.0" layoutX="266.0" layoutY="116.0" startX="-269.0" startY="-8.0" stroke="#c32020" />
+      <Line fx:id="line" endX="337.0" endY="-8.0" layoutX="266.0" layoutY="116.0" startX="-269.0" startY="-8.0" stroke="#c32020" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <ImageView fx:id="profile1" fitHeight="37.0" fitWidth="43.0" layoutX="23.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="id1" layoutX="23.0" layoutY="190.0" prefHeight="9.0" prefWidth="43.0" textFill="#ff9019">
          <font>
@@ -55,7 +55,7 @@
             <Font size="15.0" />
          </font>
       </Text>
-      <Button fx:id="selectId" layoutX="520.0" layoutY="363.0" mnemonicParsing="false" onAction="#switchToSelectIdPage" text="select id" />
+      <Button fx:id="selectId" layoutX="520.0" layoutY="363.0" mnemonicParsing="false" onAction="#switchToSelectIdPage" text="select id" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Label fx:id="messageId1" layoutX="84.0" layoutY="191.0" prefHeight="17.0" prefWidth="57.0" textFill="#ff9019">
          <font>
             <Font size="15.0" />
@@ -71,7 +71,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="back" layoutX="19.0" layoutY="19.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" />
+      <Button fx:id="back" layoutX="19.0" layoutY="19.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="19.0" />
       <CheckBox fx:id="messageCheckBox" layoutX="133.0" layoutY="78.0" mnemonicParsing="false" text="message" textFill="#ff9019">
          <font>
             <Font size="14.0" />

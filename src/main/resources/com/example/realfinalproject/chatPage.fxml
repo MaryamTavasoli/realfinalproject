@@ -5,42 +5,72 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.ChatPageController">
    <children>
-      <ImageView fx:id="bg" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="userProfile" fitHeight="43.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Pane fx:id="pane" layoutY="-2.0" prefHeight="407.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Line fx:id="line" endX="93.38700866699219" endY="21.4141845703125" layoutX="410.0" layoutY="191.0" rotate="90.0" startX="303.6221008300781" startY="21.562219619750977" stroke="#da2222" />
+         </children>
+      </Pane>
+      <ImageView fx:id="userProfile" fitHeight="43.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <Label fx:id="userId" layoutX="14.0" layoutY="70.0" prefHeight="11.0" prefWidth="60.0" textFill="#ff9019">
          <font>
             <Font size="15.0" />
          </font>
+         <effect>
+            <Blend />
+         </effect>
       </Label>
-      <Line fx:id="line1" endX="499.0" layoutX="100.0" layoutY="104.0" startX="-100.0" stroke="#bf1a1a" />
-      <Line fx:id="line2" endX="499.0" layoutX="100.0" layoutY="316.0" startX="-100.0" stroke="#a41d1d" />
-      <TextArea fx:id="textMessage" layoutX="66.0" layoutY="329.0" prefHeight="72.0" prefWidth="326.0" />
-      <Button fx:id="send" layoutX="413.0" layoutY="343.0" mnemonicParsing="false" onAction="#send" prefHeight="43.0" prefWidth="45.0" />
-      <Button fx:id="back" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#goToPrivateMessagePage" text="back" />
+      <Line fx:id="line1" endX="510.21435546875" layoutX="100.0" layoutY="104.0" startX="-100.0" stroke="#bf1a1a" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Line fx:id="line2" endX="508.78564453125" layoutX="100.0" layoutY="316.0" startX="-100.0" stroke="#a41d1d" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <TextArea fx:id="textMessage" layoutX="66.0" layoutY="329.0" prefHeight="72.0" prefWidth="326.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="208.0" />
+      <Button fx:id="send" layoutX="413.0" layoutY="343.0" mnemonicParsing="false" onAction="#send" prefHeight="43.0" prefWidth="45.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="142.0" />
+      <Button fx:id="back" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#goToPrivateMessagePage" text="back" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" />
       <Button fx:id="forward" layoutX="487.0" layoutY="58.0" mnemonicParsing="false" onAction="#setForward" text="forward" />
-      <TextField fx:id="fillId" layoutX="441.0" layoutY="23.0" />
+      <TextField fx:id="fillId" layoutX="441.0" layoutY="23.0" AnchorPane.leftAnchor="441.0" AnchorPane.rightAnchor="10.0" />
       <Label fx:id="label" layoutX="131.0" layoutY="26.0" prefHeight="20.0" prefWidth="304.0" text="write the id you want to forward the message to: " textFill="#ff9019">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <Blend />
+         </effect>
       </Label>
-      <Text fx:id="chatText5" fill="#ff9019" layoutX="24.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0" />
-      <Text fx:id="chatText4" fill="#ff9019" layoutX="24.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0" />
-      <Text fx:id="chatText3" fill="#ff9019" layoutX="24.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0" />
-      <Text fx:id="chatText2" fill="#ff9019" layoutX="24.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0" />
-      <Text fx:id="chatText1" fill="#ff9019" layoutX="24.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0" />
+      <Text fx:id="chatText5" fill="#ff9019" layoutX="24.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0">
+         <effect>
+            <Blend />
+         </effect></Text>
+      <Text fx:id="chatText4" fill="#ff9019" layoutX="24.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0">
+         <effect>
+            <Blend />
+         </effect></Text>
+      <Text fx:id="chatText3" fill="#ff9019" layoutX="24.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0">
+         <effect>
+            <Blend />
+         </effect></Text>
+      <Text fx:id="chatText2" fill="#ff9019" layoutX="24.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0">
+         <effect>
+            <Blend />
+         </effect></Text>
+      <Text fx:id="chatText1" fill="#ff9019" layoutX="24.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.0">
+         <effect>
+            <Blend />
+         </effect></Text>
       <Text fx:id="text" fill="#ff9019" layoutX="201.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.0">
          <font>
             <Font size="14.0" />
          </font>
+         <effect>
+            <Blend />
+         </effect>
       </Text>
       <Button fx:id="reply5" layoutX="517.0" layoutY="119.0" mnemonicParsing="false" onAction="#setReply5" text="reply" />
       <Button fx:id="edit5" layoutX="563.0" layoutY="119.0" mnemonicParsing="false" onAction="#setEdit5" text="edit" />
@@ -62,11 +92,11 @@
       <CheckBox fx:id="delete3" layoutX="458.0" layoutY="207.0" mnemonicParsing="false" />
       <CheckBox fx:id="delete2" layoutX="458.0" layoutY="248.0" mnemonicParsing="false" />
       <CheckBox fx:id="delete1" layoutX="458.0" layoutY="286.0" mnemonicParsing="false" />
-      <Button fx:id="deleteMessage" layoutX="470.0" layoutY="354.0" mnemonicParsing="false" onAction="#setDeleteMessage" text="delete" />
-      <Button fx:id="emoji2" layoutX="569.0" layoutY="318.0" mnemonicParsing="false" onAction="#setEmoji2" prefHeight="25.0" prefWidth="24.0" />
-      <Button fx:id="emoji1" layoutX="527.0" layoutY="318.0" mnemonicParsing="false" onAction="#setEmoji1" prefHeight="25.0" prefWidth="24.0" />
-      <Button fx:id="emoji4" layoutX="569.0" layoutY="374.0" mnemonicParsing="false" onAction="#setEmoji4" prefHeight="25.0" prefWidth="24.0" />
-      <Button fx:id="emoji3" layoutX="527.0" layoutY="374.0" mnemonicParsing="false" onAction="#setEmoji3" prefHeight="25.0" prefWidth="24.0" />
+      <Button fx:id="deleteMessage" layoutX="470.0" layoutY="354.0" mnemonicParsing="false" onAction="#setDeleteMessage" text="delete" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="80.0" />
+      <Button fx:id="emoji2" layoutX="569.0" layoutY="318.0" mnemonicParsing="false" onAction="#setEmoji2" prefHeight="25.0" prefWidth="24.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="5.0" />
+      <Button fx:id="emoji1" layoutX="527.0" layoutY="318.0" mnemonicParsing="false" onAction="#setEmoji1" prefHeight="25.0" prefWidth="24.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="50.0" />
+      <Button fx:id="emoji4" layoutX="569.0" layoutY="374.0" mnemonicParsing="false" onAction="#setEmoji4" prefHeight="25.0" prefWidth="24.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0" />
+      <Button fx:id="emoji3" layoutX="527.0" layoutY="374.0" mnemonicParsing="false" onAction="#setEmoji3" prefHeight="25.0" prefWidth="24.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="50.0" />
       <ImageView fx:id="emoji5Image" fitHeight="33.0" fitWidth="45.0" layoutX="403.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="emoji4Image" fitHeight="33.0" fitWidth="45.0" layoutX="401.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="emoji3Image" fitHeight="33.0" fitWidth="41.0" layoutX="407.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />

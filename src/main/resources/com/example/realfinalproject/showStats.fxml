@@ -6,14 +6,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.ShowStatsController">
     <children>
-        <ImageView fx:id="bg" fitHeight="410.0" fitWidth="609.0" layoutX="-6.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true" />
-        <BarChart fx:id="barChart" layoutX="58.0" layoutY="61.0" prefHeight="313.0" prefWidth="484.0">
+      <Pane fx:id="pane" layoutX="86.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <BarChart fx:id="barChart" layoutX="58.0" layoutY="61.0" prefHeight="313.0" prefWidth="484.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="61.0">
             <xAxis>
                 <CategoryAxis side="BOTTOM" />
             </xAxis>
@@ -26,8 +26,8 @@
                 <Font size="15.0" />
             </font>
         </Label>
-        <TextField fx:id="postId" layoutX="329.0" layoutY="26.0" />
-        <Button fx:id="confirm" layoutX="507.0" layoutY="26.0" mnemonicParsing="false" onAction="#showChart" text="confirm" />
-        <Button fx:id="back" layoutX="510.0" layoutY="362.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" />
+        <TextField fx:id="postId" layoutX="329.0" layoutY="26.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="122.0" />
+        <Button fx:id="confirm" layoutX="507.0" layoutY="26.0" mnemonicParsing="false" onAction="#showChart" text="confirm" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="26.0" />
+        <Button fx:id="back" layoutX="510.0" layoutY="362.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="10.0" />
     </children>
 </AnchorPane>

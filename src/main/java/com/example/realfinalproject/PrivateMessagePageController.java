@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,8 +26,6 @@ public class PrivateMessagePageController {
     Manager manager=new Manager();
     Stage stage;
     Scene scene;
-    @FXML
-    ImageView bg;
     @FXML
     ImageView loginProfile;
     @FXML
@@ -97,6 +96,8 @@ public class PrivateMessagePageController {
     Button block4;
     @FXML
     ScrollPane scrollPane;
+    @FXML
+    Pane pane;
     public static User chatUser;
     public static boolean goToChatPage=false;
     public void initialize() throws FileNotFoundException, SQLException {
@@ -116,9 +117,14 @@ public class PrivateMessagePageController {
         block3.setVisible(false);
         block4.setVisible(false);
         if (manager.checkLogin().getBackGround()!=null){
-            InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
-            Image image = new Image(stream);
-            bg.setImage(image);
+            Image img = new Image(manager.checkLogin().getBackGround());
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            Background bGround = new Background(bImg);
+            pane.setBackground(bGround);
         }
         if(manager.checkLogin().getImageAddress()!=null)
         {

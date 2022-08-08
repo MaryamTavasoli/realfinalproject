@@ -7,13 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.realfinalproject.GroupPageController">
    <children>
-      <ImageView fx:id="bg" fitHeight="408.0" fitWidth="607.0" layoutX="-2.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+      <Pane fx:id="pane" layoutX="148.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <ImageView fx:id="groupProfile" fitHeight="58.0" fitWidth="67.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="groupName" layoutX="101.0" layoutY="14.0" prefHeight="21.0" prefWidth="67.0" textFill="#ff9019">
          <font>
@@ -30,9 +31,9 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Line fx:id="line1" endX="323.0" layoutX="277.0" layoutY="102.0" startX="-277.0" stroke="#e81515" />
-      <TextField fx:id="forwardId" layoutX="437.0" layoutY="23.0" />
-      <Button fx:id="forward" layoutX="470.0" layoutY="60.0" mnemonicParsing="false" onAction="#setForward" prefHeight="25.0" prefWidth="78.0" text="forward" />
+      <Line fx:id="line1" endX="351.0" endY="2.739837646484375" layoutX="277.0" layoutY="102.0" startX="-277.0" stroke="#e81515" />
+      <TextField fx:id="forwardId" layoutX="437.0" layoutY="23.0" AnchorPane.leftAnchor="437.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="23.0" />
+      <Button fx:id="forward" layoutX="470.0" layoutY="60.0" mnemonicParsing="false" onAction="#setForward" prefHeight="25.0" prefWidth="78.0" text="forward" AnchorPane.rightAnchor="52.0" AnchorPane.topAnchor="60.0" />
       <ImageView fx:id="message2Image" fitHeight="44.0" fitWidth="50.0" layoutX="18.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" />
       <Text fx:id="text2" fill="#ff9019" layoutX="100.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="381.0">
          <font>
@@ -47,11 +48,11 @@
          </font>
       </Text>
       <Label fx:id="id1" layoutX="18.0" layoutY="265.0" prefHeight="17.0" prefWidth="56.0" textFill="#ff9019" />
-      <Line fx:id="line2" endX="323.0" layoutX="271.0" layoutY="331.0" startX="-277.0" stroke="#e81515" />
-      <TextArea fx:id="fillText" layoutX="60.0" layoutY="329.0" prefHeight="70.0" prefWidth="293.0" />
-      <Button fx:id="send" layoutX="363.0" layoutY="347.0" mnemonicParsing="false" onAction="#setSend" prefHeight="34.0" prefWidth="41.0" />
-      <Button fx:id="back" layoutX="1.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" />
-      <Button fx:id="setting" layoutX="206.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToGroupSetting" text="settings" />
+      <Line fx:id="line2" endX="355.3804931640625" layoutX="271.0" layoutY="331.0" startX="-277.0" stroke="#e81515" />
+      <TextArea fx:id="fillText" layoutX="60.0" layoutY="329.0" prefHeight="70.0" prefWidth="293.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="247.0" />
+      <Button fx:id="send" layoutX="363.0" layoutY="347.0" mnemonicParsing="false" onAction="#setSend" prefHeight="34.0" prefWidth="41.0" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="185.0" />
+      <Button fx:id="back" layoutX="1.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchToMainPage" text="back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1.0" />
+      <Button fx:id="setting" layoutX="206.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToGroupSetting" text="settings" AnchorPane.topAnchor="12.0" />
       <Button fx:id="edit2" layoutX="393.0" layoutY="184.0" mnemonicParsing="false" onAction="#setEdit2" prefHeight="25.0" prefWidth="41.0" text="edit" />
       <Button fx:id="edit1" layoutX="393.0" layoutY="270.0" mnemonicParsing="false" onAction="#setEdit1" prefHeight="25.0" prefWidth="41.0" text="edit" />
       <Button fx:id="reply2" layoutX="192.0" layoutY="184.0" mnemonicParsing="false" onAction="#setReply2" text="reply" />
@@ -70,14 +71,15 @@
       </Label>
       <CheckBox fx:id="delete2" layoutX="264.0" layoutY="192.0" mnemonicParsing="false" />
       <CheckBox fx:id="delete1" layoutX="264.0" layoutY="278.0" mnemonicParsing="false" />
-      <Button fx:id="delete" layoutX="421.0" layoutY="352.0" mnemonicParsing="false" onAction="#setDelete" text="delete" />
+      <Button fx:id="delete" layoutX="421.0" layoutY="352.0" mnemonicParsing="false" onAction="#setDelete" text="delete" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="130.0" />
       <Label fx:id="leaveTheGroup" layoutX="148.0" layoutY="304.0" prefHeight="17.0" prefWidth="307.0" textFill="#ff9019" />
       <ImageView fx:id="emoji2" fitHeight="34.0" fitWidth="41.0" layoutX="294.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="emoji1" fitHeight="34.0" fitWidth="41.0" layoutX="294.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="imageEmoji1" layoutX="487.0" layoutY="340.0" mnemonicParsing="false" onAction="#setImageEmoji1" prefHeight="25.0" prefWidth="32.0" />
-      <Button fx:id="imageEmoji3" layoutX="532.0" layoutY="374.0" mnemonicParsing="false" onAction="#setImageEmoji3" prefHeight="25.0" prefWidth="32.0" />
-      <Button fx:id="imageEmoji4" layoutX="487.0" layoutY="374.0" mnemonicParsing="false" onAction="#setImageEmoji4" prefHeight="25.0" prefWidth="32.0" />
-      <Button fx:id="imageEmoji2" layoutX="532.0" layoutY="340.0" mnemonicParsing="false" onAction="#setImageEmoji2" prefHeight="25.0" prefWidth="32.0" />
+      <Button fx:id="imageEmoji1" layoutX="487.0" layoutY="340.0" mnemonicParsing="false" onAction="#setImageEmoji1" prefHeight="25.0" prefWidth="32.0" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="80.0" />
+      <Button fx:id="imageEmoji3" layoutX="532.0" layoutY="374.0" mnemonicParsing="false" onAction="#setImageEmoji3" prefHeight="25.0" prefWidth="32.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="35.0" />
+      <Button fx:id="imageEmoji4" layoutX="487.0" layoutY="374.0" mnemonicParsing="false" onAction="#setImageEmoji4" prefHeight="25.0" prefWidth="32.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="80.0" />
+      <Button fx:id="imageEmoji2" layoutX="532.0" layoutY="340.0" mnemonicParsing="false" onAction="#setImageEmoji2" prefHeight="25.0" prefWidth="32.0" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="35.0" />
       <ImageView fx:id="imageInTextArea" fitHeight="34.0" fitWidth="41.0" layoutX="306.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true" />
+      <Line fx:id="line" endX="129.0" layoutX="615.0" layoutY="217.0" rotate="90.0" startX="-100.0" stroke="#bf0c0c" />
    </children>
 </AnchorPane>

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -35,8 +36,6 @@ public class MainChatsPageController {
     Button privateMessage;
     @FXML
     Button groups;
-    @FXML
-    ImageView bg;
     @FXML
     Button back;
     @FXML
@@ -103,6 +102,8 @@ public class MainChatsPageController {
     ScrollPane scrollPane;
     @FXML
     Line line5;
+    @FXML
+    Pane pane;
     public static boolean findMessage1 = false,findMessage2 = false,findMessage3 = false,findMessage4 = false,findMessage5=false;
     public static boolean findGroupMessage1 = false,findGroupMessage2 = false,findGroupMessage3 = false,findGroupMessage4 = false,findGroupMessage5=false;
     public static boolean goToChatPage = false,toGroupPage = false;
@@ -119,9 +120,14 @@ public class MainChatsPageController {
         ArrayList<User> users = new ArrayList<>();
         ArrayList<Group> groups = new ArrayList<>();
         if (manager.checkLogin().getBackGround()!=null) {
-            InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
-            Image image = new Image(stream);
-            bg.setImage(image);
+            Image img = new Image(manager.checkLogin().getBackGround());
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            Background bGround = new Background(bImg);
+            pane.setBackground(bGround);
         }
         ArrayList<LocalDateTime> times = new ArrayList<>();
         for (int i=0;i<Manager.messages.size();i++){

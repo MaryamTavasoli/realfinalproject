@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,8 +27,6 @@ public class PreviousPostsController {
     Stage stage1;
     Scene scene;
     Manager manager = new Manager();
-    @FXML
-    ImageView bg;
     @FXML
     ImageView post1Image;
     @FXML
@@ -72,6 +71,8 @@ public class PreviousPostsController {
     Label label3;
     @FXML
     Label label4;
+    @FXML
+    Pane pane;
     public  static Post post;
     public static Post post1;
     public static Post post2;
@@ -94,9 +95,14 @@ public class PreviousPostsController {
         like3.setVisible(false);
         like4.setVisible(false);
         if (manager.checkLogin().getBackGround()!=null){
-            InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
-            Image image = new Image(stream);
-            bg.setImage(image);
+            Image img = new Image(manager.checkLogin().getBackGround());
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            Background bGround = new Background(bImg);
+            pane.setBackground(bGround);
         }
         showPreviousPosts();
     }

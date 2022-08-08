@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,8 +27,6 @@ public class GroupSettingController {
     Stage stage;
     Scene scene;
     Manager manager = new Manager();
-    @FXML
-    ImageView bg;
     @FXML
     TextField fillChangeGroupName;
     @FXML
@@ -84,12 +83,19 @@ public class GroupSettingController {
     Button leave;
     @FXML
     Label labelLeave;
+    @FXML
+    Pane pane;
     public static User user=null;
     public void initialize() throws FileNotFoundException {
         if (manager.checkLogin().getBackGround()!=null){
-            InputStream stream = new FileInputStream(manager.checkLogin().getBackGround());
-            Image image = new Image(stream);
-            bg.setImage(image);
+            Image img = new Image(manager.checkLogin().getBackGround());
+            BackgroundImage bImg = new BackgroundImage(img,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            Background bGround = new Background(bImg);
+            pane.setBackground(bGround);
         }
         InputStream stream1 = new FileInputStream("C:\\Users\\APPLE\\Desktop\\groupPhotos\\photo1.jpg");
         Image img1 = new Image(stream1);
